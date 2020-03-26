@@ -7,7 +7,8 @@
 <title>index.jsp</title>
 </head>
 <body>
-
+	<!-- 원본파일 수정하기 -->
+	
 	<%@ include file="/views/common/mainView.jsp" %>
 
 
