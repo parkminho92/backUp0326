@@ -20,7 +20,7 @@ import com.kh.theater.model.vo.TheaterCBS;
 
 public class TheaterDao {
 	Properties prop = new Properties();
-	public TheaterDao(){ //湲곕낯�깮�꽦�옄
+	public TheaterDao(){ //疫꿸퀡�궚占쎄문占쎄쉐占쎌쁽
 		String fileName = TheaterDao.class.getResource("/sql/theater/theater-query.properties").getPath();
 		try {
 			prop.load(new FileReader(fileName));
@@ -30,6 +30,10 @@ public class TheaterDao {
 	
 	}
 
+	/** SUJIN
+	 * @param conn
+	 * @return
+	 */
 	public List<Theater> selectAll(Connection conn) {
 		List<Theater> list = new ArrayList<>();
 		Statement stmt = null;
@@ -55,6 +59,11 @@ public class TheaterDao {
 		return list;
 	}
 	
+	/** SUJIN
+	 * @param conn
+	 * @param sectiontNo
+	 * @return
+	 */
 	public List<Theater> selectAllBySection(Connection conn, String sectiontNo){
 		List<Theater> list = new ArrayList<>();
 		
@@ -83,6 +92,11 @@ public class TheaterDao {
 		return list;
 	}
 
+	/** SUJIN
+	 * @param conn
+	 * @param theaterNo
+	 * @return
+	 */
 	public Theater selectTheater(Connection conn, String theaterNo) {
 		Theater t = null;
 		
@@ -138,6 +152,8 @@ public class TheaterDao {
 		
 		return listCount;
 	}
+	
+	
 	
 	public ArrayList<TheaterCBS> selectTheaterList(Connection conn, PageInfo pi) {
 		

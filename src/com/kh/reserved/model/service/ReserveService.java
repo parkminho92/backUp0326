@@ -3,9 +3,13 @@ package com.kh.reserved.model.service;
 import static com.kh.common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.reserved.model.dao.ListOfMemTypeDto;
+import com.kh.reserved.model.dao.ListOfReserved;
 import com.kh.reserved.model.dao.ReserveDao;
 import com.kh.reserved.model.vo.Reserved;
 
@@ -73,6 +77,41 @@ public class ReserveService {
 		close(conn);
 		
 		return seats;
+	}
+
+	/** 4. 모든 회원의 모든 예약정보 가져오기 (단, 지난예약 정보 제외)
+	 * @return
+	 */
+	public List<ListOfReserved> ListOfAllReserved() {
+		Connection conn = getConnection();
+		List<ListOfReserved> lor = new ReserveDao().ListOfAllReserved(conn);
+		
+		List<ListOfMemTypeDto> rsvMemType = new ArrayList<>();
+		List<Integer> seatNo = new ArrayList<>();
+		
+		for(ListOfReserved r : lor) {
+			
+			rsvMemType = new ReserveDao().reservedMem(conn, r.getReservedNo());
+			seatNo = new ReserveDao().reservedSeats(conn, r.getReservedNo());
+			
+			r.setRsvMemType(rsvMemType);
+			r.setSeatNo(seatNo);
+		}
+		
+		return lor;
+	}
+
+	public ListOfReserved findReservedInfo(Integer reservedInfoId) {
+		Connection conn = getConnection();
+		ListOfReserved reservedInfo = new ReserveDao().findReservedInfo(conn, reservedInfoId);
+		
+		List<ListOfMemTypeDto> rsvMemType = new ReserveDao().reservedMem(conn, reservedInfo.getReservedNo());
+		List<Integer> seatNo = new ReserveDao().reservedSeats(conn, reservedInfo.getReservedNo());
+		
+		reservedInfo.setRsvMemType(rsvMemType);
+		reservedInfo.setSeatNo(seatNo);
+		
+		return reservedInfo;
 	}
 
 }

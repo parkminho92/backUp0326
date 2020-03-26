@@ -17,8 +17,8 @@ import com.kh.theater.model.vo.TheaterCBS;
 
 public class TheaterService {
 
-	/** 01. 紐⑤뱺 �쁺�솕愿� �젙蹂� -> list
-	 * @return		紐⑤뱺 �쁺�솕愿� �젙蹂닿� �떞湲� 媛앹껜 -> list�뿉 �떞�븘�꽌
+	/** 01. SUJIN
+	 * @return		
 	 */
 	public List<Theater> selectAll() {
 		Connection conn = getConnection();
@@ -29,9 +29,9 @@ public class TheaterService {
 		return list;
 	}
 
-	/** 02. 吏��뿭�궡�쓽 �쁺�솕愿� �젙蹂� -> list
-	 * @param sectionNo	吏��뿭踰덊샇
-	 * @return	吏��뿭 �궡�쓽 �쁺�솕愿� �젙蹂닿컼泥� -> list�뿉
+	/** 02. SUJIN
+	 * @param sectionNo	
+	 * @return	
 	 */
 	public List<Theater> selectAllBySection(String sectionNo) {
 		Connection conn = getConnection();
@@ -43,9 +43,9 @@ public class TheaterService {
 		return list;
 	}
 
-	/** 03. �븳 �쁺�솕愿� �젙蹂� -> 媛앹껜
-	 * @param theaterNo	�븘�슂�븳 �쁺�솕愿� 踰덊샇
-	 * @return			�쁺�솕愿� 媛앹껜
+	/** 03. SUJIN
+	 * @param theaterNo	
+	 * @return			
 	 */
 	public Theater selectTheater(String theaterNo) {
 		Connection conn = getConnection();

@@ -118,6 +118,11 @@
             			location.href = "<%=request.getContextPath()%>/InsertTheaterForm.ta"
             		
             	}
+            	
+            	/* sujin List of Reserved*/
+            	function listReserved(){
+            		location.href="<%=request.getContextPath()%>/listAllReserved.do"
+            	}
             
             
             </script>
@@ -147,7 +152,7 @@
             
               <button class="listBtn">예매관리</button>
             <div class="menu">
-                <label>예매내역확인</label><br>
+                <label onclick="listReserved();">예매내역확인</label><br>
                
             </div>
             <button class="listBtn">게시물관리</button>

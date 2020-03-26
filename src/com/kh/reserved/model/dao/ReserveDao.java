@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class ReserveDao {
 		}
 	}
 	
-	/** 1. 결제
+	/** 1_1. 결제 insert
 	 * @param conn
 	 * @param payMethod	결제방식
 	 * @param totalCost	결제금액
@@ -56,7 +58,7 @@ public class ReserveDao {
 		return payment;
 	}
 
-	/** 2. 예매
+	/** 1_2. 예매 insert
 	 * @param conn
 	 * @param userNo	예매자번호
 	 * @param screenNo	예매영화번호
@@ -82,7 +84,7 @@ public class ReserveDao {
 		return reserve;
 	}
 
-	/** 3. 예매좌석
+	/** 1_3. 예매좌석 insert
 	 * @param conn
 	 * @param seatNo	예매좌석
 	 * @return
@@ -109,7 +111,7 @@ public class ReserveDao {
 		return reserveSeat;
 	}
 
-	/** 4. 예매 멤버타입별 인원수
+	/** 1_4. 예매 멤버타입별 인원수 insert
 	 * @param conn
 	 * @param count	멤버타입별 인원수
 	 * @return
@@ -143,6 +145,11 @@ public class ReserveDao {
 		return reserveMem;
 	}
 
+	/** 2. 사용자의 마지막 예약 정보 1개를 조회
+	 * @param conn
+	 * @param userNo
+	 * @return
+	 */
 	public Reserved reserveInfo(Connection conn, Integer userNo) {
 		Reserved reserveInfo = null;
 		PreparedStatement pstmt = null;
@@ -167,6 +174,11 @@ public class ReserveDao {
 		return reserveInfo;
 	}
 
+	/** 3. 상영관Screen별 예매된 좌석 정보 조회
+	 * @param conn
+	 * @param screenNo
+	 * @return
+	 */
 	public List<Integer> reservedSeats(Connection conn, String screenNo) {
 		List<Integer> seats = new ArrayList<>();
 		Set<Integer> seat = new HashSet<>();
@@ -191,4 +203,125 @@ public class ReserveDao {
 		}
 		return seats;
 	}
+
+	/** 4_1. 모든 예약 정보 (단, 현재 시간 까지) 
+	 * @param conn
+	 * @return
+	 */
+	public List<ListOfReserved> ListOfAllReserved(Connection conn) {
+		List<ListOfReserved> lor = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("listOfAllReserved");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql);
+			
+			while(rset.next()) {
+				lor.add(new ListOfReserved(rset.getInt("RESERVED_NO"), rset.getTimestamp("PAYMETN_DATE"),
+						rset.getString("T_NAME"), rset.getString("R_NAME"), rset.getString("TITLE"), 
+						rset.getInt("AGE_LIMIT"), rset.getTimestamp("SCREEN_DATE"), rset.getInt("PAYMENT_NO"),
+						rset.getInt("AMOUNT"), rset.getString("TYPE"),
+						rset.getInt("MEMBER_NO"), rset.getString("ID"), rset.getString("MODIFY_NAME")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		return lor;
+	}
+
+	
+	/** 4_2. 예약번호 별 멤버(adult,...) 정보를 List으로 담기
+	 * @param conn
+	 * @param reservedNo
+	 * @return
+	 */
+	public List<ListOfMemTypeDto> reservedMem(Connection conn, Integer reservedNo) {
+		List<ListOfMemTypeDto> rsvMemType = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("reservedMem");
+	
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservedNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				rsvMemType.add(new ListOfMemTypeDto(rset.getString("MEM_TYPE"), rset.getInt("RESERVED_COUNT")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rsvMemType;
+	}
+
+	/** 4_2. 예약번호 별 좌석번호 정보를 Integer[] 담기
+	 * @param conn
+	 * @param reservedNo
+	 * @return
+	 */
+	public List<Integer> reservedSeats(Connection conn, Integer reservedNo) {
+		List<Integer> seatNo = new ArrayList<Integer>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("seatByRsvNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservedNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				seatNo.add(rset.getInt("SEAT_NO"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return seatNo;
+	}
+
+	public ListOfReserved findReservedInfo(Connection conn, Integer reservedInfoId) {
+		ListOfReserved reservedInfo = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findReservedInfo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservedInfoId);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				reservedInfo = new ListOfReserved(rset.getInt("RESERVED_NO"), rset.getTimestamp("PAYMETN_DATE"),
+						rset.getString("T_NAME"), rset.getString("R_NAME"), rset.getString("TITLE"), 
+						rset.getInt("AGE_LIMIT"), rset.getTimestamp("SCREEN_DATE"), rset.getInt("PAYMENT_NO"),
+						rset.getInt("AMOUNT"), rset.getString("TYPE"),
+						rset.getInt("MEMBER_NO"), rset.getString("ID"), rset.getString("MODIFY_NAME"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return reservedInfo;
+	}
+	
+	
 }
