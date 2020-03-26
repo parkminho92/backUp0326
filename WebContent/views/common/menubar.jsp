@@ -54,16 +54,16 @@
 				<ul class="g_menu">
 				<% if(loginUser == null){ %>
 				<!-- 회원가입/로그인 버튼 -->
-					<li><a href="#">회원가입</a></li>
-					<li><a href="#">로그인</a></li>
+					<li><a href="<%=request.getContextPath()%>/enrollForm.me">회원가입</a></li>
+					<li><a href="<%=request.getContextPath()%>/loginForm.me">로그인</a></li>
 				<%} else{ %>
 				<!-- 관리자페이지 버튼 -->
 				<% if(loginUser.getId().equals("admin")){ %>
 					<li><a href="#">관리자</a></li>
 				<%} %>
 				<!-- 마이페이지/로그아웃 버튼 -->
-					<li><a href="#">마이페이지</a></li>
-					<li><a href="#">로그아웃</a></li>
+					<li><a href="<%=request.getContextPath()%>/mypage.me">마이페이지</a></li>
+					<li><a href="<%=request.getContextPath()%>/logout.me">로그아웃</a></li>
 				<%} %>
 				</ul>
 			</div>
