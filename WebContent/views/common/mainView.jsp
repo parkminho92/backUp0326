@@ -57,7 +57,7 @@
         .movie-new.first{margin-left:0;}
         .movie-new a { display:block; text-align:center; cursor: pointer;}
         .movie-new a img {display:inline-block; width: 150px; height: 200px; background: lightsteelblue;}
-        .movie-new .cont {padding:0 30px;}
+        .movie-new .cont {padding:0 30px; color:#000}
         .movie-new .cont p {margin:7px; font-weight: 700;}
     </style>
 </head>
@@ -137,9 +137,14 @@
     	</div>
 	<% } %>
 	
+	
  
   </div>
 </div>
+
+
+
+	<%@ include file="/views/common/footer.jsp" %>
 
 </body>
 </html>
