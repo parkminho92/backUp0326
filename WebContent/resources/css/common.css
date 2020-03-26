@@ -1,0 +1,74 @@
+@charset "utf-8";
+
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	Basic	
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+html,body{height:100%;width:100%;}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, button{margin:0; padding:0;}
+body, h1, h2, h3, h4, h5, h6, th, td, input, select, textarea{line-height:20px; margin:0; padding:0; color:#404040; font-size:15px; font-weight:300; font-family:'Malgun Gothic', Arial, sans-serif;}
+ul, ol, dl, dt, dd{margin:0; padding:0; list-style:none;}
+img{border:none;}
+hr{display:none;}
+fieldset{border:none;}
+legend{display:none;}
+p{margin:0;}
+table{table-layout:fixed; border-collapse:collapse; border-spacing:0;}
+table caption{overflow:hidden; position:relative; line-height:1px; font-size:1px; text-indent:-30000px;}
+.hidden{overflow:hidden; position:absolute; line-height:1px; font-size:1px; text-indent:-30000px;}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	Link
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+a:link,
+a:visited,
+a:active{text-decoration:none; color:#636363;}
+a:hover,
+a:focus{text-decoration:underline;}
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	Form
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+input{box-sizing:border-box;}
+input[type="text"],
+input[type="password"]{height:20px; padding:0 5px; line-height:20px; border:1px solid #cecece; vertical-align:middle;}
+input[type="radio"],
+input[type="checkbox"]{margin-right:2px; vertical-align:middle;}
+input[type="submit"]{height:20px; padding:0 5px; line-height:20px; vertical-align:middle; cursor:pointer; border:none; background:#ccc;}
+input[type="file"]{cursor:pointer; vertical-align:middle;}
+input[type="text"],
+input[type="password"],
+input[type="submit"],
+button{appearance:none; -webkit-appearance:none; border-radius:0; -webkit-border-radius:0;}
+textarea{border:1px solid #dbdbdb; padding:5px; box-sizing:border-box;}
+select{border:1px solid #dbdbdb; padding:0 5px; cursor:pointer; vertical-align:middle; box-sizing:border-box;}
+input[readonly="readonly"],
+textarea[readonly="readonly"],
+input[disabled="disabled"],
+textarea[disabled="disabled"]{background:#efefef;}
+
+/*데이트피커*/
+.js_cal{width:110px; text-align:center;}
+.ui-datepicker-trigger{margin-left:3px; vertical-align:middle; cursor:pointer;}
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	Heading
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+h2,h3,h4,h5,h6{font-weight:700;}
+h4, .h4, h5, .h5, h6, .h6{position:relative;}
+h4, .h4{display:block; margin:35px 0px 10px 0px; font-size:21px; line-height:29px; color:#1e1e1e;}
+h5, .h5{display:block; margin:25px 0px 8px 0px; font-size:19px; line-height:24px; color:#1e1e1e;}
+h6, .h6{display:block; margin:15px 0px 5px 0px; font-size:17px; line-height:20px; color:#404040;}
+
+

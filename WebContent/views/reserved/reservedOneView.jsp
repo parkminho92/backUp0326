@@ -1,0 +1,186 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js">
+</script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var depth1 = $('.depth1'); 
+        
+        depth1.find('>a').on('click', function(){
+            depth1.removeClass('active');
+            $(this).parent().addClass('active');
+        });
+
+    });
+  </script>
+    <style>
+        *{margin:0; padding:0;}
+        .layout { position: relative; padding:0 15px; width:1200px; margin:0 auto;}
+    	ul li{list-style:none;}
+
+        #reserved{ height: 800px; padding-top:20px; border-radius:5px;}
+        #reserved>div{ overflow:hidden;}
+        #reserved_menu{ margin: 10px 0;}
+        #reserved_menu ul li{
+            background-color: lightgray;
+            color: rgba(70, 60, 60, 0.493);
+            border-radius: 5px;
+            float: left;    width: 25%;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+        }
+        #reserved_menu ul li.on{
+            background-color: rgb(68, 68, 68);
+            color: orange;
+            text-decoration: bold;
+        }
+        #reserved_choose{padding:0 10px; box-sizing: border-box;}
+        #reserved_choose .threediv{
+            float: left;   width:32.66%;
+            background-color: lightgray;
+            height: 700px;
+            margin-left:1%;
+            border-radius: 5px;
+        }
+        #reserved_choose>div:first-child{margin-left:0;}
+        .title{
+            background-color:gray;
+            color:whitesmoke;
+            text-align: center;
+            height:30px; line-height: 30px;
+            width: 100px;
+            margin:0 auto 20px;
+            }
+        #choose_theater{padding:20px; box-sizing:border-box;}
+        .inner_theater{position: relative; background:#fff;}
+        .depth1 a{position: relative; display:block; background:#eee; width:150px; padding:10px; box-sizing:border-box; text-decoration:none; color:#333; }
+        .depth1.active>a {background:#fff;}
+        .depth1.active>a:after {content:""; display:block; position:absolute; right:20px; top:13px; width:18px; height:14px; background:url(${contextPath}/pictures/resources/images/check.png)no-repeat;}
+        .depth1 a em{font-style:normal; font-size:13px;}
+        .depth2{
+            display: none;
+            position: absolute;
+            right:0;
+            top:0;
+        }
+        .depth1.active .depth2{
+            display: block;
+        }
+        .depth2 a{background:#fff;}
+
+        #choose_movie { padding:20px; box-sizing:border-box;}
+        #choose_movie select{height:30px; line-height:30px; width:100px;}
+        #choose_movie ul{background:#fff; margin-top:10px; padding:10px;}
+        #choose_movie ul li{margin-top:10px;}
+        #choose_movie ul li:first-child{margin-top:0px;}
+        #choose_movie ul li span{width:26px; height:26px; line-height:26px; margin-right:5px; border-radius:50%; font-weight: 700; display:inline-block; font-size:11px; color:#fff; text-align:center;}
+        #choose_movie ul li span.grade_0{background:#5BC77E;}
+        #choose_movie ul li span.grade_12{background:#4DD6FF;}
+        #choose_movie ul li span.grade_15{background:#FFC134;}
+        #choose_movie ul li span.grade_18{background:#ED4C6B;}
+        
+    	#choose_time .title {margin-top: 20px;}
+    </style>
+</head>
+<body>
+
+	<%@ include file="../common/menubar.jsp" %>
+	
+	<div class="layout">
+
+        <div id="reserved">
+            <div id="reserved_menu">
+                <ul>
+                    <li class="on">01. 영화선택</li>
+                    <li>02. 인원/좌석</li>
+                    <li>03. 결제</li>
+                    <li>04. 결제완료</li>
+                </ul>
+            </div>
+
+            <div id="reserved_choose">
+                <div id="choose_theater" class="threediv">
+                    <div class="title">영화관선택</div>
+                    <div class="inner_theater">
+                        <ul>
+                           	<c:forEach items="${sectionList}" var="s" varStatus="vs">
+                           		<c:set var="isActive" value="${param.sectionNo eq s.sectionNo or empty param.sectionNo and vs.first}"/>
+   								<li 
+   									class="depth1 <c:if test="${isActive}">active</c:if>"
+								>
+									<a href="#changeLocation" onClick="changeLocation('${s.sectionNo}');">${s.name}<em>()</em></a>
+									<div class="depth2">
+										<ul>
+										<c:if test="${isActive}">
+											<c:forEach items="${theaterList}" var="t">
+										        <li class="">
+										        <a href="#selectTheater" onclick="selectTheater('${t.theaterNo}');">${t.name}</a>
+										        </li>										
+											</c:forEach>
+										</c:if>
+									    </ul>
+									</div>               	
+                          		</li>
+                           
+                           	</c:forEach>
+                           
+                        </ul>
+                        
+
+                    </div>
+                </div>
+                <div id="choose_movie" class="threediv">
+                    <div class="title">영화선택</div>
+                </div>
+                <div id="choose_time" class="threediv">
+                    <div class="title">상영시간</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+<form id="form" action="${contextPath}/reservedTwo.do" role="form" method="post">
+	<input type="hidden" name="sectionNo" value="<c:out value="${param.sectionNo}" default="1"/>"/>
+	<input type="hidden" name="theaterNo" value=""/>
+</form>
+<script>
+
+function changeLocation(sectionNo) {
+	if (!sectionNo) {
+		return alert('지역을 선택해 주세요');
+	}
+	var form = document.getElementById('form');
+	form.sectionNo.value = sectionNo;
+	form.action = '${contextPath}/reservedOne.do';
+	form.method = 'post';
+	form.submit();
+}
+
+function selectTheater(theaterNo) {
+	var form = document.getElementById('form');
+	
+	if (!form.sectionNo.value) {
+		return alert('지역을 선택해 주세요');
+	}
+	if (!theaterNo){
+		return alert('영화관을 선택해 주세요');
+	}
+	form.theaterNo.value = theaterNo;
+	form.action = '${contextPath}/reservedTwo.do';
+	form.method = 'post';
+	form.submit();
+}
+
+</script>
+
+</body>
+</html>
