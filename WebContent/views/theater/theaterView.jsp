@@ -123,7 +123,7 @@
             <input type="hidden" name="theaterNo" value="<%= theaterNo %>"/>
         </div>
         <div class="timeTable">
-            <p>Date: <input type="text" id="datePicker" name="screenDate" size="20" value="<%= screenDate %>" style="font-weight: 800;"/></p>
+            <p>Date: <input type="text" id="datepicker" name="screenDate" size="20" value="<%= screenDate %>" style="font-weight: 800;"/></p>
             <!-- 영화별 영화시간 나열 -->
             <% for(MovieDto md : movies) { %>
             <ul>
@@ -174,7 +174,7 @@
 
 <script>
 $(function(){
-	$("#datePicker").datepicker({
+	$("#datepicker").datepicker({
 		  dateFormat: "yy-mm-dd",
 		  minDate: "0"
 	});
@@ -182,7 +182,7 @@ $(function(){
 	console.log(<%=t.getLongitude()%>);
 });
 
-$('#datePicker').change(function(){
+$('#datepicker').change(function(){
 	var form = document.getElementById('form');
 	form.action = '${contextPath}/detailView.th';
 	form.method = 'post';
@@ -229,5 +229,6 @@ marker.setMap(map);
 
 </script>
 
+<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

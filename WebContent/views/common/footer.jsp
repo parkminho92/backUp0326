@@ -10,8 +10,6 @@
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/resources/css/common.css" media="all" />
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/resources/css/style.css" media="all" />
 
-	<script type="text/javascript" src="<%= request.getContextPath()%>/resources/js/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="<%= request.getContextPath()%>/resources/js/common.js"></script>
 	
 </head>
 <body id="main">

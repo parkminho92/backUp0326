@@ -231,7 +231,7 @@ line-height: 1.29;
 								<input name="name" title="이름" class="input name" type="text" value="<%= loginUser.getName() %>" style="border:none" readonly>
 							</td>
 						</tr>
-						<th scope="row"><span class="essential">*</span>이메일</th>
+						<tr><th scope="row"><span class="essential">*</span>이메일</th>
 							<td>
 								<input name="email" title="이메일" class="input mail" required="" type="email" maxlength="50">
 							</td>

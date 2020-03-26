@@ -59,7 +59,7 @@
 
 
 /*푸터*/
-#footer {position: relative; border-top:1px solid #eee; margin-top:50px;}
+#footer {position: relative; border-top:1px solid #eee; margin-top:30px;}
 #footer .inner{position: relative; max-width:1200px; margin:0 auto; padding-left:650px;}
 #footer .f_logo{display:block; width: 100px; margin: 15px 0 10px 0; position:absolute; left:0; top:50%; margin-top:-25px; padding-left: 500px;}
 #footer .f_logo img {height: 50px;}

@@ -182,5 +182,6 @@ function selectTheater(theaterNo) {
 
 </script>
 
+<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
