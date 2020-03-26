@@ -138,7 +138,7 @@
 								<a href="#">공지사항</a>
 							</li>
 							<li>
-								<a href="#">FAQ</a>
+								<a href="<%=contextPath%>/faq.fq">FAQ</a>
 							</li>
 							<li>
 								<a href="#">일대일문의</a>
