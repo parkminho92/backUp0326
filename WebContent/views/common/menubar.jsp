@@ -43,35 +43,7 @@
 <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/common.css">
 <script src="${contextPath}/resources/js/jquery-1.11.2.min.js"></script>
 <script src="${contextPath}/resources/js/common.js"></script>
-<style>
 
-/*레이아웃*/
-#wrap{min-width:1200px;}
-/*헤더*/
-#header {position: relative; height:114px; border-bottom:1px solid #eee;}
-#header .logo{ position: absolute; z-index: 3; top: 12px;  left: 50%; margin-left: -109px; text-indent: -9999em; background: url(<%= contextPath%>/resources/images/p_logo.png) no-repeat center center;background-size:100% auto;}
-#header .logo{ display:block; width:219px; height:67px;}
-#header .logo a { display:block;}
-#header .gnb{position: relative; width: 1300px; height: 70px;  margin: 0 auto; border-bottom: 1px solid #B2B2B2;}
-#header .gnb > ul {margin-top:40px;}
-#header .gnb > ul:after {content:""; display:block; clear:both;}
-#header .gnb > ul > li {float:left;}
-#header .gnb > ul > li > a {display:block; font-size:12px; color:#656565;}
-
-#header .gnb .g_menu {float:right;}
-#header .gnb .g_menu > li {margin-left:14px;}
-
-#header #nav{width:1000px; margin:3px auto 0; text-align: center;}
-#nav>ul>li{display:inline-block; vertical-align: top; margin: 0 30px;}
-#nav>ul>li>a{display:block; position: relative; height:40px; line-height:40px; padding:0 24px; font-size:14px; letter-spacing: 0.1em; white-space: nowrap;}
-#nav>ul>li>ul{display:none; position: absolute; z-index:2; left:0; right:0; top:114px; height:38px; text-align: center; background-color:#f8f8f8;}
-#nav>ul>li>ul>li{display:inline-block; margin:0 10px;}
-#nav>ul>li>ul>li>a{display:block; height:38px; line-height:38px; padding:0 5px; color:#666;}
-#nav>ul>li>ul>li>ul{display:none; position: absolute; z-index:2; left:0; right:0; top:38px;padding:10px 0; text-align: center; background-color: #000; opacity: 0.7;}
-#nav>ul>li>ul>li>ul>li{display:inline-block; margin:0 5px;}
-#nav>ul>li>ul>li>ul>li>a{display:block; color:#fff; height:18px; line-height:18px; padding:0 5px;}
-
-</style>
 </head>
 <body id="main">
 	<div id="wrap">
