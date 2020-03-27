@@ -61,6 +61,7 @@
 	    
 	 .ticket_cost{ font-size: 20px; text-align: center; color:#ddd; font-weight: 700; margin-top: 20px;}
 	
+	.ticket_cost ul li {padding: 10px;}
 	 .btns .move_step{margin-top: 30px; float: right;}
 	 .btns .move_step button{ width: 100px; height: 35px; line-height: 35px; text-align: center; border-radius: 5px; border:0; font-size: 15px;}
 	 .btns .move_step button:nth-child(2){background: orangered; font-weight: 700; color: white;}

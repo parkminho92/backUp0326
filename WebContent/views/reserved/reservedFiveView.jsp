@@ -155,7 +155,7 @@
     
                     </div>
                     <div class="ticket_cost">총 금액 : 
-                    <fmt:formatNumber value="${totalCost}" pattern="#00,000"/>원</div>
+                    <fmt:formatNumber value="${totalCost}" pattern="#0,000"/>원</div>
                     <div class="btns">
                         <div class="move_step">
                             <button>&lt; prev</button>
