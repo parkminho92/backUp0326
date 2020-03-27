@@ -7,6 +7,7 @@
 <%@ page import="java.util.Date, java.text.SimpleDateFormat" %>		
 <%
 	List<ListOfReserved> lor = (List<ListOfReserved>)request.getAttribute("lor");
+	String msg = (String)session.getAttribute("msg");
 %>    
 <!DOCTYPE html>
 <html>
@@ -17,10 +18,10 @@
     <style>
         *{margin:0; padding:0;}
         .layout { position: relative; padding:0 15px; width: 1000px; margin:0 auto;}
-        .listReserved table {font-size: 13px;}
+        .listReserved table {font-size: 13px; margin-top:30px;}
         .listReserved table tr { height: 30px;}
-        .listReserved table tr:hover { cursor: pointer; background: lightpink;}
-        .listReserved table tr:nth-child(1) { height: 35px; cursor: none; background: none;}
+        .listReserved table tbody tr:hover { cursor: pointer; background: lightpink;}
+        .listReserved table thead tr:nth-child(1) { height: 35px; background: none;}
         .listReserved table tr th {border-bottom: 1px double darkred;}
         .listReserved table tr td {text-align: center;  border-bottom: 1px solid black;}
 
@@ -34,6 +35,12 @@
         .modal .modal-content .script_payment { width: 45%; float: left; }
         .modal .modal-content .script_payment .ticket_cost { margin-top: 40px; margin-bottom: 100px;}
         .modal .modal-content .script_payment .btn {margin:10px;}
+        
+        span.age {width:26px; height:26px; line-height:26px; margin-right:5px; border-radius:50%; font-weight: 700; display:inline-block; font-size:11px; color:#fff; text-align:center;}
+        span.grade_0{background:#5BC77E;}
+	 	span.grade_12{background:#4DD6FF;}
+	 	span.grade_15{background:#FFC134;}
+	 	span.grade_18{background:#ED4C6B;}
 
 
         /* the Modal */
@@ -76,6 +83,14 @@
 
 </head>
 <body>
+	<script>
+		var msg = "<%=msg%>";
+		if(msg != "null"){
+			alert(msg);
+			<% session.removeAttribute("msg");%>
+		}
+	
+	</script>
 
 	<%@ include file ="../common/adminMenubar.jsp" %>
 	
@@ -85,6 +100,8 @@
             <table id="reservedTable">
             	<thead>
 	            	<tr>
+	            		<th width="200px;">회원번호</th>
+	            		<th width="200px;">회원ID</th>
 	                    <th width="200px;">예매번호</th>
 	                    <th width="300px;">예매일자</th>
 	                    <th width="200px;">영화관</th>
@@ -99,12 +116,14 @@
                         <!-- Trigger/Open the Modal-->
 	                <% for(ListOfReserved lr : lor){ %>
 		                <tr data-id="<%=lr.getReservedNo()%>">
+		                    <td><%=lr.getMemberNo() %></td>
+		                    <td><%=lr.getMemberId() %></td>
 		                    <td><%=lr.getReservedNo() %></td>
 		                    <td><%=DateUtils.formatDate(lr.getPaymentDate(),"yy-MM-dd HH:mm") %></td>
 		                    <td><%=lr.getTheaterName() %></td>
 		                    <td><%=lr.getRoomName() %>관</td>
 		                    <td>
-		                    	<span class="grade_<%=lr.getAgeLimit()%>"><%=lr.getAgeLimit() %></span>
+		                    	<span class="age grade_<%=lr.getAgeLimit()%>"><%=lr.getAgeLimit() %></span>
 		                     	<%=lr.getTitle() %>
 		                     </td>
 		                    <td><%=DateUtils.formatDate(lr.getScreenDate(),"yy-MM-dd HH:mm") %></td>
@@ -138,7 +157,7 @@
                         <img src=""/>
                     </div>
                     <div class="reserved_movie_title">
-                        <span></span>
+                        <span class="age"></span>
                         <strong>영화제목</strong>
                     </div>
                     <ul>
@@ -177,7 +196,7 @@
     
     
     <form id="cancelForm" action="${contextPath}/cancelReserved.do" role="form" method="POST">
-        <input type="hidden" name="reserveNo" value=""/>
+        <input type="hidden" name="reservedNo" value=""/>
 
     </form>
 
@@ -196,6 +215,7 @@
 		var $title = $('.reserved_movie_title > strong');
 		var $reserveInfo = $('.reserved_movie > ul > li');
 		var $paymentInfo = $('.ticket_cost > ul > li');
+		
 		var $reservedNo = $($reserveInfo[0]).find('.info');
 		var $screenDate = $($reserveInfo[1]).find('.info');
 		var $theaterName = $($reserveInfo[2]).find('.info');
@@ -221,13 +241,17 @@
 				.done(function(res) {
 					console.dir(res);
 					
+					cancelForm.reservedNo.value = res.reservedNo;
+					console.log(cancelForm.reservedNo.value);
+					
 					$poster.attr("src",'<%=request.getContextPath()%>/resources/images/' + res.modifyName);
-					$ageLimit.addClass("grade_"+res.modifyName);
+					$ageLimit.addClass("grade_"+res.ageLimit);
 					$ageLimit.text(res.ageLimit);
 					$title.text(res.title);
 					$reservedNo.text(res.reservedNo);
 					$screenDate.text(new Date(res.screenDate).toLocaleString());
 					$theaterName.text(res.theaterName);
+					
 					
 					// 배열
 					var rsvMemTypes = res.rsvMemType;
@@ -238,9 +262,9 @@
 						var rsvMemType = rsvMemTypes[i];
 						str += rsvMemType.memType; // ADULT
 						str	+= ": " + rsvMemType.reservedCount + "명 "; // 2
+						
 					}
 					$memCount.text(str);
-					
 					
 					$paymentNo.text(res.paymentNo);
 					$paymentDate.text(new Date(res.paymentDate).toLocaleString());
@@ -250,6 +274,7 @@
 					$seats.text(convertSeatString(res.seatNo));
 					
 					$modal.show();
+					
 				})
 				.fail(function(err) {
 					console.error(err);
@@ -260,48 +285,19 @@
         	$modal.hide();
         });
 	
-        // tr 상위 엘리먼트에 이벤트1개만 
-        // Delegate 대리
-        // tr에 이벤트를 거는건데
-        // tr이 100개면 이벤트 핸들러가 100개
-        
-        //When the user clicks on the Table tr, open the modal 
-//         for(i=1; i< rows.length; i++){
-//             row = table.rows[i];
-//             row.onclick = function(){
-//                 var cell = this.getElementsByTagName("td")[0];
-//                 var id = cell.innerHTML;
-//                 alert("id: "+id);
-//                 modal.style.display = 'block';
 
-//                 // when the user clicks on <cancelBtn>, move to cancle Reservation
-//             }
-//         }
-
-//         // When the user clicks on <checkBtn>, close the modal
-
+         // When the user clicks on <checkBtn>, close the modal
         cancelBtn.onclick = function(){
-            console.log(id);
+            
             if(!confirm("예매취소하시겠습니까? 실행 후엔 되돌릴 수 없습니다.")){
                 return;
             }
-            cancelForm.reserveNo.value = id;
-            cancelForm.action="${contextPath}/cancelReserved.do";
-            cancelForm.methd="post";
-            canselFrom.submit();
+            cancelForm.action="<%=request.getContextPath()%>/cancelPayment.do";
+            cancelForm.methd="get";
+            cancelForm.submit();
+            
         } 
  		
- 		// getId 단건
- 		// A -> A 객체
- 		// All 복수
- 		// 유사배열[A]
- 		// Array.from();
- 		// .forEach filter
- 		
- 		// 제이쿼리선택자 배열
- 		// 배열[] 사이즈 0
- 		// $('#A')
- 		// 제이쿼리객체 [A]
  		
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {

@@ -23,6 +23,11 @@ public class PaymentDao {
 		}
 	}
 	
+	/** 1. 예매번호로 결제번호 조회하기
+	 * @param conn
+	 * @param paymentNo
+	 * @return
+	 */
 	public Payment paymentInfo(Connection conn, int paymentNo) {
 		Payment paymentInfo = null;
 		PreparedStatement pstmt = null;
@@ -45,6 +50,30 @@ public class PaymentDao {
 			close(pstmt);
 		}
 		return paymentInfo;
+	}
+
+	/** 2. 예매번호로 결제취소하기
+	 * @param conn
+	 * @param reservedNo
+	 * @return
+	 */
+	public int cancelPayment(Connection conn, String reservedNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("cancelPayment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reservedNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

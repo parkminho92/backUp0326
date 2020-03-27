@@ -72,7 +72,7 @@
         cursor: pointer;
     }
    
-
+	#logoHome:hover { cursor: pointer; }
 
 
 
@@ -82,15 +82,19 @@
        
 
     <div id="top">
-         <div><img src="로고.png"width="60px;"><div id="mode">관리자 모드</div></div>
+         <div>
+         	<img id="logoHome" src="<%=request.getContextPath() %>/resources/images/p_logo.png" width="150px;">
+         		<div id="mode">관리자 모드</div>
+         </div>
          
     </div>
 
  
             <script>
-            
-            
-            
+            	$('#logoHome').on('click',function(){
+            		location.href = "<%= request.getContextPath() %>"	
+            	})
+            	
             	function goInsertMovie(){
             			location.href = "<%= request.getContextPath()%>/insertMovieForm.mv"
             			

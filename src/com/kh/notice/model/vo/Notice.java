@@ -20,6 +20,8 @@ public class Notice {
    /* REFERENCE */
    private int reference;
    
+   private String status;
+   
    public Notice() {
 	   
    }
@@ -88,8 +90,16 @@ public class Notice {
 		return "Notice [noticeNo=" + noticeNo + ", noticeType=" + noticeType + ", noticeTitle=" + noticeTitle
 				+ ", noticeContent=" + noticeContent + ", noticeDate=" + noticeDate + ", reference=" + reference + "]";
 	}
-	
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 }
 
 

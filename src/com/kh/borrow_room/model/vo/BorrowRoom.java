@@ -46,6 +46,8 @@ public class BorrowRoom {
    /* REPLY_STATUS */
    private String replyStatus;
    
+   private Integer theaterNo;
+   
    public BorrowRoom() {
 	   
    }
@@ -214,6 +216,14 @@ public String toString() {
 			+ ", youthCount=" + youthCount + ", seniorCount=" + seniorCount + ", disabledCount=" + disabledCount
 			+ ", hopeDate=" + hopeDate + ", content=" + content + ", regiDate=" + regiDate + ", email=" + email
 			+ ", replyStatus=" + replyStatus + "]";
+}
+
+public Integer getTheaterNo() {
+	return theaterNo;
+}
+
+public void setTheaterNo(Integer theaterNo) {
+	this.theaterNo = theaterNo;
 }
 
 

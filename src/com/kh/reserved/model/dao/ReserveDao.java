@@ -322,6 +322,25 @@ public class ReserveDao {
 		}
 		return reservedInfo;
 	}
+
+	public Integer reserveMemUpdate(Connection conn, Integer userNo) {
+		Integer result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 	
 }
