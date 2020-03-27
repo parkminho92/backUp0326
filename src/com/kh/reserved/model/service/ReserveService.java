@@ -39,8 +39,9 @@ public class ReserveService {
 		Integer resultReserve = new ReserveDao().reserveMovie(conn, userNo, screenNo);
 		Integer resultRsvSeat = new ReserveDao().reserveSeat(conn, seatNo);
 		Integer resultRsvMem = new ReserveDao().reserveMem(conn, count);
+		Integer resultRsvMemUpdate = new ReserveDao().reserveMemUpdate(conn, userNo);
 		
-		result = resultPayment*resultReserve*resultRsvSeat*resultRsvMem;
+		result = resultPayment*resultReserve*resultRsvSeat*resultRsvMem*resultRsvMemUpdate;
 		if(result>0) {
 			commit(conn);
 		}else {

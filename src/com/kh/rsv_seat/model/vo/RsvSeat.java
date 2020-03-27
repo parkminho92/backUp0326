@@ -9,5 +9,6 @@ public class RsvSeat {
 
    /* RESERVED_NO */
    private int reservedNo;
+   
 
 }

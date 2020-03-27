@@ -1,7 +1,6 @@
 package com.kh.payment.model.service;
 
-import static com.kh.common.JDBCTemplate.close;
-import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 
@@ -21,6 +20,24 @@ public class PaymentService {
 		
 		close(conn);
 		return paymentInfo;
+	}
+
+	/** 2. 예매번호로 결제취소하기
+	 * @param reservedNo
+	 * @return
+	 */
+	public int cancelPayment(String reservedNo) {
+		Connection conn = getConnection();
+		
+		int result = new PaymentDao().cancelPayment(conn, reservedNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		return result;
 	}
 
 }

@@ -13,6 +13,7 @@ public class Reserved {
 	/* SCREEN_NO */
 	private int screenNo;
 
+
 	public Reserved() {
 
 	}
@@ -57,9 +58,13 @@ public class Reserved {
 		this.screenNo = screenNo;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Reserved [reservedNo=" + reservedNo + ", paymentNo=" + paymentNo + ", memberNo=" + memberNo
 				+ ", screenNo=" + screenNo + "]";
 	}
+
+	
+	
 }

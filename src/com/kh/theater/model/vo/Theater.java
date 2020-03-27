@@ -31,6 +31,10 @@ public class Theater {
    /* SECTION_NO */
    private int sectionNo;
    
+   /* STATUS */
+   private String status;
+   
+   
    public Theater() {
 	   
    }
@@ -169,5 +173,15 @@ public String toString() {
 			+ ", roomCount=" + roomCount + ", transport=" + transport + ", parking=" + parking + ", longitude="
 			+ longitude + ", latitude=" + latitude + ", sectionNo=" + sectionNo + "]";
 }
+
+public String getStatus() {
+	return status;
+}
+
+public void setStatus(String status) {
+	this.status = status;
+}
+
+
 
 }

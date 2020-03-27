@@ -10,6 +10,11 @@ public class Faq {
    /* ANSWER */
    private String answer;
    
+   private String type;
+   
+   private String status;
+   
+   
    public Faq() {
 	   
    }
@@ -49,6 +54,26 @@ public void setAnswer(String answer) {
 @Override
 public String toString() {
 	return "Faq [faqNo=" + faqNo + ", question=" + question + ", answer=" + answer + "]";
+}
+
+
+public String getType() {
+	return type;
+}
+
+
+public void setType(String type) {
+	this.type = type;
+}
+
+
+public String getStatus() {
+	return status;
+}
+
+
+public void setStatus(String status) {
+	this.status = status;
 }
    
 
