@@ -17,6 +17,8 @@ import com.kh.mem_code.model.vo.MemCodes;
 import com.kh.member.model.vo.Member;
 import com.kh.member_grade.model.service.MemberGradeService;
 import com.kh.member_grade.model.vo.MemberGrade;
+import com.kh.movie.model.service.MovieService;
+import com.kh.movie.model.vo.Movie;
 import com.kh.reserved.model.service.ReserveService;
 import com.kh.screen.model.service.ScreenService;
 import com.kh.still_image.model.service.StillImageService;
@@ -58,9 +60,10 @@ public class ReservedFourView extends HttpServlet {
 		List<Integer> seats = new ReserveService().reservedSeats(screenNo); //이미 예매된 좌석정보
 		MemCodes memCodes = new MemCodes(new MemCodeService().selectAll()); //MemCode별 금액
 		String mainPoster = new StillImageService().selectMain(movieNo);	//메인포스터
+		Movie m = new MovieService().selectList(Integer.parseInt(movieNo));
 		MemberGrade loginMg = new MemberGradeService().selectGradeDiscount(userNo); // 로그인 회원의 등급+할인율
-		Integer gradeDiscount = null;  //회원등급별 할인율
-			
+		
+		request.setAttribute("ageLimit", m.getAgeLimit());
 		request.setAttribute("sectionNo", sectionNo);
 		request.setAttribute("memCode", memCodes.getMemCodes());
 		request.setAttribute("mainPoster", mainPoster);
