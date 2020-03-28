@@ -10,13 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import com.kh.reserved.model.vo.PageRequest;
 import com.kh.reserved.model.vo.Reserved;
 
 
@@ -208,15 +208,18 @@ public class ReserveDao {
 	 * @param conn
 	 * @return
 	 */
-	public List<ListOfReserved> ListOfAllReserved(Connection conn) {
+	public List<ListOfReserved> ListOfAllReserved(Connection conn, PageRequest pageRequest) {
 		List<ListOfReserved> lor = new ArrayList<>();
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("listOfAllReserved");
 		
 		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,pageRequest.getOffset());
+			pstmt.setInt(2,pageRequest.getLimit());
+			
+			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				lor.add(new ListOfReserved(rset.getInt("RESERVED_NO"), rset.getTimestamp("PAYMETN_DATE"),
@@ -230,7 +233,7 @@ public class ReserveDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		return lor;
 	}
@@ -337,6 +340,29 @@ public class ReserveDao {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int countReserved(Connection conn) {
+		int result = 0;
+		
+		Statement stmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("countReserve");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
 		}
 		
 		return result;

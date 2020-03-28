@@ -69,9 +69,7 @@ public class MemberDao {
 			/* JDBCTemplate. */close(rset);
 			/* JDBCTemplate. */close(pstmt);
 		}
-	
 		return loginUser;
-		
 	}
 	
 	

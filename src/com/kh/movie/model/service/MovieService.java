@@ -27,10 +27,10 @@ public class MovieService {
   
   }
   
-	public List<Movie> selectScreen(String theaterNo, String screenDate) {
+	public List<Movie> selectScreen(String theaterNo, String screenDate, String lineUp) {
 		Connection conn = getConnection();
 		
-		List<Movie> list = new MovieDao().selectScreen(conn, theaterNo, screenDate);
+		List<Movie> list = new MovieDao().selectScreen(conn, theaterNo, screenDate, lineUp);
 	
 		close(conn);
 		return list;
@@ -152,6 +152,4 @@ public class MovieService {
 		
 		return list;
 	}
-
-	
 }
