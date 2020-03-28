@@ -51,7 +51,8 @@
         #choose_seat table td input[type=checkbox]:checked +label { display:inline-block; width:40px; height:40px; border-radius: 11px; margin-right:10px; background: red;}
         #choose_seat table td input[type=checkbox]:disabled +label { display:inline-block; width:40px; height:40px; border-radius: 11px; margin-right:10px; background: gray;}
        
-        .ticket_cost{ font-size: 20px; text-align: center; color:#fff; font-weight: 700; margin: 40px; margin-top:60px; line-height:30px;}
+        .ticket_cost{ font-size: 20px; text-align: center; color:#fff; font-weight: 700; margin: 40px; margin-top:40px; line-height:30px;}
+        .ticket_cost ul li:nth-child(1) {padding-bottom: 10px;}
         .btns {overflow: hidden; margin-top: 30px;}
         .btns .seat_able{float: left;}
         .btns .seat_able ul li{display: inline-block; border-radius: 5px; width:100px; text-align: center; height: 35px; line-height: 35px;}
@@ -155,7 +156,7 @@
                     	<input type="hidden" name="sectionNo" value="${param.sectionNo}"/>
 						<input type="hidden" name="theaterNo" value="${param.theaterNo}"/>
 						<input type="hidden" name="movieNo" value="${param.movieNo}"/>
-						<input type="hidden" name="screenNo" value="${param.movieNo}"/>
+						<input type="hidden" name="screenNo" value="${param.screenNo}"/>
 						<input type="hidden" name="adultCost" value="${adultCost}"/>
 						<input type="hidden" name="youthCost" value="${youthCost}"/>
 						<input type="hidden" name="seniorCost" value="${seniorCost}"/>
@@ -163,8 +164,8 @@
 					
                     <div class="ticket_cost">
                     	<ul>
-                    		<li>관람인원: <a id="countNum">0</a> 명</li>
-                    		<li>선택된 좌석수: <a id="clickBox"> </a> 개</li>
+                    		<li>* 회원 등급 : ${loginMg.gradeCondition} (할인율 ${loginMg.gradeBenefit}%) *</li>
+                    		<li>관람인원: <a id="countNum">0</a> 명 / 선택된 좌석수: <a id="clickBox"> </a> 개</li>
                     		<li>총 금액 : <a id="cost">0</a> 원</li>
                     	</ul>
                     </div>
@@ -189,7 +190,7 @@
     </div>
    
 <form id="form" action="${contextPath}/reservedOne.do" role="form" method="post">
-	<input type="hidden" name="screenNo" value="${screenNo}"/>
+	<input type="hidden" name="screenNo" value="${param.screenNo}"/>
 	<input type="hidden" name="totalCost" value=""/>
 </form>
     
@@ -224,9 +225,9 @@
 		});
 	
 		console.log(filteredSeats);
-		// attr name 
-		// prop booelan
 		$(filteredSeats).attr('disabled', 'disabled');
+		
+		
 	});
 	
 	function getParsedNumber(element) {
@@ -251,7 +252,7 @@
 	
 	function getTotalCost(adult, youth, senior, disabled) {
 		var totalCost = getCost(adult) + getCost(youth) + getCost(senior) + getCost(disabled);
-		var discount = ${gradeDiscount};
+		var discount = ${loginMg.gradeBenefit};
 		return totalCost*(100-discount)/100;
 	}
 	
@@ -280,7 +281,7 @@
 		var checkedSeatCount = $seats.filter(':checked').length;
 		var form = document.getElementById('form');
 		
-		if(sumNum != checkedSeatCount){
+		if(sumNum != checkedSeatCount || checkedSeatCount ==0){
 			return alert('좌석 수를 확인해주십시오');
 		}
 		
@@ -288,11 +289,6 @@
 			return alert('관람할 영화 정보를 선택해주세요');
 		}
 		
-		// seatNo 
-		// input[name=seatNo]
-		// input[name=seatNo]
-
-		// fragment 가짜 DOM객체
 		var fragment = document.createDocumentFragment();
 		
 		$chekcedSeats.each(function() {
@@ -303,11 +299,6 @@
 			
 		});
 		
-		
-// 		var adult = document.querySelector(".select_area > select[name=adult]");
-// 		var youth = document.querySelector(".select_area > select[name=youth]");
-// 		var senior = document.querySelector(".select_area > select[name=senior]");
-// 		var disabled = document.querySelector(".select_area > select[name=disabled]");
 		var $select = $('.select_area > .countNum');
 		$select.each(function() {
 			var input = document.createElement('input');
@@ -316,12 +307,6 @@
 			fragment.appendChild(input);
 		});
 		
-		// DOM
-		// Document Object Model
-		
-		// <form>
-		// input
-		// </form>
 		form.appendChild(fragment);
 		form.totalCost.value = totalCost;
 		form.action = '${contextPath}/reservedFive.do';

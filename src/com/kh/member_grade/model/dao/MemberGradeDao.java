@@ -1,5 +1,7 @@
 package com.kh.member_grade.model.dao;
 
+import static com.kh.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,7 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import static com.kh.common.JDBCTemplate.*;
+
+import com.kh.member_grade.model.vo.MemberGrade;
 
 public class MemberGradeDao {
 	Properties prop = new Properties();
@@ -21,8 +24,8 @@ public class MemberGradeDao {
 		}
 	}
 
-	public int selectGradeDiscount(Connection conn, Integer userNo) {
-		int gradeDiscount = 0;
+	public MemberGrade selectGradeDiscount(Connection conn, Integer userNo) {
+		MemberGrade loginMg = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("gradeDiscount");
@@ -32,7 +35,7 @@ public class MemberGradeDao {
 			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
-				gradeDiscount = rset.getInt("GRADE_BENEFIT");
+				loginMg = new MemberGrade(rset.getString("GRADE_CONDITION"), rset.getString("GRADE_BENEFIT"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -40,7 +43,7 @@ public class MemberGradeDao {
 			close(rset);
 			close(pstmt);
 		}
-		return gradeDiscount;
+		return loginMg;
 	}
 	
 }

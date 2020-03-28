@@ -16,6 +16,7 @@ import com.kh.mem_code.model.service.MemCodeService;
 import com.kh.mem_code.model.vo.MemCodes;
 import com.kh.member.model.vo.Member;
 import com.kh.member_grade.model.service.MemberGradeService;
+import com.kh.member_grade.model.vo.MemberGrade;
 import com.kh.reserved.model.service.ReserveService;
 import com.kh.screen.model.service.ScreenService;
 import com.kh.still_image.model.service.StillImageService;
@@ -23,7 +24,6 @@ import com.kh.still_image.model.service.StillImageService;
 @WebServlet("/reservedFour.do")
 public class ReservedFourView extends HttpServlet {
 
- 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -58,16 +58,14 @@ public class ReservedFourView extends HttpServlet {
 		List<Integer> seats = new ReserveService().reservedSeats(screenNo); //이미 예매된 좌석정보
 		MemCodes memCodes = new MemCodes(new MemCodeService().selectAll()); //MemCode별 금액
 		String mainPoster = new StillImageService().selectMain(movieNo);	//메인포스터
-		Integer gradeDiscount = new MemberGradeService().selectGradeDiscount(userNo); //회원등급별 할인율
+		MemberGrade loginMg = new MemberGradeService().selectGradeDiscount(userNo); // 로그인 회원의 등급+할인율
+		Integer gradeDiscount = null;  //회원등급별 할인율
 			
 		request.setAttribute("sectionNo", sectionNo);
-		request.setAttribute("theaterNo", theaterNo);
-		request.setAttribute("movieNo", movieNo);
-		request.setAttribute("screenNo", screenNo);
 		request.setAttribute("memCode", memCodes.getMemCodes());
 		request.setAttribute("mainPoster", mainPoster);
 		request.setAttribute("seats", seats);
-		request.setAttribute("gradeDiscount", gradeDiscount);
+		request.setAttribute("loginMg", loginMg);
 		request.setAttribute("adultCost", memCodes.findCostByType("ADULT"));
 		request.setAttribute("youthCost", memCodes.findCostByType("YOUTH"));
 		request.setAttribute("seniorCost", memCodes.findCostByType("SENIOR"));

@@ -29,15 +29,17 @@ public class PaymentService {
 	public int cancelPayment(String reservedNo) {
 		Connection conn = getConnection();
 		
-		int result = new PaymentDao().cancelPayment(conn, reservedNo);
+		int resultCancel = new PaymentDao().cancelPayment(conn, reservedNo);
+		int resultDownCount = new PaymentDao().downCount(conn, reservedNo);
 		
-		if(result>0) {
+		if(resultCancel*resultDownCount>0) {
 			commit(conn);
 		}else {
 			rollback(conn);
+			return 0;
 		}
 		
-		return result;
+		return 1;
 	}
 
 }

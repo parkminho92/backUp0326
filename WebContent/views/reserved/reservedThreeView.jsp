@@ -86,6 +86,7 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 	
+	
 	<div class="layout">
 
         <div id="reserved">
@@ -128,11 +129,11 @@
                 
                 <div id="choose_movie" class="threediv">
                     <div class="title">영화선택</div>
-                    <select name="lineup">
-                        <option value="">예매순</option>
-                        <option value="">관객순</option>
-                        <option value="">평점순</option>
-                    </select>
+                   	<select name="lineUp" style="width: 100px;" onchange="changeLineUp(this);">
+                       <option value="4" ${empty param.lineUp or param.lineUp eq '4' ? 'selected="selected"' : ''}>최신순</option>
+                       <option value="2" ${param.lineUp eq '2' ? 'selected="selected"' : ''}>이름순</option>
+                       <option value="3" ${param.lineUp eq '3' ? 'selected="selected"' : ''}>나이제한순</option>
+                   	</select>
                     <ul>
                     	<c:forEach items="${movieList}" var="m">
                     		<li><a href="#selectMovie" onclick="selectMovie('${m.movieNo}')">
@@ -172,6 +173,7 @@
 	<input type="hidden" name="movieNo" value="<c:out value="${param.movieNo}"/>"/>
 	<input type="hidden" name="screenDate" value=""/>
 	<input type="hidden" name="screenNo" value=""/>
+	<input type="hidden" name="lineUp" value="<c:out value="${param.lineUp}"/>"/>
 </form>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -271,6 +273,19 @@ function selectScreen(screenNo){
 	}
 	form.screenNo.value = screenNo;
 	form.action = '${contextPath}/reservedFour.do';
+	form.method = 'post';
+	form.submit();
+}
+function changeLineUp(lineUp){
+	var form = document.getElementById('form');
+	if (!form.sectionNo.value) {
+		return alert('지역을 선택해 주세요');
+	}
+	if (!form.theaterNo.value){
+		return alert('영화관을 선택해 주세요');
+	}
+	form.lineUp.value = lineUp.value;
+	form.action = '${contextPath}/reservedTwo.do';
 	form.method = 'post';
 	form.submit();
 }
