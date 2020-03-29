@@ -100,14 +100,8 @@ body {
         </div>
         <div id="jb-content" style="text-align: center;">
           <h2>예약정보</h2>
-          <hr>
-            <div id="bookpicture" onclick="location.href='#';">
-              <h3>영화명</h3>
-            </div>
-            <div id="bookdetail" onclick="location.href='#';">
-              <h3>예약정보</h3>
-            </div>
-            <button id="bookmore" style="margin-top:1%;" onclick="location.href='#';">더보기</button>
+          <%@ include file="../reserved/myPageReserved.jsp"%>
+          
         </div>
         <div id="jb-sidebar">
           <h2>My 영화</h2>
