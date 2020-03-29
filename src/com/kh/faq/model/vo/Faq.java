@@ -20,11 +20,12 @@ public class Faq {
    }
 
 
-public Faq(int faqNo, String question, String answer) {
+public Faq(int faqNo, String question, String answer, String type) {
 	super();
 	this.faqNo = faqNo;
 	this.question = question;
 	this.answer = answer;
+	this.type = type;
 }
 
 public int getFaqNo() {
@@ -51,9 +52,12 @@ public void setAnswer(String answer) {
 	this.answer = answer;
 }
 
+
+
 @Override
 public String toString() {
-	return "Faq [faqNo=" + faqNo + ", question=" + question + ", answer=" + answer + "]";
+	return "Faq [faqNo=" + faqNo + ", question=" + question + ", answer=" + answer + ", type=" + type + ", status="
+			+ status + "]";
 }
 
 

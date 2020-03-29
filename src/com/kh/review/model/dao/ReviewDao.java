@@ -38,7 +38,6 @@ public class ReviewDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, movieNo);
-			pstmt.setInt(2, loginUserNo);
 			
 			
 			rset = pstmt.executeQuery();
