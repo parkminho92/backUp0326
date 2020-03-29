@@ -367,6 +367,33 @@ public class ReserveDao {
 		
 		return result;
 	}
+
+	public List<ListOfReserved> findServedInfoByUserNo(Connection conn, Integer userNo) {
+		List<ListOfReserved> lors = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("findRSVInfoByUserNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				lors.add(new ListOfReserved(rset.getInt("RESERVED_NO"), rset.getTimestamp("PAYMETN_DATE"),
+						rset.getString("T_NAME"), rset.getString("R_NAME"), rset.getString("TITLE"), 
+						rset.getInt("AGE_LIMIT"), rset.getTimestamp("SCREEN_DATE"), rset.getInt("PAYMENT_NO"),
+						rset.getInt("AMOUNT"), rset.getString("TYPE"),
+						rset.getInt("MEMBER_NO"), rset.getString("ID"), rset.getString("MODIFY_NAME")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		return lors;
+	}
 	
 	
 }
