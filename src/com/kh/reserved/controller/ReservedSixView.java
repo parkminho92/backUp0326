@@ -30,6 +30,14 @@ public class ReservedSixView extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		
+		HttpSession session = request.getSession();
+		Integer userNo = null;
+		if((Member)session.getAttribute("loginUser")==null) {
+			userNo = 1;
+		}else {
+			userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		}
+		
 		Integer totalCost = Integer.parseInt(request.getParameter("totalCost"));
 		String screenNo = request.getParameter("screenNo");
 		String[] seatNo = request.getParameterValues("seatNo");
@@ -41,14 +49,7 @@ public class ReservedSixView extends HttpServlet {
 		count.put("senior",request.getParameter("seniorCount"));
 		count.put("disabled",request.getParameter("disabledCount"));
 		
-		HttpSession session = request.getSession();
-		Integer userNo = null;
-		if((Member)session.getAttribute("loginUser")==null) {
-			userNo = 1;
-		}else {
-			userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		}
-				
+		
 		//결제 : 결제번호, 결제날짜sysdate, 결제방식, 결제금액, 환불여부(n), 환불날짜
 		//예매 : 예매번호, 결제번호, 결제자번호, screenNo
 		//예매된좌석 : 예매번호, 좌석번호

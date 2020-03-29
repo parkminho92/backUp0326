@@ -23,13 +23,6 @@ public class ReservedFiveView extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		HttpSession session = request.getSession();
-		Integer userNo = null;
-		if((Member)session.getAttribute("loginUser")==null) {
-			userNo = 1;
-		}else {
-			userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		}
 		
 		String screenNo = request.getParameter("screenNo");
 		String totalCost = request.getParameter("totalCost");
