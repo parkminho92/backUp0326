@@ -89,8 +89,10 @@ public class ReserveService {
 	 */
 	public List<ListOfReserved> ListOfAllReserved(PageRequest pageRequest) {
 		Connection conn = getConnection();
-		List<ListOfReserved> lor = new ReserveDao().ListOfAllReserved(conn, pageRequest);
 		
+		// 페이지 첫번호/마지막 번호에 맞는 예약정보 조회
+		List<ListOfReserved> lor = new ReserveDao().ListOfAllReserved(conn, pageRequest);
+		// 각 예약정보의 예약멤버 예약좌석 정보 조회
 		List<ListOfMemTypeDto> rsvMemType = new ArrayList<>();
 		List<Integer> seatNo = new ArrayList<>();
 		
@@ -120,7 +122,7 @@ public class ReserveService {
 	}
 
 
-	/** 6. 예매번호로 예매정보 싹 불러오기
+	/** 6. 예매번호에 따른 예매정보 싹 불러오기 (+좌석,멤버 포함)
 	 * @param reservedInfoId 예매번호
 	 * @return
 	 */
@@ -134,10 +136,11 @@ public class ReserveService {
 		reservedInfo.setRsvMemType(rsvMemType);
 		reservedInfo.setSeatNo(seatNo);
 		
+		close(conn);
 		return reservedInfo;
 	}
 
-	/** 7. LoginUser No로 예매정보 불러오기
+	/** 7. LoginUser No의 모든 예매정보 불러오기
 	 * @param userNo
 	 * @return
 	 */
@@ -162,6 +165,31 @@ public class ReserveService {
 		
 		close(conn);
 		return result;
+	}
+
+	/** 9. LoginUser No + 페이징 = 예매 정보 불러오기
+	 * @param userNo
+	 * @param pageRequest
+	 * @return
+	 */
+	public List<ListOfReserved> ListOfOneReserved(Integer userNo, PageRequest pageRequest) {
+		Connection conn = getConnection();
+		
+		List<ListOfReserved> lor = new ReserveDao().ListOfOneReserved(conn, userNo, pageRequest);
+		List<ListOfMemTypeDto> rsvMemType = new ArrayList<>();
+		List<Integer> seatNo = new ArrayList<>();
+		
+		for(ListOfReserved r : lor) {
+			
+			rsvMemType = new ReserveDao().reservedMem(conn, r.getReservedNo());
+			seatNo = new ReserveDao().reservedSeats(conn, r.getReservedNo());
+			
+			r.setRsvMemType(rsvMemType);
+			r.setSeatNo(seatNo);
+		}
+		
+		close(conn);
+		return lor;
 	}
 	
 }

@@ -30,6 +30,11 @@ public class MovieService {
 		return m;
   
   }
+	
+	/** 1. 영화 번호로 영화 정보 선택
+	 * @param movieNo
+	 * @return
+	 */
 	public Movie selectL(int movieNo){
 		Connection conn = getConnection();
 		Movie m = new MovieDao().selectL(conn, movieNo);

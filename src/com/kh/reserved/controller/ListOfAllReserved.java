@@ -25,13 +25,13 @@ public class ListOfAllReserved extends HttpServlet {
 		String currentPage = request.getParameter("currentPage");
 		String countPerPage = request.getParameter("countPerPage");
 		PageRequest pageRequest = new PageRequest(currentPage, countPerPage);
-				
 
-		// 토탈 카운트 쿼리
+		// 예약 총갯수 조회해오기
 		int totalCount = new ReserveService().countReserved();
-		List<ListOfReserved> lor = new ReserveService().ListOfAllReserved(pageRequest);
-
+		// 하단 페이지 표시 정보
 		PageInfo pageInfo = new PageInfo(totalCount, pageRequest);
+		// 페이지 첫 게시글번호/마지막 번호로 페이지에 맞는 예약정보게시글 조회
+		List<ListOfReserved> lor = new ReserveService().ListOfAllReserved(pageRequest);
 
 		request.setAttribute("lor", lor);
 		request.setAttribute("pageInfo", pageInfo);

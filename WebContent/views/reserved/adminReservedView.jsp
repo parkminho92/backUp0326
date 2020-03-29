@@ -19,7 +19,7 @@
 <title>Insert title here</title>
 
     <style>
-        *{margin:0; padding:0;}
+	*{margin:0; padding:0;}
         .layout { position: relative; padding:0 15px; width: 1000px; margin:0 auto;}
         .listReserved table {font-size: 13px; margin-top:30px;}
         .listReserved table tr { height: 30px;}
@@ -27,6 +27,8 @@
         .listReserved table thead tr:nth-child(1) { height: 35px; background: none;}
         .listReserved table tr th {border-bottom: 1px double darkred;}
         .listReserved table tr td {text-align: center;  border-bottom: 1px solid black;}
+        .listReserved table tr td:nth-child(7){text-align:left;}
+        .listReserved table tr td span {margin-left:10px;}
 		.pageBtns {margin-top: 15px;}
 
         .modal ul li {list-style: none; margin-bottom: 7px;}
@@ -106,9 +108,9 @@
     		<form id="searchForm">
     			<label>보여질 예매 갯수: </label>
 	    		<select name="countPerPage" onchange="document.getElementById('searchForm').submit();" style="width:70px; margin-top:20px;">
-	    			<option <%if("5".equals(countPerPage) || countPerPage == null) {%> selected="selected" <%}%>>5</option>
+	    			<option <%if("5".equals(countPerPage)) {%> selected="selected" <%}%>>5</option>
 	    			<option <%if("7".equals(countPerPage)) {%>selected="selected"<%}%>>7</option>
-	    			<option <%if("10".equals(countPerPage)) {%>selected="selected"<%}%>>10</option>
+	    			<option <%if("10".equals(countPerPage) || countPerPage == null) {%>selected="selected"<%}%>>10</option>
 	    			<option <%if("12".equals(countPerPage)) {%>selected="selected"<%}%>>12</option>
 	    		</select>
     		</form>
@@ -118,15 +120,15 @@
             <table id="reservedTable">
             	<thead>
 	            	<tr>
-	            		<th width="200px;">회원번호</th>
+	            		<th width="150px;">회원No</th>
 	            		<th width="200px;">회원ID</th>
 	                    <th width="200px;">예매번호</th>
 	                    <th width="300px;">예매일자</th>
 	                    <th width="200px;">영화관</th>
 	                    <th width="150px;">상영관</th>
-	                    <th width="300px;">영화</th>
+	                    <th width="450px;">영화</th>
 	                    <th width="300px">상영일시</th>
-	                    <th width="350px;">인원</th>
+	                    <th width="250px;">인원</th>
 	                    <th width="300px;">결제금액</th>
 	                </tr>
             	</thead>
@@ -167,7 +169,7 @@
             	<!-- 이전 페이지 -->
 	            <% if(pageInfo.getCurrentPage() != 1){ %>
             		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=1">&lt;&lt;</a>
-            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%= pageInfo.getCountPerPage()-1%>"> &lt;</a>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%= pageInfo.getCurrentPage()-1%>"> &lt;</a>
             	<% } %>
             	
             	<!-- 페이지 목록 -->
@@ -181,7 +183,7 @@
             	
             	<!-- 다음페이지-->
             	<% if(pageInfo.getCurrentPage() != pageInfo.getMaxPage()){ %>
-            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getCountPerPage()+1%>">&gt;</a>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getCurrentPage()+1%>">&gt;</a>
             		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getMaxPage()%>">&gt;&gt;</a>
             	<% } %>
             	<!-- 맨마지막 페이지 -->

@@ -31,15 +31,15 @@ public class MyPageReservedDetail extends HttpServlet {
 		HttpSession session = request.getSession();
 		Integer userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
 		
-		// 1명의 토탈 카운트 쿼리
+		// 1명의 총 예매갯수(현재시간이후의)
 		int totalCount = new ReserveService().countReserved(userNo);
-		List<ListOfReserved> lor = new ReserveService().ListOfAllReserved(pageRequest);
-
+		// 하단 페이지 표시 정보
 		PageInfo pageInfo = new PageInfo(totalCount, pageRequest);
+		
+		List<ListOfReserved> lor = new ReserveService().ListOfOneReserved(userNo, pageRequest);
 
 		request.setAttribute("lor", lor);
 		request.setAttribute("pageInfo", pageInfo);
-		request.getRequestDispatcher("views/reserved/adminReservedView.jsp").forward(request, response);
 	
 		request.getRequestDispatcher("views/reserved/myPageReservedDetail.jsp").forward(request, response);
 	
