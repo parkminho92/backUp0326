@@ -54,10 +54,14 @@
 		margin-left:400px;
 	}
 	.qnaDetailTable tr th{
-		color:black; 
-		border:1px solid black;
-		padding:10px;}
-    
+		color:black;
+		background-color:lightred;
+		margin:30px;
+		box-shadow:1px 1px 1px 1px lightgray;
+		border-radius:5px;
+		font-weight:bold;
+		}
+    .qnaDetailTable tr td{border-bottom:1px solid black;}
     
 </style>
 </head>
@@ -71,11 +75,11 @@
         <div id="noticeMenu">
             <h2>고객센터</h2>
             <ul>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req2.png" alt="">FAQ</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req3.png" alt="">공지사항</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req4.png" alt="">분실물찾기</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req5.png" alt="">대관문의</a></li>
+                <li><a href="<%=contextPath%>/qnaList.qa"><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href="<%=contextPath%>/faq.fq"><img src="resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href="<%=contextPath%>/list.no"><img src="resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href="<%=contextPath%>/lost.lo"><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href="<%=contextPath%>/bRoom.br"><img src="resources/images/req5.png" alt="">대관문의</a></li>
             </ul>
         </div>
         
@@ -86,30 +90,30 @@
 			
 			<table class="qnaDetailTable">
 				<tr>
-					<th>글번호</th>
-					<th  width="100"><%=q.getQnaNo() %></th>
-					<th>제목</th>
-					<th colspan="3" width="300"><%=q.getTitle() %></th>
+					<th height="30">글번호</th>
+					<td  width="100">&nbsp;&nbsp;&nbsp;<%=q.getQnaNo() %></td>
+					<th height="30">제목</th>
+					<td colspan="3" width="300">&nbsp;&nbsp;&nbsp;<%=q.getTitle() %></td>
 					
 				</tr>
 				<tr>
-					<th>분류</th>
-					<th><%=q.getType() %></th>
-					<th>종류</th>
-					<th><%=q.getKind() %></th>
-					<th>작성자</th>
-					<th  width="100"><%=q.getMemberNo() %></th>
+					<th height="30">분류</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=q.getType() %></td>
+					<th height="30">종류</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=q.getKind() %></td>
+					<th height="30">작성자</th>
+					<td  width="100">&nbsp;&nbsp;&nbsp;<%=q.getMemberNo() %></td>
 				</tr>
 				<tr>
-					<th>답변유무</th>
-					<th><%=q.getReplyStatus() %></th>
-					<th>비밀유무</th>
-					<th><%=q.getSecretStatus() %></th>
-					<th>작성일</th>
-					<th><%=q.getRegDate() %></th>
+					<th height="30">답변유무</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=q.getReplyStatus() %></td>
+					<th height="30">비밀유무</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=q.getSecretStatus() %></td>
+					<th height="30">작성일</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=q.getRegDate() %></td>
 				</tr>
 				<tr>
-					<th colspan="6" height="400"><%=q.getContent() %></th>
+					<td colspan="6" height="400">&nbsp;&nbsp;&nbsp;<%=q.getContent() %></td>
 				</tr>
 			
 				

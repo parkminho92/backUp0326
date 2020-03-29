@@ -1,31 +1,41 @@
 package com.kh.qna.model.service;
 
-import static com.kh.common.JDBCTemplate.close;
-import static com.kh.common.JDBCTemplate.commit;
-import static com.kh.common.JDBCTemplate.getConnection;
-import static com.kh.common.JDBCTemplate.rollback;
+import static com.kh.common.JDBCTemplate.*;
+
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.qna.model.dao.QnaDao;
-import com.kh.qna.model.vo.Qna;
+import com.kh.qna.model.vo.*;
 
 public class QnaService {
+	
+	public int getListCount() {
+			
+			Connection conn = getConnection();
+			
+			int listCount = new QnaDao().getListCount(conn);
+			
+			close(conn);
+			return listCount;
+			
+		}
 
 	
 	/** 1. Qna 전체 list 조회용 서비스
 	 * @return
 	 */
-	public ArrayList<Qna> selectList(){
-		
-		Connection conn = getConnection();
-		
-		ArrayList<Qna> list = new QnaDao().selectList(conn);
-		
-		close(conn);
-		return list;
-	}
+	public ArrayList<Qna> selectList(PageInfo pi){
+			
+			Connection conn = getConnection();
+			
+			ArrayList<Qna> list = new QnaDao().selectList(conn,pi);
+	
+			close(conn);
+			return list;
+			
+		}
 	
 	public int insertQna(Qna q, Integer loginUserNo) {
 		Connection conn = getConnection();

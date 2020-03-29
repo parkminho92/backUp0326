@@ -39,7 +39,7 @@ public class FaqDao {
 		Statement stmt = null;
 		ResultSet rset = null;
   
-  String sql = prop.getProperty("selectList");
+		String sql = prop.getProperty("selectFaqList");
 		
 		try {
 			stmt = conn.createStatement();
@@ -48,7 +48,7 @@ public class FaqDao {
 				list.add(new Faq(rset.getInt("faq_no"),
 								 rset.getString("question"),
 								 rset.getString("answer")));
-			}	
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -63,7 +63,7 @@ public class FaqDao {
   /* cbs */
 	public int getListCount(Connection conn) {
 		int listCount = 0;
-  	Statement stmt = null;
+		Statement stmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("getListCount");
 		

@@ -54,10 +54,14 @@
 		margin-left:400px;
 	}
 	.lostDetailTable tr th{
-		color:black; 
-		border:1px solid black;
-		padding:10px;}
-    
+		color:black;
+		background-color:lightred;
+		margin:30px;
+		box-shadow:1px 1px 1px 1px lightgray;
+		border-radius:5px;
+		font-weight:bold;
+		}
+    .lostDetailTable tr td{border-bottom:1px solid black;}
     
 </style>
 </head>
@@ -70,12 +74,12 @@
     <div class="container">
         <div id="noticeMenu">
             <h2>고객센터</h2>
-            <ul>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req2.png" alt="">FAQ</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req3.png" alt="">공지사항</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req4.png" alt="">분실물찾기</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req5.png" alt="">대관문의</a></li>
+           <ul>
+                <li><a href="<%=contextPath%>/qnaList.qa"><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href="<%=contextPath%>/faq.fq"><img src="resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href="<%=contextPath%>/list.no"><img src="resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href="<%=contextPath%>/lost.lo"><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href="<%=contextPath%>/bRoom.br"><img src="resources/images/req5.png" alt="">대관문의</a></li>
             </ul>
         </div>
         
@@ -86,35 +90,35 @@
 			
 			<table class="lostDetailTable">
 				<tr>
-					<th>작성자</th>
-					<th width="100">작성자 아이디</th>
-					<th>이름</th>
-					<th width="80"><%=l.getName() %></th>
-					<th>핸드폰</th>
-					<th width="100"><%=l.getPhone() %></th>
+					<th height="30">작성자</th>
+					<td width="130">&nbsp;&nbsp;&nbsp;작성자 아이디</td>
+					<th height="30">이름</th>
+					<td width="80">&nbsp;&nbsp;&nbsp;<%=l.getName() %></td>
+					<th height="30">핸드폰</th>
+					<td width="100">&nbsp;&nbsp;&nbsp;<%=l.getPhone() %></td>
 				</tr>
 				<tr>
-					<th>분실장소</th>
-					<th><%=l.getPlace() %></th>
-					<th>메일주소</th>
-					<th colspan="3"><%=l.getEmail() %></th>
+					<th height="30">분실장소</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=l.getPlace() %></td>
+					<th height="30">메일주소</th>
+					<td colspan="3">&nbsp;&nbsp;&nbsp;<%=l.getEmail() %></td>
 					
 				</tr>
 				<tr>
-					<th>분실날짜</th>
-					<th><%=l.getLostDate() %></th>
-					<th>답변유무</th>
-					<th><%=l.getReplyStatus() %></th>
-					<th>비밀유무</th>
-					<th><%=l.getSecretStatus() %></th>
+					<th height="30">분실날짜</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=l.getLostDate() %></td>
+					<th height="30">답변유무</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=l.getReplyStatus() %></td>
+					<th height="30">비밀유무</th>
+					<td>&nbsp;&nbsp;&nbsp;<%=l.getSecretStatus() %></td>
 				</tr>
 				<tr>
 					
-					<th>제목</th>
-					<th colspan="5" width="300"><%=l.getTitle() %></th>
+					<th height="30">제목</th>
+					<td colspan="5" width="300">&nbsp;&nbsp;&nbsp;<%=l.getTitle() %></td>
 				</tr>
 				<tr>
-					<th colspan="6" height="400"><%=l.getContent() %></th>
+					<td colspan="6" height="400">&nbsp;&nbsp;&nbsp;<%=l.getContent() %></td>
 				</tr>
 			
 				
