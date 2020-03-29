@@ -52,11 +52,19 @@
 	.broomDetailTable{
 		color:black;
 		margin-left:400px;
+	
 	}
 	.broomDetailTable tr th{
-		color:black; 
-		border:1px solid black;
-		padding:10px;}
+		color:black;
+		background-color:lightred;
+		margin:30px;
+		box-shadow:1px 1px 1px 1px lightgray;
+		border-radius:5px;
+		font-weight:bold;
+	}
+	.broomDetailTable tr td{border-bottom:1px solid black;}
+	
+	
     
     
 </style>
@@ -71,56 +79,55 @@
         <div id="noticeMenu">
             <h2>고객센터</h2>
             <ul>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req2.png" alt="">FAQ</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req3.png" alt="">공지사항</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req4.png" alt="">분실물찾기</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req5.png" alt="">대관문의</a></li>
+                <li><a href="<%=contextPath%>/qnaList.qa"><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href="<%=contextPath%>/faq.fq"><img src="resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href="<%=contextPath%>/list.no"><img src="resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href="<%=contextPath%>/lost.lo"><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href="<%=contextPath%>/bRoom.br"><img src="resources/images/req5.png" alt="">대관문의</a></li>
             </ul>
         </div>
         
        <div class="outer" id="broomDetailView">
 			<br>
-			<h2 align="center"><div id="headNo">분실물찾기</div></h2>
+			<h2 align="center"><div id="headNo">대관문의</div></h2>
 			<br>
 			
 			<table class="broomDetailTable">
 				<tr>
-					<th>제목</th>
-					<th colspan="5" width="300"><%=b.getTitle() %></th>
-				
+					<th height="30">제목</th>
+					<td colspan="5" width="300">&nbsp;&nbsp;&nbsp;<%=b.getTitle() %></td>
 				</tr>
 				<tr>
-					<th>이메일주소</th>
-					<th width="100"><%=b.getEmail() %></th>
-					<th>작성자</th>
-					<th width="100">작성자아이디</th>
-					<th>글번호</th>
-					<th width="30"><%=b.getBorrowRoomNo() %></th>
+					<th height="30">이메일주소</th>
+					<td width="100">&nbsp;&nbsp;&nbsp;<%=b.getEmail() %></td>
+					<th height="30">작성자</th>
+					<td width="100"><%-- <%=loginUser.getId() %> --%></td>
+					<th height="30">글번호</th>
+					<td width="30">&nbsp;&nbsp;&nbsp;<%=b.getBorrowRoomNo() %></td>
 				</tr>
 				<tr>
-					<th>답변유무</th>
-					<th width="30"><%=b.getReplyStatus() %></th>
-					<th>비밀유무</th>
-					<th width="30"><%=b.getSecretStatus() %></th>
-					<th>대관희망날짜</th>
-					<th width="50"><%=b.getHopeDate() %></th>
+					<th height="30">답변유무</th>
+					<td width="30">&nbsp;&nbsp;&nbsp;<%=b.getReplyStatus() %></td>
+					<th height="30">비밀유무</th>
+					<td width="30">&nbsp;&nbsp;&nbsp;<%=b.getSecretStatus() %></td>
+					<th height="30">대관희망날짜</th>
+					<td width="50">&nbsp;&nbsp;&nbsp;<%=b.getHopeDate() %></td>
 				</tr>
 				<tr>
-					<th colspan="6">희망인원</th>
+					<th colspan="6" height="30">희망인원</th>
 				</tr>
 				<tr>
-					<th width="80">성인 :<%=b.getAdultCount() %></th>
-					<th width="80">청소년 :<%=b.getYouthCount() %></th>
-					<th width="80">시니어 : <%=b.getSeniorCount() %></th>
-					<th width="80">장애인 :<%=b.getDisabledCount() %></th>
+					<th width="80" height="30">&nbsp;&nbsp;성인 :<%=b.getAdultCount() %></th>
+					<th width="80" height="30">&nbsp;&nbsp;청소년 :<%=b.getYouthCount() %></th>
+					<th width="80" height="30">&nbsp;&nbsp;시니어 : <%=b.getSeniorCount() %></th>
+					<th width="80" height="30">&nbsp;&nbsp;장애인 :<%=b.getDisabledCount() %></th>
 					<th>작성일</th>
-					<th width="80"><%=b.getRegiDate() %></th>
+					<td width="100" height="30">&nbsp;&nbsp;&nbsp;<%=b.getRegiDate() %></td>
 				</tr>
 				<tr>
-					<th colspan="6" height="400">
+					<td colspan="6" height="400">
 						<%=b.getContent() %>
-					</th>
+					</td>
 				</tr>
 				
 			</table>

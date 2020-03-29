@@ -1,26 +1,37 @@
 package com.kh.borrow_room.model.service;
 
 import static com.kh.common.JDBCTemplate.*;
-import static com.kh.common.JDBCTemplate.getConnection;
+
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.borrow_room.model.dao.BroomDao;
-import com.kh.borrow_room.model.vo.BorrowRoom;
+import com.kh.borrow_room.model.vo.*;
 
 public class BroomService {
-
-	public ArrayList<BorrowRoom> selectList(){
+	
+	public int getListCount() {
 		
 		Connection conn = getConnection();
-		ArrayList<BorrowRoom> list = new BroomDao().selectList(conn);
+		
+		int listCount = new BroomDao().getListCount(conn);
 		
 		close(conn);
-		return list;
+		return listCount;
 		
 	}
-	
+
+
+	public ArrayList<BorrowRoom> selectList(PageInfo pi){
+			
+			Connection conn = getConnection();
+			ArrayList<BorrowRoom> list = new BroomDao().selectList(conn,pi);
+		
+			close(conn);
+			return list;
+			
+		}
 	public int insertBroom(BorrowRoom b, int loginUserNo, String bdate) {
 		
 		Connection conn = getConnection();
