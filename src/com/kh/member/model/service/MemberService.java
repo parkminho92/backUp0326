@@ -110,18 +110,10 @@ public class MemberService {
 		
 	}
 	
-	public Member findId(String id, String name, String email) {
+	public Member findId(String name, String email) {
 		Connection conn = getConnection();
 		
-		int result = new MemberDao().findId(conn, id, name, email);
-		
-		Member findIdMem = null;
-
-		if(result > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
+		Member findIdMem = new MemberDao().findId(conn, name, email);
 		
 		close(conn);
 		
@@ -129,5 +121,38 @@ public class MemberService {
 		
 		
 		}
+	
+
+	public Member findPwd(String pId, String pName, String pPhone) {
+		
+		Connection conn = getConnection();
+		
+		Member findPwdMem = new MemberDao().findPwd(conn, pId, pName, pPhone);
+		
+		close(conn);
+		
+		return findPwdMem;
+		
+		
+	}
+	
+	
+	
+	/**
+	 * 아이디 중복 체크
+	 * @param userId
+	 * @return
+	 */
+	public int idCheck(String userId) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().idCheck(conn, userId);
+		
+		close(conn);
+		
+		return result;
+	}
+	
 	
 }

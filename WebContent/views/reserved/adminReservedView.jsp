@@ -3,11 +3,14 @@
 <%@	page import="java.util.List,
 				com.kh.reserved.model.dao.ListOfReserved,
 				com.kh.reserved.model.dao.ListOfMemTypeDto,
+				com.kh.reserved.model.vo.PageInfo,
 				com.kh.common.DateUtils"%>
 <%@ page import="java.util.Date, java.text.SimpleDateFormat" %>		
 <%
 	List<ListOfReserved> lor = (List<ListOfReserved>)request.getAttribute("lor");
 	String msg = (String)session.getAttribute("msg");
+	PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
+	String countPerPage = request.getParameter("countPerPage");
 %>    
 <!DOCTYPE html>
 <html>
@@ -24,6 +27,7 @@
         .listReserved table thead tr:nth-child(1) { height: 35px; background: none;}
         .listReserved table tr th {border-bottom: 1px double darkred;}
         .listReserved table tr td {text-align: center;  border-bottom: 1px solid black;}
+		.pageBtns {margin-top: 15px;}
 
         .modal ul li {list-style: none; margin-bottom: 7px;}
         .modal .modal-content { width: 500px; overflow: hidden; font-size: 13px;}
@@ -41,7 +45,10 @@
 	 	span.grade_12{background:#4DD6FF;}
 	 	span.grade_15{background:#FFC134;}
 	 	span.grade_18{background:#ED4C6B;}
-
+		
+		.align-right {text-align: right;}
+		.align-center {text-align: center;}
+		.align-left {text-align: left;}
 
         /* the Modal */
         .modal {
@@ -95,6 +102,17 @@
 	<%@ include file ="../common/adminMenubar.jsp" %>
 	
     <div class="layout">
+    	<div class="boardSearch align-right">
+    		<form id="searchForm">
+    			<label>보여질 예매 갯수: </label>
+	    		<select name="countPerPage" onchange="document.getElementById('searchForm').submit();" style="width:70px; margin-top:20px;">
+	    			<option <%if("5".equals(countPerPage) || countPerPage == null) {%> selected="selected" <%}%>>5</option>
+	    			<option <%if("7".equals(countPerPage)) {%>selected="selected"<%}%>>7</option>
+	    			<option <%if("10".equals(countPerPage)) {%>selected="selected"<%}%>>10</option>
+	    			<option <%if("12".equals(countPerPage)) {%>selected="selected"<%}%>>12</option>
+	    		</select>
+    		</form>
+    	</div>
     	
         <div class="listReserved">
             <table id="reservedTable">
@@ -143,6 +161,31 @@
 	                <%} %>
                 </tbody>
             </table>
+            
+            <div class="pageBtns" align="center">
+            	<!-- 맨처음으로 -->
+            	<!-- 이전 페이지 -->
+	            <% if(pageInfo.getCurrentPage() != 1){ %>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=1">&lt;&lt;</a>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%= pageInfo.getCountPerPage()-1%>"> &lt;</a>
+            	<% } %>
+            	
+            	<!-- 페이지 목록 -->
+            	<% for(int p = pageInfo.getStartPage(); p <= pageInfo.getEndPage(); p++){ %>
+            		<% if(pageInfo.getCurrentPage() == p){ %>
+            			<a href="#" style="text-decoration:none;"><%= p %></a>
+            		<% }else{ %>
+            			<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=p%>"><%=p %></a>
+            		<% } %>
+            	<% } %>
+            	
+            	<!-- 다음페이지-->
+            	<% if(pageInfo.getCurrentPage() != pageInfo.getMaxPage()){ %>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getCountPerPage()+1%>">&gt;</a>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getMaxPage()%>">&gt;&gt;</a>
+            	<% } %>
+            	<!-- 맨마지막 페이지 -->
+            </div>
 
         </div >
 

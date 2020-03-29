@@ -1,16 +1,19 @@
 package com.kh.reserved.model.service;
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.kh.reserved.model.dao.ListOfMemTypeDto;
 import com.kh.reserved.model.dao.ListOfReserved;
 import com.kh.reserved.model.dao.ReserveDao;
+import com.kh.reserved.model.vo.PageRequest;
 import com.kh.reserved.model.vo.Reserved;
 
 public class ReserveService {
@@ -34,6 +37,7 @@ public class ReserveService {
 		//예매 : 예매번호, 결제번호, 결제자번호, screenNo
 		//예매된좌석 : 예매번호, 좌석번호
 		//예매인원 : 예매번호, 분류, 숫자
+		//예매회원 예매횟수 카운트 +1 : 결제자번호
 		
 		Integer resultPayment = new ReserveDao().reservePayment(conn, payMethod, totalCost);
 		Integer resultReserve = new ReserveDao().reserveMovie(conn, userNo, screenNo);
@@ -83,9 +87,9 @@ public class ReserveService {
 	/** 4. 모든 회원의 모든 예약정보 가져오기 (단, 지난예약 정보 제외)
 	 * @return
 	 */
-	public List<ListOfReserved> ListOfAllReserved() {
+	public List<ListOfReserved> ListOfAllReserved(PageRequest pageRequest) {
 		Connection conn = getConnection();
-		List<ListOfReserved> lor = new ReserveDao().ListOfAllReserved(conn);
+		List<ListOfReserved> lor = new ReserveDao().ListOfAllReserved(conn, pageRequest);
 		
 		List<ListOfMemTypeDto> rsvMemType = new ArrayList<>();
 		List<Integer> seatNo = new ArrayList<>();
@@ -101,6 +105,19 @@ public class ReserveService {
 		
 		return lor;
 	}
+	
+	/** 5. 전체 예매(상영전) 갯수받기
+	 * @return
+	 */
+	public int countReserved() {
+		Connection conn = getConnection();
+		
+		int result = new ReserveDao().countReserved(conn);
+		
+		close(conn);
+		return result;
+	}
+
 
 	public ListOfReserved findReservedInfo(Integer reservedInfoId) {
 		Connection conn = getConnection();
@@ -115,4 +132,5 @@ public class ReserveService {
 		return reservedInfo;
 	}
 
+	
 }

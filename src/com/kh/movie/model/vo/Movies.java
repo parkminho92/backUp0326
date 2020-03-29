@@ -9,6 +9,13 @@ public class Movies {
 	public Movies(List<Movie> movies) {
 		this.movies = movies;
 	}
+	public List<Movie> getMovies() {
+		return movies;
+	}
+
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
+	}
 	
 	// 영화 목록에서 영화 제목 찾기
 	public String findTitleByNo(Integer movieNo) {
@@ -19,13 +26,6 @@ public class Movies {
 		}
 		return "";
 	}
-
-	public List<Movie> getMovies() {
-		return movies;
-	}
-
-	public void setMovies(List<Movie> movies) {
-		this.movies = movies;
-	}
+	
 }
 	
