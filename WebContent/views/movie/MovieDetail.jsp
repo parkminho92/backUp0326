@@ -445,12 +445,13 @@
 									'<td id="reviewId" width="150">' + list[i].id + '</td>' +
 									'<td width="100">' + '<img src="<%=contextPath%>/resources/images/star2.png" width="20" height="20">' + list[i].reviewRating + '</td>' +
 									'<td width="500">' + list[i].reviewText + '</td>' + 
-									'<td><button id="Wbtn" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
+									'<td width="50"><button id="Wbtn" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
 								'</tr>';
 								
 					}			
 					$("#replyList").html(value);
-					reviewChart = $("#replyList tr").text();
+					reviewChart = $("#reviewId").text();
+					
 				},
 				error:function(){
 					console.log("댓글 리스트 조회 ajax 통신 실패!!");

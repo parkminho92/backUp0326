@@ -13,11 +13,11 @@ import com.kh.review.model.vo.*;
 public class ReviewService {
 
 	
-	public ArrayList<ReviewLHJ> selectReviewList(int movieNo){
+	public ArrayList<ReviewLHJ> selectReviewList(int movieNo, int loginUserNo){
 		
 		Connection conn = getConnection();
 		
-		ArrayList<ReviewLHJ> list = new ReviewDao().selectReviewList(conn, movieNo);
+		ArrayList<ReviewLHJ> list = new ReviewDao().selectReviewList(conn, movieNo, loginUserNo);
 	
 		close(conn);
 		return list;

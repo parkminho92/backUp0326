@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.kh.member.model.vo.Member;
 import com.kh.review.model.service.ReviewService;
 import com.kh.review.model.vo.*;
 
@@ -33,11 +35,21 @@ public class ReplyListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+		request.setCharacterEncoding("UTF-8");
 		
-		
+			HttpSession session = request.getSession();
+			int loginUserNo = 0;
+			
+			if((Member)session.getAttribute("loginUser") == null) {
+				loginUserNo =1;
+			}else {
+				loginUserNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+			}
+			
 		int movieNo = Integer.parseInt(request.getParameter("movieNo"));
 		
-		ArrayList<ReviewLHJ> list = new ReviewService().selectReviewList(movieNo);
+		ArrayList<ReviewLHJ> list = new ReviewService().selectReviewList(movieNo,loginUserNo);
  		
 		response.setContentType("application/json; charset=UTF-8");
 		request.setAttribute("list",list);

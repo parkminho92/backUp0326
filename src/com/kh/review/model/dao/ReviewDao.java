@@ -27,7 +27,7 @@ public class ReviewDao {
 		}
 	}
 	
-	public ArrayList<ReviewLHJ> selectReviewList(Connection conn, int movieNo){
+	public ArrayList<ReviewLHJ> selectReviewList(Connection conn, int movieNo, int loginUserNo){
 		
 		ArrayList<ReviewLHJ> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -38,6 +38,7 @@ public class ReviewDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, movieNo);
+			pstmt.setInt(2, loginUserNo);
 			
 			
 			rset = pstmt.executeQuery();
