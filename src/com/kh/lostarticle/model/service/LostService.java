@@ -1,24 +1,34 @@
 package com.kh.lostarticle.model.service;
 
 import static com.kh.common.JDBCTemplate.*;
-import static com.kh.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.lostarticle.model.dao.LostDao;
-import com.kh.lostarticle.model.vo.Lostarticle;
+import com.kh.lostarticle.model.vo.*;
 
 public class LostService {
 	
-	public ArrayList<Lostarticle> selectList(){
-		
-		Connection conn = getConnection();
-		ArrayList<Lostarticle> list = new LostDao().selectList(conn);
-		
-		close(conn);
-		return list;
-	}
+	public int getListCount() {
+			
+			Connection conn = getConnection();
+			
+			int listCount = new LostDao().getListCount(conn);
+			
+			close(conn);
+			return listCount;
+			
+		}
+	
+	public ArrayList<Lostarticle> selectList(PageInfo pi){
+			
+			Connection conn = getConnection();
+			ArrayList<Lostarticle> list = new LostDao().selectList(conn,pi);
+			
+			close(conn);
+			return list;
+		}
 	
 	public Lostarticle selectLostDetail(int lost_No) {
 		Connection conn = getConnection();

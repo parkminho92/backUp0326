@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.lostarticle.model.vo.Lostarticle;
+import com.kh.lostarticle.model.vo.*;
 
 public class LostDao {
 	
@@ -27,45 +27,81 @@ public class LostDao {
 		}
 		
 	}
-	
-	public ArrayList<Lostarticle> selectList(Connection conn){
-		
-		ArrayList<Lostarticle> list = new ArrayList<>();
+	public int getListCount(Connection conn) {
+		int listCount = 0;
 		
 		Statement stmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectList");
+		String sql = prop.getProperty("getListCount");
+		
 		try {
 			stmt = conn.createStatement();
+			
 			rset = stmt.executeQuery(sql);
 			
-			while(rset.next()) {
-				list.add(new Lostarticle(rset.getInt("LOST_NO"),
-										 rset.getInt("MEMBER_NO"),
-										 rset.getString("TITLE"),
-										 rset.getString("SECRET_STATUS"),
-										 rset.getString("SECRET_PWD"),
-										 rset.getString("NAME"),
-										 rset.getString("PHONE"),
-										 rset.getString("EMAIL"),
-										 rset.getString("PLACE"),
-										 rset.getString("CONTENT"),
-										 rset.getDate("LOST_DATE"),
-										 rset.getString("REPLY_CONTENT"),
-										 rset.getString("REPLY_STATUS"),
-										 rset.getDate("REPLY_DATE")));
+			if(rset.next()) {
+				listCount = rset.getInt(1);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			close(rset);
 			close(stmt);
 		}
-		return list;
+		return listCount;
+		
+		
 		
 	}
+	
+	
+	public ArrayList<Lostarticle> selectList(Connection conn, PageInfo pi){
+			
+			ArrayList<Lostarticle> list = new ArrayList<>();
+			
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			
+			String sql = prop.getProperty("selectList");
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+				int endRow = startRow + pi.getBoardLimit() - 1;
+				
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+				
+						
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					list.add(new Lostarticle(rset.getInt("LOST_NO"),
+											 rset.getInt("MEMBER_NO"),
+											 rset.getString("TITLE"),
+											 rset.getString("SECRET_STATUS"),
+											 rset.getString("SECRET_PWD"),
+											 rset.getString("NAME"),
+											 rset.getString("PHONE"),
+											 rset.getString("EMAIL"),
+											 rset.getString("PLACE"),
+											 rset.getString("CONTENT"),
+											 rset.getDate("LOST_DATE"),
+											 rset.getString("REPLY_CONTENT"),
+											 rset.getString("REPLY_STATUS"),
+											 rset.getDate("REPLY_DATE")));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			return list;
+			
+		}
 	public Lostarticle selectLostDetail(Connection conn, int lost_No) {
 		
 		PreparedStatement pstmt = null;

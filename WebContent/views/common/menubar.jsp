@@ -74,18 +74,8 @@
 						<a href="${contextPath}/reservedOne.do">예매</a>
 					</li>
 					<li>
-						<a href="#">영화</a>
-						<ul>
-							<li>
-								<a href="#">영화순위</a>
-							</li>
-							<li>
-								<a href="#">상영작</a>
-							</li>
-							<li>
-								<a href="#">할인안내</a>
-							</li>
-						</ul>
+						<a href="<%=contextPath%>/views/movie/MovieMain.jsp">영화</a>
+						
 					</li>
 					<li>
 						<a href="#">영화관</a>
@@ -105,19 +95,22 @@
 						</ul>
 					</li>
 					<li>
-						<a href="#">고객센터</a>
+						<a href="<%=contextPath %>/views/notice/noticeMain.jsp">고객센터</a>
 						<ul>
 							<li>
-								<a href="#">공지사항</a>
+								<a href="<%=contextPath%>/list.no">공지사항</a>
 							</li>
 							<li>
 								<a href="<%=contextPath%>/faq.fq">FAQ</a>
 							</li>
 							<li>
-								<a href="#">일대일문의</a>
+								<a href="<%=contextPath%>/qnaList.qa">일대일문의</a>
 							</li>
 							<li>
-								<a href="#">대관문의</a>
+								<a href="<%=contextPath%>/bRoom.br">대관문의</a>
+							</li>
+							<li>
+								<a href="<%=contextPath%>/lost.lo">분실물 찾기</a>
 							</li>
 						</ul>
 					</li>

@@ -1,6 +1,6 @@
 package com.kh.qna.model.dao;
 
-import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.qna.model.vo.Qna;
+import com.kh.qna.model.vo.*;
 
 public class QnaDao {
 
@@ -34,19 +34,26 @@ public class QnaDao {
 	 * @param conn
 	 * @return
 	 */
-	public ArrayList<Qna> selectList(Connection conn){
+	public ArrayList<Qna> selectList(Connection conn, PageInfo pi){
 		
 		ArrayList<Qna> list = new ArrayList<>();
 		
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
 		
 		String sql = prop.getProperty("selectList");
 		
 		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(sql);
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
 				
@@ -63,16 +70,18 @@ public class QnaDao {
 								 rset.getString("reply_Content"),
 								 rset.getString("reply_Status")));
 			}
+		
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		return list;
 		
 	}
+	
 	
 	public int insertQna(Connection conn, Qna q, int loginUserNo) {
 		int result=0;
@@ -143,6 +152,32 @@ public class QnaDao {
 		}
 		return q;
 		
+		
+		
+	}
+	public int getListCount(Connection conn) {
+		int listCount = 0;
+		
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("getListCount");
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		return listCount;
 		
 		
 	}

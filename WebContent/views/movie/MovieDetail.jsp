@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.kh.movie.model.vo.Movie" %>    
+<%@ page import="com.kh.movie.model.vo.*" %>    
 <%
 	Movie m = (Movie)request.getAttribute("m");
+
 %>	
 <!DOCTYPE html>
 <html>
@@ -77,16 +78,16 @@
 		margin-top:30px;
 	}
 	#movieSyno{
+		display:inline-block;
 		width:500px;
 		height:400px;
 		border:1px solid black;
-		margin-top:30px;
-		margin-left:250px;
 		text-align:center;
 		font-size:15px;
 		font-weight:bold;
 		padding:10px;
 		border-radius:10px;
+		margin-left:200px;
 	}
 	#movieStillImg{
 		width:600px;
@@ -107,7 +108,7 @@
 	}
 	.replyArea{
 		color:black;
-		margin:auto;
+		margin-left:400px;
 		width:900px;
 		margin-top:80px;
 		
@@ -122,10 +123,143 @@
 		height:80px;
 		background:beige;
 	}
-	.line{border-bottom:1px solid black;}
 	
+	#star a{ text-decoration: none; color: white; } 
+	#star a.on{ color: yellow; }
+
 
 	
+	.line{border-bottom:1px solid black;}
+	*{margin:0;padding:0;}
+    ul,li{list-style:none;}
+    .slide{height:150px;overflow:hidden;}
+    .slide ul{height:100%;}
+    .slide li{height:100%;}
+    .slide li:nth-child(1){background:#faa;}
+    .slide li:nth-child(2){background:#afa;}
+    .slide li:nth-child(3){background:#aaf;}
+    .slide li:nth-child(4){background:#faf;}
+    
+    
+    
+    /*  */
+    
+    .mySlides {display: none}
+		img {vertical-align: middle;}
+		
+		/* Slideshow container */
+		.slideshow-container {
+			diaplay:inline-block;
+		  max-width: 100%;
+		  position: relative;
+		  margin-right:100px;
+		  box-sizing:border-box;
+		}
+		
+		/* Next & previous buttons */
+		.prev, .next {
+		  cursor: pointer;
+		  position: absolute;
+		  top: 50%;
+		  width: auto;
+		  padding:16px;
+		  margin-top: -22px;
+		  color: white;
+		  font-weight: bold;
+		  font-size: 18px;
+		  transition: 0.6s ease;
+		  border-radius: 0 3px 3px 0;
+		}
+		
+		/* Position the "next button" to the right */
+		.next {
+		  right: 0;
+		  border-radius: 3px 0 0 3px;
+		  float:right;
+		}
+		
+		/* On hover, add a black background color with a little bit see-through */
+		.prev:hover, .next:hover {
+		  background-color: rgba(0,0,0,0.8);
+		}
+		
+	
+		
+		/* Number text (1/3 etc) */
+		.numbertext {
+		  color: #f2f2f2;
+		  font-size: 12px;
+		  padding: 8px 12px;
+		  position: absolute;
+		  top: 0;
+		}
+		
+		/* The dots/bullets/indicators */
+		.dot {
+		  cursor: pointer;
+		  height: 15px;
+		  width: 15px;
+		  margin: 0 2px;
+		  background-color: #bbb;
+		  border-radius: 50%;
+		  display: inline-block;
+		  transition: background-color 0.6s ease;
+		}
+		
+		.active, .dot:hover {
+		  background-color: #717171;
+		}
+		
+		/* Fading animation */
+		.fade {
+		  -webkit-animation-name: fade;
+		  -webkit-animation-duration: 1.5s;
+		  animation-name: fade;
+		  animation-duration: 1.5s;
+		}
+		
+		@-webkit-keyframes fade {
+		  from {opacity: .4} 
+		  to {opacity: 1}
+		}
+		
+		@keyframes fade {
+		  from {opacity: .4} 
+		  to {opacity: 1}
+		}
+		
+		/* On smaller screens, decrease text size */
+		@media only screen and (max-width: 300px) {
+		  .prev, .next,.text {font-size: 11px}
+		}
+		
+		.stillImg{
+			display:inline-block;
+			float:right;
+			width:500px;
+			height:500px;
+			margin-top:-300;
+			margin-right:100px;
+		}
+		.star_rating {font-size:0; letter-spacing:-4px;}
+	.star_rating a {
+	    font-size:22px;
+	    letter-spacing:0;
+	    display:inline-block;
+	    margin-left:5px;
+	    color:lightgray;
+	    text-decoration:none;
+	}
+	.star_rating a:first-child {margin-left:0;}
+	.star_rating a.on {color:yellow; text-decoration:none;}
+	.replyArea table tr td p{
+		color:yellow;
+		display:inline-block;
+		}
+	#Wbtn{display:inline-block; float:right;margin-right:150px; margin-top:-30px; outline:0;}
+	#Wbtn:hover{cursor:pointer;}
+		
+		
 </style>
 
 </head>
@@ -159,8 +293,7 @@
 			<p>개봉 : date넣기</p>
 		</div>
 		<div id="input">
-			<button>예매하기</button>
-			<img src="<%=contextPath %>/resources/images/heart1.png" width="30px" height="30px">
+			<button onclick="<%=contextPath%>/">예매하기</button>
 			<button>찜하기</button>
 		</div>
 	</form>
@@ -168,23 +301,54 @@
 	<div id="movieSyno">
 		<p><%=m.getSynopsis() %></p>
 	</div>
-	<div id="movieStillImg">
-		<img>
+	<div class="stillImg">
+		<div class="slideshow-container">
+		
+		<div class="mySlides fade">
+		  <div class="numbertext">1 / 3</div>
+		  <img src="<%=contextPath %>/resources/images/beast01.jpg" style="width:500px; height:400px;">
+		
+		</div>
+		
+		<div class="mySlides fade">
+		  <div class="numbertext">2 / 3</div>
+		  <img src="<%=contextPath %>/resources/images/beast02.jpg" style="width:500px; height:400px;">
+		
+		</div>
+		
+		<div class="mySlides fade">
+		  <div class="numbertext">3 / 3</div>
+		  <img src="<%=contextPath %>/resources/images/beast03.jpg" style="width:500px; height:400px;">
+		
+		</div>
+		
+		<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+		<a class="next" onclick="plusSlides(1)">&#10095;</a>
+		
+		</div>
+		<br>
+		
+		<div style="text-align:center">
+		  <span class="dot" onclick="currentSlide(1)"></span> 
+		  <span class="dot" onclick="currentSlide(2)"></span> 
+		  <span class="dot" onclick="currentSlide(3)"></span> 
+		</div>
 	</div>
+	
 	
 		<!--  댓글 관련 영역 -->
 	<div class="replyArea"> 
 		<!-- 댓글 작성하는 table -->
-		<table border="1" align="center"> 
+		<table id="replyTable" border="2"  align="center"> 
 			<tr>
 				<th>
 				<div>
-					<p id="star_grade">
-						<a href="#">★</a>
-						<a href="#">★</a>
-						<a href="#">★</a>
-						<a href="#">★</a>
-						<a href="#">★</a>
+					<p class="star_rating" onclick="star();">
+						<a href="#" class="on">★</a>
+						<a href="#" class="on">★</a>
+						<a href="#" class="on">★</a>
+						<a href="#" class="on">★</a>
+						<a href="#" class="on">★</a>
 					</p>
 				</div>
 				</th>
@@ -196,23 +360,74 @@
 		</table>
 		
 		<br><br>
+			
 		<div id="replyListArea">
 			<table id="replyList" align="center">
 
 			</table>
+			
 		</div>
-		<br><br><br><br><br>
+		<!-- The Modal -->
+	    <div id="myModal" class="modal">
+	 
+		      <!-- Modal content -->
+		      <div class="modal-content">
+		        <span class="close">&times;</span>                                                               
+		        <h6>비밀번호를 입력해주세요.</h6>
+		        <input id="qnaNewPwd" type="password" width="60px">
+		        <button type="button" id="detailView">입력</button>
+		      </div>
+		 
+	    </div>
+		
 	</div>
-
+</div>
 	<script>
+	
+	var count = 0;
+	var modal = document.getElementById('myModal');
+	var reviewNo;
+	var reviewChart;
 	
 	$(function(){
 		
 		selectReplyList();
 		
-		window.setInterval(selectReplyList , 10000);
+		window.setInterval(selectReplyList , 2000);
 		
-
+		$("#addReply").click(function(){
+			
+			$(".star_rating").children().each(function(){
+				if($(this).attr("class") == "on"){
+					count++;
+				}
+			});
+			console.log(count);
+		});
+		
+		$("#addReply").click(function(){
+			var content = $("#replyContent").val();
+			var movieNo = <%=m.getMovieNo()%>;
+			
+			$.ajax({
+				url:"insertReply.re",
+				data:{
+					content:content,
+					count:count,
+					movieNo:movieNo
+				},
+				type:"post",
+				success:function(result){
+					if(result == 1){
+						selectReplyList();
+						$("#replyContent").val("");
+					}
+				},
+				error:function(){
+					console.log("댓글작성 실패");
+				}
+			});
+		});
 	});
 		function selectReplyList(){
 			var movieNo = <%=m.getMovieNo()%>;
@@ -226,13 +441,17 @@
 					
 					for(var i in list){
 						
-						value += '<tr class="line">' +
-									'<td width="150">' + list[i].id + '</td>' +
+						value += '<tr class="line"  onclick="reviewC();">' +
+									'<td id="reviewId" width="150">' + list[i].id + '</td>' +
 									'<td width="100">' + '<img src="<%=contextPath%>/resources/images/star2.png" width="20" height="20">' + list[i].reviewRating + '</td>' +
 									'<td width="500">' + list[i].reviewText + '</td>' + 
+									'<td width="50"><button id="Wbtn" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
 								'</tr>';
-					}
+								
+					}			
 					$("#replyList").html(value);
+					reviewChart = $("#reviewId").text();
+					
 				},
 				error:function(){
 					console.log("댓글 리스트 조회 ajax 통신 실패!!");
@@ -240,11 +459,51 @@
 			});
 		}
 		
-		$("#star_grade a").click(function(){
-			$(this).parent(),children("a").removeClass("on");
-			$(this).addClass("on").preAll("a").addClass("on");
-			return false;
-		});
+		function star(){
+			$( ".star_rating a" ).click(function() {
+			     $(this).parents().children("a").removeClass("on");
+			     $(this).addClass("on").prevAll("a").addClass("on");
+			     return false;
+			});
+			}
+		
+		
+		var slideIndex = 1;
+		  showSlides(slideIndex);
+		
+		  function plusSlides(n) {
+		    showSlides(slideIndex += n);
+		  }
+		
+		  function currentSlide(n) {
+		    showSlides(slideIndex = n);
+		  }
+		
+		  function showSlides(n) {
+		    var i;
+		    var slides = document.getElementsByClassName("mySlides");
+		    var dots = document.getElementsByClassName("dot");
+		    if (n > slides.length) {slideIndex = 1}    
+		    if (n < 1) {slideIndex = slides.length}
+		    for (i = 0; i < slides.length; i++) {
+		        slides[i].style.display = "none";  
+		    }
+		    for (i = 0; i < dots.length; i++) {
+		        dots[i].className = dots[i].className.replace(" active", "");
+		    }
+		    slides[slideIndex-1].style.display = "block";  
+		    dots[slideIndex-1].className += " active";
+		  }
+		  
+		  function reviewC(){
+			 var vwl = $("#reviewId").text();
+			 console.log(vwl);
+		  }
+		  
+		  
+		  
+		
+
 	</script>
 	
 	

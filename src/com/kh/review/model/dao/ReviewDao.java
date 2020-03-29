@@ -1,6 +1,6 @@
 package com.kh.review.model.dao;
 
-import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.review.model.vo.ReviewLHJ;
+import com.kh.review.model.vo.*;
 
 public class ReviewDao {
 	
@@ -27,7 +27,7 @@ public class ReviewDao {
 		}
 	}
 	
-	public ArrayList<ReviewLHJ> selectReviewList(Connection conn, int movieNo){
+	public ArrayList<ReviewLHJ> selectReviewList(Connection conn, int movieNo, int loginUserNo){
 		
 		ArrayList<ReviewLHJ> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -36,7 +36,10 @@ public class ReviewDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setInt(1, movieNo);
+			pstmt.setInt(2, loginUserNo);
+			
 			
 			rset = pstmt.executeQuery();
 			while(rset.next()){
@@ -50,7 +53,7 @@ public class ReviewDao {
 				r.setId(rset.getString("ID"));
 				
 				list.add(r);
-				System.out.println(list);
+				
 			}
 
 		} catch (SQLException e) {
@@ -61,5 +64,33 @@ public class ReviewDao {
 		}
 		return list;
 	}
+	
+public int insertReview(Connection conn, ReviewLHJ r, int loginUserNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, loginUserNo);
+			pstmt.setInt(2, r.getMovieNo());
+			pstmt.setString(3, r.getReviewText());
+			pstmt.setInt(4, r.getReviewRating());
+			
+			result = pstmt.executeUpdate();
+			
+			System.out.println(result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
 
 }
