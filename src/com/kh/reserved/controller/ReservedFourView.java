@@ -31,12 +31,8 @@ public class ReservedFourView extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
-		Integer userNo = null;
-		if((Member)session.getAttribute("loginUser")==null) {
-			userNo = 1;
-		}else {
-			userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		}
+		Integer userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		
 		
 		// 기본값 세팅 말고 사용자에게 잘못된 요청임을 알림
 		String sectionNo = request.getParameter("sectionNo");

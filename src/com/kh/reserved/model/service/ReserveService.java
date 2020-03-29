@@ -106,7 +106,7 @@ public class ReserveService {
 		return lor;
 	}
 	
-	/** 5. 전체 예매(상영전) 갯수받기
+	/** 5. 전체 예매(상영전) 총갯수받기
 	 * @return
 	 */
 	public int countReserved() {
@@ -119,6 +119,10 @@ public class ReserveService {
 	}
 
 
+	/** 6. 예매번호로 예매정보 싹 불러오기
+	 * @param reservedInfoId 예매번호
+	 * @return
+	 */
 	public ListOfReserved findReservedInfo(Integer reservedInfoId) {
 		Connection conn = getConnection();
 		ListOfReserved reservedInfo = new ReserveDao().findReservedInfo(conn, reservedInfoId);
@@ -132,5 +136,18 @@ public class ReserveService {
 		return reservedInfo;
 	}
 
+	/** 7. LoginUser No로 예매정보 불러오기
+	 * @param userNo
+	 * @return
+	 */
+	public List<ListOfReserved> findServedInfoByUserNo(Integer userNo){
+		Connection conn = getConnection();
+		
+		List<ListOfReserved> lors = new ReserveDao().findServedInfoByUserNo(conn, userNo);
+	
+		close(conn);
+		
+		return lors;
+	}
 	
 }
