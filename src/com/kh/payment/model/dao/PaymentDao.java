@@ -72,7 +72,29 @@ public class PaymentDao {
 		}finally {
 			close(pstmt);
 		}
+		return result;
+	}
+
+	/** 2_2. 결제 취소시 회원의 예매횟수 -1
+	 * @param conn
+	 * @param reservedNo
+	 * @return
+	 */
+	public int downCount(Connection conn, String reservedNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("downCount");
 		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reservedNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
 		return result;
 	}
 

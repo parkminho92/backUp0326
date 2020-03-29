@@ -120,7 +120,8 @@ public class Member {
 		this.tel = tel;
 		this.id = id;
 	}
-
+	
+	
 	public int getMemberNo() {
 		return memberNo;
 	}

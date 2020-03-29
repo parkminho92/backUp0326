@@ -136,21 +136,19 @@ public class MovieDao {
 	}
 		
 	
-  
-  
-  /* cbs */
-	public List<Movie> selectScreen(Connection conn, String theaterNo, String screenDate) {
+	public List<Movie> selectScreen(Connection conn, String theaterNo, String screenDate, String lineUp) {
 		List<Movie> list = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectS");
+		sql += " ORDER BY " + screenOrderBy(lineUp);
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, theaterNo);
 			pstmt.setString(2, screenDate);
-			
+
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				list.add(new Movie(rset.getInt("MOVIE_NO"), rset.getString("TITLE"), rset.getInt("AGE_LIMIT")));
@@ -165,6 +163,19 @@ public class MovieDao {
 		return list;
 	}
 	
+	private String screenOrderBy(String lineUp) {
+		switch (lineUp) {
+		case "2":
+			return "TITLE";
+		case "3":
+			return "AGE_LIMIT";
+		case "4":
+			return "ON_DATE";
+		}
+		throw new RuntimeException("Not Support lineUp");
+	}
+	
+	/* CBS*/
 	public int insertMovie(Connection conn, MovieCBS mv) {
 		
 		int result=0;

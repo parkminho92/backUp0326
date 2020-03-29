@@ -71,11 +71,11 @@
 	#reserved_choose3 .script_payment .choose_payment>ul>li>div {display: none;}
 	#reserved_choose3 .script_payment .choose_payment>ul>li.active>div {display: block;}
 	    
-	 .ticket_cost{ font-size: 25px; text-align: center; color:#fff; font-weight: 700; margin-top: 20px;}
+	 .ticket_cost{ font-size: 25px; text-align: center; color:#fff; font-weight: 700; margin-top:-60px;}
+	 .ticket_cost p{ padding: 10px;}
 	
 	 .btns .move_step{margin-top: 30px; float: right;}
-	 .btns .move_step button{ width: 100px; height: 35px; line-height: 35px; text-align: center; border-radius: 5px; border:0; font-size: 15px;}
-	 .btns .move_step button:nth-child(2){background: orangered; font-weight: 700; color: white;}
+	 .btns .move_step button{ width: 100px; height: 35px; line-height: 35px; text-align: center; border-radius: 5px; border:0; font-size: 15px; margin-right: 100px;}
 	    
 	     
     </style>
@@ -154,12 +154,16 @@
                         </ul>
     
                     </div>
-                    <div class="ticket_cost">총 금액 : 
-                    <fmt:formatNumber value="${totalCost}" pattern="#0,000"/>원</div>
+
+                    <div class="ticket_cost">
+                    	<p> 결제 방식을 선택하여 주십시오.<br> </p>
+                   		 <p> 총 금액 : 
+                    		<fmt:formatNumber value="${totalCost}" pattern="#0,000"/>원
+                    	</p>
+                    </div>
                     <div class="btns">
                         <div class="move_step">
                             <button>&lt; prev</button>
-                            <button>결제하기</button>
                         </div> 
                     </div>
                 </div>
