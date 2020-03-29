@@ -4,8 +4,10 @@ import static com.kh.common.JDBCTemplate.close;
 import static com.kh.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.still_image.model.dao.StillImageDao;
+import com.kh.still_image.model.vo.StillImage;
 
 public class StillImageService {
 
@@ -20,6 +22,17 @@ public class StillImageService {
 		
 		close(conn);
 		return mainPoster;
+	}
+	
+	public ArrayList<StillImage> selectThList(){
+		
+		Connection conn = getConnection();
+		
+		ArrayList<StillImage> list = new StillImageDao().selectThList(conn);
+		
+		close(conn);
+		return list;
+	
 	}
 
 	

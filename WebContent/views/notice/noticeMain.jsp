@@ -127,7 +127,7 @@
 	<p class="mainContent" align="center">자주 찾는 질문</p>
 	<br><br><br>
 	<div align="center">
-	<button type="button" class="btns">바로가기</button>
+	<button type="button" class="btns" onclick="location.href='<%=contextPath%>/faq.fq'">바로가기</button>
 	</div>
 	</div>
 	

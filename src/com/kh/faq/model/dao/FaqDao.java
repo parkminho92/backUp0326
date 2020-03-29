@@ -44,10 +44,12 @@ public class FaqDao {
 		try {
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery(sql);
+			
       while(rset.next()) {
 				list.add(new Faq(rset.getInt("faq_no"),
 								 rset.getString("question"),
-								 rset.getString("answer")));
+								 rset.getString("answer"),
+								 rset.getString("type")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,7 +110,8 @@ public class FaqDao {
       while(rset.next()) {
 				list.add(new Faq(rset.getInt("faq_no"),
 								 rset.getString("question"),
-								 rset.getString("answer")));
+								 rset.getString("answer"),
+								 rset.getString("type")));
 			}
 
 		} catch (SQLException e) {

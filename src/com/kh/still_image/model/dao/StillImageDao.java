@@ -1,13 +1,17 @@
 package com.kh.still_image.model.dao;
 
+import static com.kh.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
-import static com.kh.common.JDBCTemplate.*;
+
+import com.kh.still_image.model.vo.StillImage;
 
 public class StillImageDao {
 
@@ -45,6 +49,44 @@ public class StillImageDao {
 		
 		return mainPoster;
 	}
+	public ArrayList<StillImage> selectThList(Connection conn){
+		
+		ArrayList<StillImage> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectThList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				StillImage s = new StillImage();
+				s.setAddfileNo(rset.getInt("ADDFILE_NO"));
+				s.setOriginName(rset.getString("ORIGIN_NAME"));
+				s.setModifyName(rset.getString("MODIFY_NAME"));
+				s.setLevel(rset.getInt("LEVEL"));
+				s.setMovieNo(rset.getInt("MOVIE_NO"));
+				
+				list.add(s);
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+		
+		
+		
+		
+	}
+	
 	
 	
 	
