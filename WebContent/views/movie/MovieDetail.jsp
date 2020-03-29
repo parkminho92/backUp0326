@@ -18,7 +18,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	body{background:#f5f6f7;}
 	.outer{color:black;}
 	#movieDetail{
 		width:300px;

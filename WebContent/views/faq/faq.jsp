@@ -136,6 +136,7 @@
             		 	<%for(Faq f : list){ %>
             		 	<div id="contentArea">
             		 		<div id="contentNo"><%=f.getFaqNo()%></div>
+            		 		<div><%=f.getType() %></div>
             		 		<div class="contentQ"><%=f.getQuestion() %></div>
             		 		<div class="contentA"><%= f.getAnswer().replace("\r\n","<br>") %></div>
             		 		
