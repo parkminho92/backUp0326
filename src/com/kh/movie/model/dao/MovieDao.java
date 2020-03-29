@@ -17,6 +17,7 @@ import com.kh.menubar.controller.NewMoviesDto;
 import com.kh.menubar.controller.TopMovieDto;
 import com.kh.movie.model.vo.Movie;
 import com.kh.movie.model.vo.MovieCBS;
+import com.kh.movie.model.vo.MovieLHJ;
 import com.kh.movie.model.vo.PageInfo;
 import com.kh.still_image.model.vo.StillImageCBS;
 
@@ -36,9 +37,9 @@ public class MovieDao {
  
 	
 	/* hajin */
-	public Movie selectList(Connection conn, int movieNo){
+	public MovieLHJ selectList(Connection conn, int movieNo){
 		
-		Movie m = null;
+		MovieLHJ m = null;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -47,10 +48,11 @@ public class MovieDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, movieNo);	rset = pstmt.executeQuery();
+			pstmt.setInt(1, movieNo);	
+			rset = pstmt.executeQuery();
 		
 			if(rset.next()) {
-				m = new Movie(rset.getInt("MOVIE_NO"),
+				m = new MovieLHJ(rset.getInt("MOVIE_NO"),
 								   rset.getString("TITLE"),
 								   rset.getInt("RUNTIME"),
 								   rset.getString("DIRECTOR"),
@@ -58,7 +60,9 @@ public class MovieDao {
 								   rset.getInt("AGE_LIMIT"),
 								   rset.getString("SYNOPSIS"),
 								   rset.getDate("ON_DATE"),
-								   rset.getString("STATUS"));
+								   rset.getString("STATUS"),
+								   rset.getDate("OFF_DATE"),
+								   rset.getString("MODIFY_NAME"));
 			}
 		
 		

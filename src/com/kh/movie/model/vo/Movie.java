@@ -33,6 +33,8 @@ public class Movie {
 	
 	/* OFF_DATE */
 	private Date offDate;
+	
+	
 
 	
 	

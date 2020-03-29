@@ -1,6 +1,7 @@
 package com.kh.movie.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.menubar.controller.NewMoviesDto;
+import com.kh.menubar.controller.TopMovieDto;
 import com.kh.movie.model.service.MovieService;
-import com.kh.movie.model.vo.Movie;
+import com.kh.movie.model.vo.MovieLHJ;
 
 /**
  * Servlet implementation class MovieDetailServlet
@@ -33,13 +36,13 @@ public class MovieDetailServlet extends HttpServlet {
 	
 		int movieNo = Integer.parseInt(request.getParameter("movieNo"));
 		
-		Movie m = new MovieService().selectList(movieNo);
+		MovieLHJ m = new MovieService().selectList(movieNo);
 		
 		request.setAttribute("m", m);
 		request.getRequestDispatcher("views/movie/MovieDetail.jsp").forward(request,response);
 		
-		
-		
+		List<TopMovieDto> tmdPoster = new MovieService().topFiveMovies(0);
+		List<NewMoviesDto> nm = new MovieService().newMovies();
 		
 		
 	}

@@ -1,8 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.kh.movie.model.vo.*" %>    
+<%@ page import="com.kh.movie.model.vo.*,
+				java.util.*,
+				com.kh.menubar.controller.TopMovieDto,
+				com.kh.movie.model.service.MovieService,
+				com.kh.menubar.controller.NewMoviesDto" %>    
 <%
-	Movie m = (Movie)request.getAttribute("m");
+	MovieLHJ m = (MovieLHJ)request.getAttribute("m");
+
+	List<TopMovieDto> tmdPoster = new MovieService().topFiveMovies(0);
+	List<NewMoviesDto> nm = new MovieService().newMovies();
 
 %>	
 <!DOCTYPE html>
@@ -11,9 +18,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.outer{
-		color:black;
-	}
+	body{background:#f5f6f7;}
+	.outer{color:black;}
 	#movieDetail{
 		width:300px;
 		font-size:30px;
@@ -36,42 +42,44 @@
 	#movieImgMain{
 		width:400px;
 		height:400px;
-		border:1px solid black;
 	}
 	#movieName{
 		width:400px;
 		height:30px;
-		border:1px solid black;
 		margin-top:-400px;
 		margin-left:500px;
-		border-radius:10px;
+		border-radius:15px;
 		font-size:20px;
 		font-weight:bold;
 		vertical-align:middle;
 		line-height:1.5em;
 		padding:3px;
+		text-align:center;
+		background:beige;
+		
 	}
 	#movieReporter{
 		width:300px;
 		height:30px;
-		border:1px solid black;
 		margin-top:30px;
 		margin-left:500px;
-		border-radius:10px;
+		border-radius:15px;
 		vertical-align:middle; 
 		line-height:2em;
 		font-weight:bold;
 		padding:5px;
+		background:beige;
 	}
 	#movieInfo{
-		border:1px solid black;
 		width:300px;
 		height:200px;
-		border-radius:10px;
+		border-radius:15px;
 		margin-left:500px;
 		margin-top:30px;
 		font-weight:bold;
 		padding:5px;
+		background:beige;
+		text-align:center;
 	}
 	#input{
 		margin-left:550px;
@@ -81,13 +89,13 @@
 		display:inline-block;
 		width:500px;
 		height:400px;
-		border:1px solid black;
-		text-align:center;
 		font-size:15px;
 		font-weight:bold;
 		padding:10px;
 		border-radius:10px;
 		margin-left:200px;
+		background:beige;
+		text-align:center;
 	}
 	#movieStillImg{
 		width:600px;
@@ -99,13 +107,17 @@
 	#input button{
 		outline:0;
 		border:0;
-		border-radius:3px;
-		background:lightsalmon;
-		width:60px;
-		height:20px;
+		border-radius:5px;
+		background:lightgray;
+		width:70px;
+		height:30px;
 		margin:20px;
-		align:center
+		align:center;
+		padding:5px;
+		color:white;
+		font-weight:bold;
 	}
+	#input button:hover{cursor:pointer; background:gray;}
 	.replyArea{
 		color:black;
 		margin-left:400px;
@@ -156,34 +168,6 @@
 		  box-sizing:border-box;
 		}
 		
-		/* Next & previous buttons */
-		.prev, .next {
-		  cursor: pointer;
-		  position: absolute;
-		  top: 50%;
-		  width: auto;
-		  padding:16px;
-		  margin-top: -22px;
-		  color: white;
-		  font-weight: bold;
-		  font-size: 18px;
-		  transition: 0.6s ease;
-		  border-radius: 0 3px 3px 0;
-		}
-		
-		/* Position the "next button" to the right */
-		.next {
-		  right: 0;
-		  border-radius: 3px 0 0 3px;
-		  float:right;
-		}
-		
-		/* On hover, add a black background color with a little bit see-through */
-		.prev:hover, .next:hover {
-		  background-color: rgba(0,0,0,0.8);
-		}
-		
-	
 		
 		/* Number text (1/3 etc) */
 		.numbertext {
@@ -276,10 +260,11 @@
 		</div>
 	<br clear="both">
 	<form id="movieMainDetail">
+	<% if(tmdPoster.size()>= 5){%>
 		<div id="movieImgMain">
-			<img src="">
+			<img src="<%=contextPath%>/resources/images/<%=m.getModifyName()%>" width="400px" height="400">
 		</div>
-		
+	<%} %>	
 		<div id="movieName">
 			<p><%=m.getTitle() %></p>
 		</div>
@@ -293,7 +278,7 @@
 			<p>개봉 : date넣기</p>
 		</div>
 		<div id="input">
-			<button onclick="<%=contextPath%>/">예매하기</button>
+			<button>예매하기</button>
 			<button>찜하기</button>
 		</div>
 	</form>
@@ -321,9 +306,6 @@
 		  <img src="<%=contextPath %>/resources/images/beast03.jpg" style="width:500px; height:400px;">
 		
 		</div>
-		
-		<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-		<a class="next" onclick="plusSlides(1)">&#10095;</a>
 		
 		</div>
 		<br>
@@ -404,7 +386,6 @@
 			});
 			console.log(count);
 		});
-		
 		$("#addReply").click(function(){
 			var content = $("#replyContent").val();
 			var movieNo = <%=m.getMovieNo()%>;
@@ -429,6 +410,8 @@
 			});
 		});
 	});
+	
+		
 		function selectReplyList(){
 			var movieNo = <%=m.getMovieNo()%>;
 			
@@ -441,16 +424,16 @@
 					
 					for(var i in list){
 						
-						value += '<tr class="line"  onclick="reviewC();">' +
+						value += '<tr class="line">' +
 									'<td id="reviewId" width="150">' + list[i].id + '</td>' +
 									'<td width="100">' + '<img src="<%=contextPath%>/resources/images/star2.png" width="20" height="20">' + list[i].reviewRating + '</td>' +
 									'<td width="500">' + list[i].reviewText + '</td>' + 
-									'<td width="50"><button id="Wbtn" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
+									'<td width="50"><button onclick="btnCL();" id="Wbtn" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
 								'</tr>';
 								
 					}			
 					$("#replyList").html(value);
-					reviewChart = $("#reviewId").text();
+					
 					
 				},
 				error:function(){
@@ -458,6 +441,7 @@
 				}
 			});
 		}
+	
 		
 		function star(){
 			$( ".star_rating a" ).click(function() {
@@ -495,12 +479,13 @@
 		    dots[slideIndex-1].className += " active";
 		  }
 		  
-		  function reviewC(){
-			 var vwl = $("#reviewId").text();
-			 console.log(vwl);
-		  }
 		  
-		  
+		function btnCL(){
+			reviewChart = $("#replyList").text();
+			modal.style.display = "block";
+		
+			console.log(reviewChart);
+		}		  
 		  
 		
 
