@@ -40,8 +40,21 @@ public class Movie {
 	}
 
 	public Movie(int movieNo, String title, int runtime, String director, String actor, int ageLimit, String synopsis,
+			Date onDate, String status, Date offDate) {
+		this.movieNo = movieNo;
+		this.title = title;
+		this.runtime = runtime;
+		this.director = director;
+		this.actor = actor;
+		this.ageLimit = ageLimit;
+		this.synopsis = synopsis;
+		this.onDate = onDate;
+		this.offDate = offDate;
+		this.status = status;
+	}
+	
+	public Movie(int movieNo, String title, int runtime, String director, String actor, int ageLimit, String synopsis,
 			Date onDate, String status) {
-		super();
 		this.movieNo = movieNo;
 		this.title = title;
 		this.runtime = runtime;

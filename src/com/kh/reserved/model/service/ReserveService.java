@@ -103,6 +103,7 @@ public class ReserveService {
 			r.setSeatNo(seatNo);
 		}
 		
+		close(conn);
 		return lor;
 	}
 	
@@ -144,10 +145,23 @@ public class ReserveService {
 		Connection conn = getConnection();
 		
 		List<ListOfReserved> lors = new ReserveDao().findServedInfoByUserNo(conn, userNo);
-	
+		
 		close(conn);
 		
 		return lors;
+	}
+
+	/** 8. LoginUser No로 예매한 총갯수 가져오기
+	 * @param userNo
+	 * @return
+	 */
+	public int countReserved(Integer userNo) {
+		Connection conn = getConnection();
+		
+		int result = new ReserveDao().countReserved(conn, userNo);
+		
+		close(conn);
+		return result;
 	}
 	
 }

@@ -30,7 +30,15 @@ public class MovieService {
 		return m;
   
   }
-	
+	public Movie selectL(int movieNo){
+		Connection conn = getConnection();
+		Movie m = new MovieDao().selectL(conn, movieNo);
+
+	close(conn);
+	return m;
+
+}
+
 	
   
 	public List<Movie> selectScreen(String theaterNo, String screenDate, String lineUp) {

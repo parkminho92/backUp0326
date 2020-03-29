@@ -492,7 +492,43 @@ public ArrayList<Movie> selectOffList(Connection conn, PageInfo pi) {
 	return list;
 }
 
+public Movie selectL(Connection conn, int movieNo){
+	
+	Movie m = null;
+	
+	PreparedStatement pstmt = null;
+	ResultSet rset = null;
+	
+	String sql = prop.getProperty("selectL");
+	
+	try {
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, movieNo);	
+		rset = pstmt.executeQuery();
+	
+		if(rset.next()) {
+			m = new Movie(rset.getInt("MOVIE_NO"),
+							   rset.getString("TITLE"),
+							   rset.getInt("RUNTIME"),
+							   rset.getString("DIRECTOR"),
+							   rset.getString("ACTOR"),
+							   rset.getInt("AGE_LIMIT"),
+							   rset.getString("SYNOPSIS"),
+							   rset.getDate("ON_DATE"),
+							   rset.getString("STATUS"),
+							   rset.getDate("OFF_DATE"));
+		}
+	
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally {
+		close(rset);
+		close(pstmt);
+	}
+		return m;
 
+	
+}
   
 
 }
