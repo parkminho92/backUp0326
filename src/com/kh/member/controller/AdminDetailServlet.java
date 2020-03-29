@@ -1,4 +1,4 @@
-package com.kh.faq.controller;
+package com.kh.member.controller;
 
 import java.io.IOException;
 
@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.faq.model.service.FaqService;
-import com.kh.faq.model.vo.Faq;
+import com.kh.member.model.service.MemberService;
+import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class FaqInsertServlet
+ * Servlet implementation class AdminDetailServlet
  */
-@WebServlet("/insert.fq")
-public class FaqInsertServlet extends HttpServlet {
+@WebServlet("/adminDetail.me")
+public class AdminDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInsertServlet() {
+    public AdminDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,21 +30,16 @@ public class FaqInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
-		String question = request.getParameter("question");
-		String answer = request.getParameter("answer");
+
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
 		
-		Faq f = new Faq();
-		f.setFaqNo(faqNo);
-		f.setQuestion(question);
-		f.setAnswer(answer);
+		Member m = new MemberService().selectAdminMember(memberNo);
 		
-		int result = new FaqService().insertFaq(f);
-		
-		if(result > 0) {
-			response.sendRedirect("list.fq");
+		if(m != null) {
+			request.setAttribute("m", m);
+			request.getRequestDispatcher("views/member/adminDetailView.jsp").forward(request, response);
 		}else {
-			request.setAttribute("msg", "작성 실패");
+			request.setAttribute("msg", "회원상세정보보기 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}

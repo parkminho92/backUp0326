@@ -6,9 +6,11 @@ import static com.kh.common.JDBCTemplate.getConnection;
 import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Member;
+import com.kh.member.model.vo.PageInfo;
 
 public class MemberService {
 
@@ -129,5 +131,48 @@ public class MemberService {
 		
 		
 		}
+	
+	/** 관리자 회원 리스트 총 개수
+	 * @return
+	 */
+	public int adminListCount() {
+		Connection conn = getConnection();
+		
+		int listCount = new MemberDao().adminListCount(conn);
+		
+		close(conn);
+		
+		return listCount;
+	}
+	
+	/** 관리자 회원 리스트
+	 * @param pi
+	 * @return
+	 */
+	public ArrayList<Member> selectList(PageInfo pi) {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> list = new MemberDao().selectList(conn, pi);
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	/** 관리자 회원 상세보기
+	 * @param memberNo
+	 * @return
+	 */
+	public Member selectAdminMember(int memberNo) {
+		Connection conn = getConnection();
+		
+		Member m = null;
+		
+		m = new MemberDao().selectAdminMember(conn, memberNo);
+		
+		close(conn);
+		
+		return m;
+	}
 	
 }

@@ -127,7 +127,41 @@
             	function listReserved(){
             		location.href="<%=request.getContextPath()%>/listAllReserved.do"
             	}
-            
+            	
+            	/* 관리자 회원 관리 */
+            	function goAdminList(){
+            		location.href = "<%=request.getContextPath()%>/adminList.me";
+            	}
+            	
+            	/* 관리자 1:1문의 */
+            	function goQna(){
+                	location.href = "<%=request.getContextPath()%>/adminList.qa";
+                }
+                
+            	/* 관리자 FAQ */
+                function goFaq(){
+        			location.href = "<%=request.getContextPath()%>/adminList.fq";
+        		}
+                
+            	/* 관리자 공지사항 */
+                function goNotice(){
+        			location.href = "<%=request.getContextPath()%>/adminList.no";
+        		}
+                
+                function goReview(){
+        			location.href = "<%=request.getContextPath()%>/adminList.re";
+        		}
+                
+                /* 관리자 대관문의 */
+                function goBorrowRoom(){
+        			location.href = "<%=request.getContextPath()%>/adminList.br";
+        		}
+                
+                /* 관리자 분실물관리 */
+                function goLostarticle(){
+        			location.href = "<%=request.getContextPath()%>/adminList.lo";
+        		}
+                
             
             </script>
             
@@ -149,7 +183,7 @@
             
             <button class="listBtn">회원관리</button>
             <div class="menu">
-                <label>회원 리스트</label><br>
+                <label onclick="goAdminList();">회원 리스트</label><br>
                 <label>블랙 리스트</label><br>
                 
             </div>
@@ -161,13 +195,12 @@
             </div>
             <button class="listBtn">게시물관리</button>
             <div class="menu">
-                <label>1:1 문의</label><br>
-                <label>FAQ</label><br>
-                <label>공지사항</label><br>
-                <label>리뷰</label><br>
-                <label>대관문의</label><br>
-                <label>분실물관리</label><br>
-                <label>광고관리</label>
+                <label class="detail" onclick="goQna();">1:1 문의</label><br>
+                <label class="detail" onclick="goFaq();">FAQ</label><br>
+                <label class="detail" onclick="goNotice();">공지사항</label><br>
+                <label class="detail" onclick="goReview();">리뷰</label><br>
+                <label class="detail" onclick="goBorrowRoom();">대관문의</label><br>
+                <label class="detail" onclick="goLostarticle();">분실물관리</label><br>
             </div>
             <button class="listBtn">통계관리</button>
             <div class="menu">

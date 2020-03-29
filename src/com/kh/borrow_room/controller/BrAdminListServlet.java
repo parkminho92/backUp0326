@@ -64,7 +64,7 @@ public class BrAdminListServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		
-		request.getRequestDispatcher("views/borrowRoom/adminListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/borrow_room/adminListView.jsp").forward(request, response);
 	}
 
 	/**

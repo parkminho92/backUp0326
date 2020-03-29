@@ -9,7 +9,7 @@
 <body>
 	<!-- 원본파일 수정하기 -->
 	
-	<%@ include file="/views/common/mainView.jsp" %>
+	<%@ include file="/views/common/menubar.jsp" %>
 
 <!-- 포크파일 수정하기 -->
 
