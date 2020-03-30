@@ -1,6 +1,6 @@
 package com.kh.faq.model.dao;
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.faq.model.vo.Faq;
-import com.kh.faq.model.vo.PageInfo;
+import com.kh.faq.model.vo.*;
+
 
 public class FaqDao {
 
@@ -28,42 +28,15 @@ public class FaqDao {
 			e.printStackTrace();
 		}
 	}
-	
-  
 
   /* hajin */
-	public ArrayList<Faq> selectList(Connection conn){
-		
-		ArrayList<Faq> list = new ArrayList<>();
-  
-		Statement stmt = null;
-		ResultSet rset = null;
-  
-  String sql = prop.getProperty("selectList");
-		
-		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(sql);
-      while(rset.next()) {
-				list.add(new Faq(rset.getInt("faq_no"),
-								 rset.getString("question"),
-								 rset.getString("answer")));
-			}	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(stmt);
-		}
-		return list;
-	}
-  
+	
 
   
   /* cbs */
 	public int getListCount(Connection conn) {
 		int listCount = 0;
-  	Statement stmt = null;
+		Statement stmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("getListCount");
 		
@@ -85,15 +58,14 @@ public class FaqDao {
 		return listCount;
 	}
 	
-  
-	public ArrayList<Faq> selectList(Connection conn, PageInfo pi) {
+	public ArrayList<Faq> selectList(Connection conn, PageInfo pi){
 		ArrayList<Faq> list = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("seletList");
-		
+		String sql = prop.getProperty("selectAdminList");
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -105,12 +77,13 @@ public class FaqDao {
 			
 			rset = pstmt.executeQuery();
 			
-      while(rset.next()) {
+			while(rset.next()) {
 				list.add(new Faq(rset.getInt("faq_no"),
 								 rset.getString("question"),
-								 rset.getString("answer")));
+								 rset.getString("answer"),
+								 rset.getString("type"),
+								 rset.getString("status")));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -121,7 +94,6 @@ public class FaqDao {
 		return list;
 	}
 	
-  
 	public int insertFaq(Connection conn, Faq f) {
 		int result = 0;
 		
@@ -131,9 +103,9 @@ public class FaqDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, f.getFaqNo());
-			pstmt.setString(2, f.getQuestion());
-			pstmt.setString(3, f.getAnswer());
+			pstmt.setString(1, f.getQuestion());
+			pstmt.setString(2, f.getAnswer());
+			pstmt.setString(3, f.getType());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -145,7 +117,6 @@ public class FaqDao {
 		return result;
 	}
 	
-  
 	public Faq selectFaq(Connection conn, int faqNo) {
 		Faq f = null;
 		
@@ -156,6 +127,16 @@ public class FaqDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, faqNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				f = new Faq(rset.getInt("faq_no"),
+							rset.getString("type"),
+							rset.getString("question"),
+							rset.getString("answer"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -165,5 +146,24 @@ public class FaqDao {
 		
 		return f;
 	}
-
+	
+	public int deleteFaq(Connection conn, int faqNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("deleteFaq");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, faqNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

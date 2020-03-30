@@ -41,7 +41,6 @@ public class EncryptFilter implements Filter {
 		// request --> encRequest
 		EncryptWrapper encRequest = new EncryptWrapper((HttpServletRequest)request);
 		
-		
 		chain.doFilter(encRequest, response);
 	}
 

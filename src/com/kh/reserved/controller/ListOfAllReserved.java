@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.common.StringUtils;
 import com.kh.reserved.model.dao.ListOfReserved;
 import com.kh.reserved.model.service.ReserveService;
+import com.kh.reserved.model.vo.PageInfo;
+import com.kh.reserved.model.vo.PageRequest;
 
 /**
  * Servlet implementation class ListOfAllReserved
@@ -19,36 +22,19 @@ import com.kh.reserved.model.service.ReserveService;
 public class ListOfAllReserved extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		List<ListOfReserved> lor = new ReserveService().ListOfAllReserved();
-		
-		//-- 페이징 처리 --
-		int listCount;		//총게시글
-		int currentPage; 	//현재페이지(요청페이지)
-		int startPage;		//현재 페이지 하단에 보여지는 페이징 바의 시작
-		int endPage;		// " 끝
-		int maxPage;		//전체 페이지의 가장 마지막 페이지
-		int pageLimit;		//한 페이지에 보여질 페이지 최대 갯수
-		int boardLimit;		//한 페이지에 보여질 게시글 최대 갯수
-		
-		listCount = lor.size();
-		currentPage = 1;
-		if(request.getParameter("currentPage")!=null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-		pageLimit = 5;
-		boardLimit = 7;
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		String currentPage = request.getParameter("currentPage");
+		String countPerPage = request.getParameter("countPerPage");
+		PageRequest pageRequest = new PageRequest(currentPage, countPerPage);
+
+		// 예약 총갯수 조회해오기
+		int totalCount = new ReserveService().countReserved();
+		// 하단 페이지 표시 정보
+		PageInfo pageInfo = new PageInfo(totalCount, pageRequest);
+		// 페이지 첫 게시글번호/마지막 번호로 페이지에 맞는 예약정보게시글 조회
+		List<ListOfReserved> lor = new ReserveService().ListOfAllReserved(pageRequest);
+
 		request.setAttribute("lor", lor);
-		
+		request.setAttribute("pageInfo", pageInfo);
 		request.getRequestDispatcher("views/reserved/adminReservedView.jsp").forward(request, response);
 	
 	}

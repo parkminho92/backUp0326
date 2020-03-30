@@ -1,32 +1,18 @@
 package com.kh.faq.model.service;
 
-import static com.kh.common.JDBCTemplate.*;
-
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.faq.model.dao.FaqDao;
-import com.kh.faq.model.vo.Faq;
-import com.kh.faq.model.vo.PageInfo;
+import com.kh.faq.model.vo.*;
+
 
 public class FaqService {
-	
-  
-	/** 1. Faq리스트 조회용 서비스
-	 * @return
-	 */
-	public ArrayList<Faq> selectList(){
-		
-		Connection conn = getConnection();
-		
-		ArrayList<Faq> list = new FaqDao().selectList(conn);
-		
-		close(conn);
-		return list;
-	}
-
-
 
 	/** faq게시판 리스트 총 개수 조회
 	 * @return
@@ -75,6 +61,10 @@ public class FaqService {
 		return result;
 	}
 	
+	/** faq 상세조회
+	 * @param faqNo
+	 * @return
+	 */
 	public Faq selectFaq(int faqNo) {
 		Connection conn = getConnection();
 		
@@ -84,6 +74,24 @@ public class FaqService {
 		
 		return f;
 	}
-
-
+	
+	/** faq 삭제
+	 * @param faqNo
+	 * @return
+	 */
+	public int deleteFaq(int faqNo) {
+		Connection conn = getConnection();
+		
+		int result = new FaqDao().deleteFaq(conn, faqNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
 }

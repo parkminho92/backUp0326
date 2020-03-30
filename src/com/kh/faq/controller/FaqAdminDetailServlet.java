@@ -1,23 +1,27 @@
 package com.kh.faq.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.faq.model.service.FaqService;
+import com.kh.faq.model.vo.Faq;
+
 /**
- * Servlet implementation class FaqInsertFormServlet
+ * Servlet implementation class FaqDetailServlet
  */
-@WebServlet("/insertForm.fq")
-public class FaqInsertFormServlet extends HttpServlet {
+@WebServlet("/adminDetail.fq")
+public class FaqAdminDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInsertFormServlet() {
+    public FaqAdminDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +31,18 @@ public class FaqInsertFormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("views/faq/InsertForm.jsp").forward(request, response);
+		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
+		
+		Faq f = new FaqService().selectFaq(faqNo);
+		
+		if(f != null) {
+			request.setAttribute("f", f);
+			request.getRequestDispatcher("views/faq/adminDetailView.jsp").forward(request, response);
+		}else {
+			request.setAttribute("msg", "상세조회 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
+		
 	}
 
 	/**

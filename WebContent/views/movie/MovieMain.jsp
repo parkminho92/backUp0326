@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, com.kh.menubar.controller.*, 
+				com.kh.menubar.controller.TopMovieDto,
+				com.kh.movie.model.service.MovieService,
+				com.kh.menubar.controller.NewMoviesDto" %>    
+<%
+
+	List<TopMovieDto> tmdSlide = new MovieService().topFiveMovies(2);
+	List<TopMovieDto> tmdPoster = new MovieService().topFiveMovies(0);
+	List<NewMoviesDto> nm = new MovieService().newMovies();
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +99,17 @@
 		margin-left:950px;
 		margin-top:-500px;
 	}
-
+	.movie:hover{cursor:pointer;opacity:0.7;}
+	.commingMovieChart:hover{cursor:pointer;opacity:0.7;}
+	
+	.movie-news:after{content:""; display: block; clear: both;}
+        .movie-news > p {font-size: 35px; font-weight: 700; padding: 20px; padding-left: 40px;}
+        .movie-new { width: 22%; height: 250px; float: left; margin-left:4%; margin-top:1%}
+        .movie-new.first{margin-left:0;}
+        .movie-new a { display:block; text-align:center; cursor: pointer;}
+        .movie-new a img {display:inline-block; width: 150px; height: 200px; background: lightsteelblue;}
+        .movie-new .cont {padding:0 30px; color:#000}
+        .movie-new .cont p {margin:7px; font-weight: 700;}
 </style>
 </head>
 <body>
@@ -107,28 +129,32 @@
 
 						<!-- Thumbnails -->
 							<form action="<%=contextPath%>/movieDetail.mo">
+							<% if(tmdPoster.size()>= 5){%>
+							
 								<div class="movie" id="movieMain">
-									<input type="hidden" value="1">
-									<img src="<%=contextPath %>/resources/images/movie1.jpg" width="450px" height="550px">
+									<input type="hidden" value="1" name="topMovieThumbnail">
+									<img src="<%=contextPath %>/resources/images/<%= tmdPoster.get(0).getModifyName() %>" width="450px" height="650px">
 								</div>
+								
+								
 								
 								<div class="movieSub movie" id="movieSub1">
 									<input type="hidden" value="2">
-									<img src="<%=contextPath %>/resources/images/movie1.jpg" width="300" height="250">
+									<img src="<%=contextPath %>/resources/images/<%= tmdPoster.get(1).getModifyName() %>" width="300" height="300">
 								</div>
 								<div class="movieSub movie" id="movieSub2">
 									<input type="hidden" value="3">
-									<img src="<%=contextPath %>/resources/images/movie1.jpg" width="300" height="250">
+									<img src="<%=contextPath %>/resources/images/<%= tmdPoster.get(2).getModifyName() %>" width="300" height="300">
 								</div>
 								<div class="movieSub movie" id="movieSub3">
 									<input type="hidden" value="4">
-									<img src="<%=contextPath %>/resources/images/movie1.jpg" width="300" height="250">
+									<img src="<%=contextPath %>/resources/images/<%= tmdPoster.get(3).getModifyName() %>" width="300" height="300">
 								</div>
 								<div class="movieSub movie" id="movieSub4">
 									<input type="hidden" value="5">
-									<img src="<%=contextPath %>/resources/images/movie1.jpg" width="300" height="250">	
+									<img src="<%=contextPath %>/resources/images/<%= tmdPoster.get(4).getModifyName() %>" width="300" height="300">	
 								</div>
-							
+								<%} %>
 							</form>
 							
 							<br clear="both"><br>
@@ -147,7 +173,7 @@
 				
 				</script>
 							
-		<div id="commingSoon">					
+		<div id="commingSoon">	
 			<img src="<%=contextPath %>/resources/images/movieChart2.png" width="50px" height="50px" align="center">
 			<div id="name2">CommingSoon
 				<img src="<%=contextPath %>/resources/images/line.png" width="300px" height="20px" >
@@ -155,32 +181,33 @@
 		</div>		
 		<br clear="both"><br><br>
 		
-		
 		<form>
-			<div class="commingMovieChart" id="commingMovie1">
-				<img src="">
-			</div>
-			<div class="commingMovieChart" id="commingMovie2">
-				<img src="">
-			</div>
-			<div class="commingMovieChart" id="commingMovie3">
-				<img src="">
-			</div>
-			<br clear="both">
-			<div class="commingMovieChart" id="commingMovie4">
-				<img src="">
-			</div>
-			<div class="commingMovieChart" id="commingMovie5">
-				<img src="">
-			</div>
-			<div class="commingMovieChart" id="commingMovie6">
-				<img src="">
-			</div>
-			
+		<% boolean isFirst = true;
+		for(NewMoviesDto nmd: nm) { %>
+ 	   <div class="movie-new <%= isFirst ? "first" : "" %>">
+	      <a href="<%=contextPath%>/detail.mo?movieNo=<%=nmd.getMovieNo()%>">
+	      	<img src="<%= request.getContextPath() %>/resources/images/<%= nmd.getModifyName() == null ? "noImageMain.jpg" : nmd.getModifyName() %>"
+	      		 alt="no-image"/>
+	      </a>
+	      <div class="cont">
+	        <p>영화제목 : <%= nmd.getTitle() %></p>
+	        <p>영화개봉일 : <%= nmd.getOnDate() %> </p>
+	      </div>
+    	</div>
+	<%} %>
+	<% for (int i = 0; i < 4 - nm.size(); i++) { %>
+	 	   <div class="movie-new <%= isFirst ? "first" : "" %>">
+	      <a style="cursor:default;"><img src="<%= request.getContextPath() %>/resources/images/noImageMain.jpg" alt="no-image" /></a>
+	      <div class="cont">
+	        <p>영화제목 : 미개봉 </p>
+	        <p>영화개봉일 : 미개봉 </p>
+	      </div>
+    	</div>
+	<% } %>
+	
 		</form>
 		
 		<br clear="both">
-		<div id="nowList"></div>
 </div>
 		<br><br><br><br><br>
 						

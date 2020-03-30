@@ -8,9 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.kh.member.model.vo.Member;
+import com.kh.member.model.vo.PageInfo;
 
 public class MemberDao {
 	
@@ -69,9 +72,7 @@ public class MemberDao {
 			/* JDBCTemplate. */close(rset);
 			/* JDBCTemplate. */close(pstmt);
 		}
-	
 		return loginUser;
-		
 	}
 	
 	
@@ -233,27 +234,103 @@ public class MemberDao {
 		return result;
 		
 	}
-	
-	public int findId(Connection conn, String id, String name, String email) {
+
+	public Member findId(Connection conn, String name, String email) {
 		
-		int result = 0;
+		Member findIdMem = null;
 		
 		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
 		
 		String sql = prop.getProperty("findId");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			pstmt.setString(2, name);
-			pstmt.setString(3, email);
-
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+	
+			rset = pstmt.executeQuery();
 			
-			result = pstmt.executeUpdate();
+			if(rset.next()) {
+				Member m = new Member();
+				m.setId(rset.getString("id"));
+				findIdMem = m;
+			}
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return findIdMem;
+		
+		
+	}
+	
+	
+	public Member findPwd(Connection conn, String pId, String pName, String pPhone) {
+		
+		Member findPwdMem = null;
+
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("findPwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pId);
+			pstmt.setString(2, pName);
+			pstmt.setString(3, pPhone);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				Member m = new Member();
+				m.setPwd(rset.getString("pwd"));
+				findPwdMem = m;
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return findPwdMem;
+			
+	}
+	
+	public int idCheck(Connection conn, String userId) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("checkId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
 			close(pstmt);
 		}
 		
@@ -262,4 +339,120 @@ public class MemberDao {
 		
 	}
 	
+	/** 관리자 회원 리스트 총 개수
+	 * @param conn
+	 * @return
+	 */
+	public int adminListCount(Connection conn) {
+		int listCount = 0;
+		
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("adminListCount");
+		
+		try {
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return listCount;
+	}
+	
+	/** 관리자 회원 리스트
+	 * @param conn
+	 * @param pi
+	 * @return
+	 */
+	public ArrayList<Member> selectList(Connection conn, PageInfo pi) {
+		ArrayList<Member> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAdminList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Member(rset.getInt("member_no"),
+									rset.getString("id"),
+									rset.getString("name"),
+									rset.getString("grade"),
+									rset.getString("gender"),
+									rset.getDate("signup_date"),
+									rset.getString("status")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	/** 관리자 회원 상세보기
+	 * @param conn
+	 * @param memberNO
+	 * @return
+	 */
+	public Member selectAdminMember(Connection conn, int memberNo) {
+		Member m = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAdminMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m = new Member(rset.getString("name"),
+							   rset.getInt("member_no"),
+							   rset.getString("id"),
+							   rset.getDate("birth"),
+							   rset.getString("gender"),
+							   rset.getString("email"),
+							   rset.getString("phone"),
+							   rset.getString("tel"),
+							   rset.getString("grade"),
+							   rset.getDate("signup_date"),
+							   rset.getString("status"),
+							   rset.getString("black_status"),
+							   rset.getString("black_cause"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+	return m;
+	}
 }

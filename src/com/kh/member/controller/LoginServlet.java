@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 
 		} else {
 
-			String message = "¾ÆÀÌµð ¶Ç´Â ºñ¹Ð¹øÈ£¸¦ ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä.";
+			String message = "ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½Ù½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.";
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
