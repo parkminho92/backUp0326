@@ -72,7 +72,7 @@
 				<tr>
 					<th>내용</th>
 					<td colspan="4">
-						<p><input type="text" name="answer" class="content"></p>
+						<p><input type="text" name="answer" class="content" style="height: 300px;margin:0;"></p>
 						
 					</td>
 				</tr>

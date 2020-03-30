@@ -6,14 +6,14 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.qna.model.dao.QnaDao;
-import com.kh.qna.model.vo.PageInfo;
-import com.kh.qna.model.vo.Qna;
+import com.kh.qna.model.vo.*;
 
 public class QnaService {
 
 	/** Qna 총 개수
 	 * @return
 	 */
+
 	public int getListCount() {
 		Connection conn = getConnection();
 		

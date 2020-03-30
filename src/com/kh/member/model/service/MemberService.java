@@ -112,18 +112,10 @@ public class MemberService {
 		
 	}
 	
-	public Member findId(String id, String name, String email) {
+	public Member findId(String name, String email) {
 		Connection conn = getConnection();
 		
-		int result = new MemberDao().findId(conn, id, name, email);
-		
-		Member findIdMem = null;
-
-		if(result > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
+		Member findIdMem = new MemberDao().findId(conn, name, email);
 		
 		close(conn);
 		
@@ -131,7 +123,6 @@ public class MemberService {
 		
 		
 		}
-	
 	/** 관리자 회원 리스트 총 개수
 	 * @return
 	 */

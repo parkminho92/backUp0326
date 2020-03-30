@@ -9,7 +9,7 @@ public class PageInfo {
 	private int maxPage;			// 전체 페이지에서의 가장 마지막 페이지
 	private int pageLimit;			// 한 페이지 하단에 보여질 페이지 최대 갯수
 	private int boardLimit;			// 한 페이지에 보여질 게시글 최대 갯수
-	
+
 	public PageInfo() {
 		
 	}

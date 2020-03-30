@@ -72,9 +72,7 @@ public class MemberDao {
 			/* JDBCTemplate. */close(rset);
 			/* JDBCTemplate. */close(pstmt);
 		}
-	
 		return loginUser;
-		
 	}
 	
 	
@@ -236,27 +234,103 @@ public class MemberDao {
 		return result;
 		
 	}
-	
-	public int findId(Connection conn, String id, String name, String email) {
+
+	public Member findId(Connection conn, String name, String email) {
 		
-		int result = 0;
+		Member findIdMem = null;
 		
 		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
 		
 		String sql = prop.getProperty("findId");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			pstmt.setString(2, name);
-			pstmt.setString(3, email);
-
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+	
+			rset = pstmt.executeQuery();
 			
-			result = pstmt.executeUpdate();
+			if(rset.next()) {
+				Member m = new Member();
+				m.setId(rset.getString("id"));
+				findIdMem = m;
+			}
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return findIdMem;
+		
+		
+	}
+	
+	
+	public Member findPwd(Connection conn, String pId, String pName, String pPhone) {
+		
+		Member findPwdMem = null;
+
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("findPwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pId);
+			pstmt.setString(2, pName);
+			pstmt.setString(3, pPhone);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				Member m = new Member();
+				m.setPwd(rset.getString("pwd"));
+				findPwdMem = m;
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return findPwdMem;
+			
+	}
+	
+	public int idCheck(Connection conn, String userId) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("checkId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
 			close(pstmt);
 		}
 		
@@ -379,6 +453,6 @@ public class MemberDao {
 			close(pstmt);
 		}
 		
-		return m;
+	return m;
 	}
 }
