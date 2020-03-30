@@ -49,13 +49,15 @@
 	<%@ include file="../common/adminMenubar.jsp" %>
 	<div class="outer">
 		<form action="<%= request.getContextPath()%>/adminInsert.fq" method="POST">
-			<table style="border-collapse:collapse">
+		<fieldset style="width:1200px;height:600px;">
+			<legend><h2>FAQ 작성</h2></legend>
+			<table style="border-collapse:collapse;width: 1100px;margin-left: 50px;margin-top:50px">
 				<tr>
-					<th width="10%" style="background:gray;">글번호</th>
-					<td width="20%" style="text-align:center"></td>
-					<th width="30%">구분</th>
+					<th width="10%" style="background:gray;height:50px;">글번호</th>
+					<td width="20%" style="text-align:center;background:gray;"></td>
+					<th width="30%" style="border:2px solid darkgray">구분</th>
 					<td width="40%" class="content">
-						<select name="type">
+						<select name="type" style="height:50px;">
 						    <option value="구분">구분선택</option>
 						    <option value="예매">예매</option>
 						    <option value="영화관이용">영화관이용</option>
@@ -66,11 +68,11 @@
 					</td>
 				</tr>
 				<tr>
-					<th>제목</th>
-					<td colspan="3"><input type="text" name="question"></td>
+					<th style="height:50px;border-bottom:2px solid darkgray">제목</th>
+					<td colspan="3"><input type="text" name="question" style="height:50px"></td>
 				</tr>
 				<tr>
-					<th>내용</th>
+					<th style="border-bottom:2px solid darkgray">내용</th>
 					<td colspan="4">
 						<p><input type="text" name="answer" class="content" style="height: 300px;margin:0;"></p>
 						
@@ -78,10 +80,11 @@
 				</tr>
 			</table>
 			<br>
-			<div class="btns" align="right">
-				<button id="submit" type="submit">등록</button>
-				<button id="cancle" type="button">취소</button>
+			<div class="btns" align="center">
+				<button id="submit" type="submit" style="width:64px;height:34px;border-radius:5px;">등록</button>
+				<button id="cancle" type="button" style="width:64px;height:34px;border-radius:5px;">취소</button>
 			</div>
+			</fieldset>
 		</form>
 	</div>
 	

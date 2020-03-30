@@ -400,7 +400,8 @@ public class MemberDao {
 									rset.getString("grade"),
 									rset.getString("gender"),
 									rset.getDate("signup_date"),
-									rset.getString("status")));
+									rset.getString("status"),
+									rset.getString("black_status")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -454,5 +455,27 @@ public class MemberDao {
 		}
 		
 	return m;
+	}
+	
+	public int adminGrade(Connection conn, Member m) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("adminGrade");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getGrade());
+			pstmt.setInt(2, m.getMemberNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 }

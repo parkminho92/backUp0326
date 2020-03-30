@@ -60,12 +60,13 @@ public Qna(int qnaNo, int memberNo, String title, String type, String kind, Date
 	this.replyStatus = replyStatus;
 }
 
-public Qna(int qnaNo, String type, String kind, String title, String replyStatus) {
+public Qna(int qnaNo, String type, String kind, String title,Date regDate, String replyStatus) {
 	super();
 	this.qnaNo = qnaNo;
 	this.type = type;
 	this.kind = kind;
 	this.title = title;
+	this.regDate = regDate;
 	this.replyStatus = replyStatus;
 }
 
