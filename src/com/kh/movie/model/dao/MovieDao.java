@@ -18,6 +18,7 @@ import com.kh.menubar.controller.NewMoviesDto;
 import com.kh.menubar.controller.TopMovieDto;
 import com.kh.movie.model.vo.Movie;
 import com.kh.movie.model.vo.MovieCBS;
+import com.kh.movie.model.vo.MovieLHJ;
 import com.kh.movie.model.vo.PageInfo;
 import com.kh.still_image.model.vo.StillImageCBS;
 
@@ -37,9 +38,9 @@ public class MovieDao {
  
 	
 	/* hajin */
-	public Movie selectList(Connection conn, int movieNo){
+	public MovieLHJ selectList(Connection conn, int movieNo){
 		
-		Movie m = null;
+		MovieLHJ m = null;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -48,10 +49,11 @@ public class MovieDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, movieNo);	rset = pstmt.executeQuery();
+			pstmt.setInt(1, movieNo);	
+			rset = pstmt.executeQuery();
 		
 			if(rset.next()) {
-				m = new Movie(rset.getInt("MOVIE_NO"),
+				m = new MovieLHJ(rset.getInt("MOVIE_NO"),
 								   rset.getString("TITLE"),
 								   rset.getInt("RUNTIME"),
 								   rset.getString("DIRECTOR"),
@@ -59,7 +61,9 @@ public class MovieDao {
 								   rset.getInt("AGE_LIMIT"),
 								   rset.getString("SYNOPSIS"),
 								   rset.getDate("ON_DATE"),
-								   rset.getString("STATUS"));
+								   rset.getString("STATUS"),
+								   rset.getDate("OFF_DATE"),
+								   rset.getString("MODIFY_NAME"));
 			}
 		
 		
@@ -137,21 +141,19 @@ public class MovieDao {
 	}
 		
 	
-  
-  
-  /* cbs */
-	public List<Movie> selectScreen(Connection conn, String theaterNo, String screenDate) {
+	public List<Movie> selectScreen(Connection conn, String theaterNo, String screenDate, String lineUp) {
 		List<Movie> list = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectS");
+		sql += " ORDER BY " + screenOrderBy(lineUp);
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, theaterNo);
 			pstmt.setString(2, screenDate);
-			
+
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				list.add(new Movie(rset.getInt("MOVIE_NO"), rset.getString("TITLE"), rset.getInt("AGE_LIMIT")));
@@ -166,6 +168,19 @@ public class MovieDao {
 		return list;
 	}
 	
+	private String screenOrderBy(String lineUp) {
+		switch (lineUp) {
+		case "2":
+			return "TITLE";
+		case "3":
+			return "AGE_LIMIT";
+		case "4":
+			return "ON_DATE";
+		}
+		throw new RuntimeException("Not Support lineUp");
+	}
+	
+	/* CBS*/
 	public int insertMovie(Connection conn, MovieCBS mv) {
 		
 		int result=0;
@@ -478,6 +493,7 @@ public ArrayList<MovieCBS> selectOffList(Connection conn, PageInfo pi) {
 	return list;
 }
 
+<<<<<<< HEAD
 public String getGenre(Connection conn, int movieNo) {
 	
 	String genre ="";
@@ -569,6 +585,46 @@ public int deleteGenre(Connection conn, MovieCBS m) {
 	
 }
 
+=======
+public Movie selectL(Connection conn, int movieNo){
+	
+	Movie m = null;
+	
+	PreparedStatement pstmt = null;
+	ResultSet rset = null;
+	
+	String sql = prop.getProperty("selectL");
+	
+	try {
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, movieNo);	
+		rset = pstmt.executeQuery();
+	
+		if(rset.next()) {
+			m = new Movie(rset.getInt("MOVIE_NO"),
+							   rset.getString("TITLE"),
+							   rset.getInt("RUNTIME"),
+							   rset.getString("DIRECTOR"),
+							   rset.getString("ACTOR"),
+							   rset.getInt("AGE_LIMIT"),
+							   rset.getString("SYNOPSIS"),
+							   rset.getDate("ON_DATE"),
+							   rset.getString("STATUS"),
+							   rset.getDate("OFF_DATE"));
+		}
+	
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally {
+		close(rset);
+		close(pstmt);
+	}
+		return m;
+
+	
+}
+  
+>>>>>>> 0882a599149c15970fe5ec1c0b2ddf02d3babac6
 
 
 public int updateGenre(Connection conn, String[] genre, MovieCBS m) {
