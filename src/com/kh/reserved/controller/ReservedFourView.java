@@ -56,7 +56,7 @@ public class ReservedFourView extends HttpServlet {
 		List<Integer> seats = new ReserveService().reservedSeats(screenNo); //이미 예매된 좌석정보
 		MemCodes memCodes = new MemCodes(new MemCodeService().selectAll()); //MemCode별 금액
 		String mainPoster = new StillImageService().selectMain(movieNo);	//메인포스터
-		Movie m = new MovieService().selectList(Integer.parseInt(movieNo));
+		Movie m = new MovieService().selectL(Integer.parseInt(movieNo));
 		MemberGrade loginMg = new MemberGradeService().selectGradeDiscount(userNo); // 로그인 회원의 등급+할인율
 		
 		request.setAttribute("ageLimit", m.getAgeLimit());

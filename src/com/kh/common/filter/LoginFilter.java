@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
-@WebFilter(filterName="loginFilter", urlPatterns={"/reservedOne.do","/reservedTwo.do","/reservedThree.do","/reservedFour.do","/reservedFive.do","/reservedSix.do"})
+@WebFilter(filterName="loginFilter", urlPatterns={"/reservedOne.do","/reservedTwo.do","/reservedThree.do","/reservedFour.do","/reservedFive.do","/reservedSix.do","/reserveDetail.do"})
 public class LoginFilter implements Filter {
 
 	@Override

@@ -394,6 +394,60 @@ public class ReserveDao {
 		}
 		return lors;
 	}
+
+	public int countReserved(Connection conn, Integer userNo) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("countReserveOne");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+		
+	}
+
+	public List<ListOfReserved> ListOfOneReserved(Connection conn, Integer userNo, PageRequest pageRequest) {
+		List<ListOfReserved> lor = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("oneReserved");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, pageRequest.getOffset());
+			pstmt.setInt(3, pageRequest.getLimit());
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				lor.add(new ListOfReserved(rset.getInt("RESERVED_NO"), rset.getTimestamp("PAYMETN_DATE"),
+						rset.getString("T_NAME"), rset.getString("R_NAME"), rset.getString("TITLE"), 
+						rset.getInt("AGE_LIMIT"), rset.getTimestamp("SCREEN_DATE"), rset.getInt("PAYMENT_NO"),
+						rset.getInt("AMOUNT"), rset.getString("TYPE"),
+						rset.getInt("MEMBER_NO"), rset.getString("ID"), rset.getString("MODIFY_NAME")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return lor;
+	}
 	
 	
 }

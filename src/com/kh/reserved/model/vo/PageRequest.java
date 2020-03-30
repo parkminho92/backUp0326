@@ -2,12 +2,12 @@ package com.kh.reserved.model.vo;
 
 import com.kh.common.StringUtils;
 
-public class PageRequest {
-	private static final int DEFAULT_COUNT_PER_PAGE = 10;
-	private int currentPage;
-	private int offset;
-	private int limit;
-	private int countPerPage;
+public class PageRequest { // 페이지에 따른 게시글 조회
+	private static final int DEFAULT_COUNT_PER_PAGE = 10;	//페이지당 게시글 갯수(기본값)
+	private int currentPage;	// 현재페이지
+	private int offset;			// 시작값
+	private int limit;			// 끝값
+	private int countPerPage;	// 페이지당 게시글 갯수
 	
 	public PageRequest(String currentPage) {
 		this(currentPage, String.valueOf(DEFAULT_COUNT_PER_PAGE));
@@ -16,13 +16,6 @@ public class PageRequest {
 	public PageRequest(String currentPage, String countPerPage) {
 		this.currentPage = getCurrentPage(currentPage);
 		this.countPerPage = getCountPerPage(countPerPage);
-		
-		// 1 페이지고
-		// 페이지당 10개씩
-		// 2 // 11
-		// offset (currentPage - 1) * limit + 1   
-		// limit (currentPage * limit) 마지막 게시글의 로우수 
-		
 		this.offset = (this.currentPage - 1) * this.countPerPage + 1 ;
 		this.limit = this.currentPage * this.countPerPage;
 	}
@@ -42,6 +35,7 @@ public class PageRequest {
 		}
 		return  Integer.parseInt(countPerPage);
 	}
+	
 
 	public int getCurrentPage() {
 		return currentPage;

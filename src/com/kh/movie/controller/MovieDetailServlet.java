@@ -43,6 +43,7 @@ public class MovieDetailServlet extends HttpServlet {
 		
 		List<TopMovieDto> tmdPoster = new MovieService().topFiveMovies(0);
 		List<NewMoviesDto> nm = new MovieService().newMovies();
+
 		
 		
 	}

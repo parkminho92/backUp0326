@@ -27,11 +27,13 @@
         .layoutTable{ height: 300px; max-width: 500px; padding: 20px; margin-left: 30px;}
         .tableReserved table tr:hover { cursor: pointer; }
         .tableReserved table tr td p {padding: 3px; font-weight: 800; text-align: left; margin-left: 10px; }
+		.tableReserved a {text-decoration: none }
     </style>
 </head>
 <body>
     <div class="layoutTable">
         <div class="tableReserved">
+            <a href="<%=request.getContextPath() %>/reserveDetail.do">
             <table>
             	<% if(movies.size()>=2){%>
 	            	<% for(int i=0; i<2; i++){ %>
@@ -62,6 +64,7 @@
                 	</tr>
                 <% } %>
             </table>
+            </a>
         </div>
 
 

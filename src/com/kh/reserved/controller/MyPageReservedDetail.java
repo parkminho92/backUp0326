@@ -8,38 +8,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.kh.common.StringUtils;
+import com.kh.member.model.vo.Member;
 import com.kh.reserved.model.dao.ListOfReserved;
 import com.kh.reserved.model.service.ReserveService;
 import com.kh.reserved.model.vo.PageInfo;
 import com.kh.reserved.model.vo.PageRequest;
 
 /**
- * Servlet implementation class ListOfAllReserved
+ * Servlet implementation class MyPageReservedDetail
  */
-@WebServlet("/listAllReserved.do")
-public class ListOfAllReserved extends HttpServlet {
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet("/reserveDetail.do")
+public class MyPageReservedDetail extends HttpServlet {
+	
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String currentPage = request.getParameter("currentPage");
 		String countPerPage = request.getParameter("countPerPage");
 		PageRequest pageRequest = new PageRequest(currentPage, countPerPage);
-
-		// 예약 총갯수 조회해오기
-		int totalCount = new ReserveService().countReserved();
+				
+		HttpSession session = request.getSession();
+		Integer userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		
+		// 1명의 총 예매갯수(현재시간이후의)
+		int totalCount = new ReserveService().countReserved(userNo);
 		// 하단 페이지 표시 정보
 		PageInfo pageInfo = new PageInfo(totalCount, pageRequest);
-		// 페이지 첫 게시글번호/마지막 번호로 페이지에 맞는 예약정보게시글 조회
-		List<ListOfReserved> lor = new ReserveService().ListOfAllReserved(pageRequest);
+		
+		List<ListOfReserved> lor = new ReserveService().ListOfOneReserved(userNo, pageRequest);
 
 		request.setAttribute("lor", lor);
 		request.setAttribute("pageInfo", pageInfo);
-		request.getRequestDispatcher("views/reserved/adminReservedView.jsp").forward(request, response);
+	
+		request.getRequestDispatcher("views/reserved/myPageReservedDetail.jsp").forward(request, response);
 	
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
 }

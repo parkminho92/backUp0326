@@ -68,24 +68,13 @@
 					</ul>
             </li>
             <li >
-            	<a href="#">예약정보</a>
+            	<a href="#">MY 영화</a>
             		<ul>
 						<li>
-							<a href="#">예약확인</a>
+							<a href="<%=request.getContextPath() %>/reserveDetail.do">새예약확인</a>
 						</li>
 						<li>
-							<a href="#">결제취소</a>
-						</li>
-					</ul>
-            </li>
-            <li >
-            	<a href="<%=request.getContextPath()%>/pickMovie.do">My 영화</a>
-            		<ul>
-						<li>
-							<a href="<%=request.getContextPath()%>/pickMovie.do">찜한 영화</a>
-						</li>
-						<li>
-							<a href="<%=request.getContextPath()%>/watchedMovie.do">관람한 영화</a>
+							<a href="#">관람한영화</a>
 						</li>
 					</ul>
             </li>

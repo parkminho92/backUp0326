@@ -52,7 +52,7 @@ public class ReservedThreeView extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		Movie findMovie = new MovieService().selectList(Integer.parseInt(movieNo));
+		Movie findMovie = new MovieService().selectL(Integer.parseInt(movieNo));
 		if (!findMovie.isAllowAge(loginUser.getBirth())) {
 			session.setAttribute("msg", "예매하실 수 없는 영화입니다.");
 					
