@@ -1,4 +1,4 @@
-package com.kh.qna.controller;
+package com.kh.member.controller;
 
 import java.io.IOException;
 
@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.qna.model.service.QnaService;
-import com.kh.qna.model.vo.Qna;
+import com.kh.member.model.service.MemberService;
+import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class QnaReplyServlet
+ * Servlet implementation class AdminGradeUpdate
  */
-@WebServlet("/reply.qa")
-public class QnaReplyServlet extends HttpServlet {
+@WebServlet("/adminGrade.me")
+public class AdminGradeUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaReplyServlet() {
+    public AdminGradeUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,19 +30,19 @@ public class QnaReplyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String grade = request.getParameter("grade");
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
 		
-		String replyContent = request.getParameter("replyContent");
-		int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
-		
-		Qna q = new Qna();
-		q.setReplyContent(replyContent);
-		q.setQnaNo(qnaNo);
-		int result = new QnaService().replyQna(q);
+		Member m = new Member();
+		m.setGrade(grade);
+		m.setMemberNo(memberNo);
+		int result = new MemberService().adminGrade(m);
 		
 		if(result > 0) {
-			response.sendRedirect("adminDetail.qa?qnaNo=" + qnaNo);
+			response.sendRedirect("adminDetail.me?memberNo=" + memberNo);
 		}else {
-			request.setAttribute("msg", "1:1문의 답변 실패");
+			request.setAttribute("msg", "변경실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
