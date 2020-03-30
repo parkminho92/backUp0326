@@ -2,6 +2,7 @@ package com.kh.borrow_room.model.vo;
 
 import java.sql.Date;
 
+import oracle.sql.DATE;
 
 public class BorrowRoom {
    /* BORROW_ROOM_NO */
@@ -46,8 +47,6 @@ public class BorrowRoom {
    /* REPLY_STATUS */
    private String replyStatus;
    
-   private Integer theaterNo;
-   
    public BorrowRoom() {
 	   
    }
@@ -86,10 +85,12 @@ public class BorrowRoom {
 	   this.content = content;
    }
 
-public BorrowRoom(int borrowRoomNo, String title) {
+public BorrowRoom(int borrowRoomNo, String title, Date regiDate, String replyStatus) {
 	super();
 	this.borrowRoomNo = borrowRoomNo;
 	this.title = title;
+	this.regiDate = regiDate;
+	this.replyStatus = replyStatus;
 }
 
 public int getBorrowRoomNo() {
@@ -180,16 +181,13 @@ public void setContent(String content) {
 	this.content = content;
 }
 
-
-public Date getRegiDate() {
+public Object getRegiDate() {
 	return regiDate;
 }
-
 
 public void setRegiDate(Date regiDate) {
 	this.regiDate = regiDate;
 }
-
 
 public String getEmail() {
 	return email;
@@ -203,11 +201,9 @@ public String getReplyStatus() {
 	return replyStatus;
 }
 
-
 public void setReplyStatus(String replyStatus) {
 	this.replyStatus = replyStatus;
 }
-
 
 @Override
 public String toString() {
@@ -217,15 +213,6 @@ public String toString() {
 			+ ", hopeDate=" + hopeDate + ", content=" + content + ", regiDate=" + regiDate + ", email=" + email
 			+ ", replyStatus=" + replyStatus + "]";
 }
+	
 
-public Integer getTheaterNo() {
-	return theaterNo;
-}
-
-public void setTheaterNo(Integer theaterNo) {
-	this.theaterNo = theaterNo;
-}
-
-
-   
 }

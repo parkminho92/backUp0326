@@ -1,17 +1,14 @@
 package com.kh.qna.model.vo;
 
 public class PageInfo {
-
 	
-
-	private int listCount;
-	private int currentPage;
-	private int startPage;
-	private int endPage;
-	private int maxPage;
-	
-	private int pageLimit;
-	private int boardLimit;
+	private int listCount;			// 총 게시글 갯수
+	private int currentPage;		// 현재 페이지 (즉, 요청한 페이지)
+	private int startPage;			// 현재 페이지 하단에 보여지는 페이징 바의 시작 수
+	private int endPage;			// 현재 페이지 하단에 보여지는 페이징 바의 끝 수
+	private int maxPage;			// 전체 페이지에서의 가장 마지막 페이지
+	private int pageLimit;			// 한 페이지 하단에 보여질 페이지 최대 갯수
+	private int boardLimit;			// 한 페이지에 보여질 게시글 최대 갯수
 	
 	public PageInfo() {
 		
@@ -91,5 +88,4 @@ public class PageInfo {
 				+ ", endPage=" + endPage + ", maxPage=" + maxPage + ", pageLimit=" + pageLimit + ", boardLimit="
 				+ boardLimit + "]";
 	}
-	
 }

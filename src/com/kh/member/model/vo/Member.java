@@ -121,7 +121,59 @@ public class Member {
 		this.id = id;
 	}
 	
-	
+	/** 관리자 회원 리스트
+	 * @param memberNo
+	 * @param id
+	 * @param name
+	 * @param grade
+	 * @param gender
+	 * @param signupDate
+	 * @param status
+	 */
+	public Member(int memberNo, String id, String name, String grade, String gender, Date signupDate, String status) {
+		super();
+		this.memberNo = memberNo;
+		this.id = id;
+		this.name = name;
+		this.grade = grade;
+		this.gender = gender;
+		this.signupDate = signupDate;
+		this.status = status;
+	}
+
+	/** 관리자 회원 상세보기
+	 * @param name
+	 * @param memberNo
+	 * @param id
+	 * @param birth
+	 * @param gender
+	 * @param email
+	 * @param phone
+	 * @param tel
+	 * @param grade
+	 * @param signupDate
+	 * @param status
+	 * @param blackStatus
+	 * @param blackCause
+	 */
+	public Member(String name, int memberNo, String id, Date birth, String gender, String email, String phone,
+			String tel, String grade, Date signupDate, String status, String blackStatus, String blackCause) {
+		super();
+		this.name = name;
+		this.memberNo = memberNo;
+		this.id = id;
+		this.birth = birth;
+		this.gender = gender;
+		this.email = email;
+		this.phone = phone;
+		this.tel = tel;
+		this.grade = grade;
+		this.signupDate = signupDate;
+		this.status = status;
+		this.blackStatus = blackStatus;
+		this.blackCause = blackCause;
+	}
+
 	public int getMemberNo() {
 		return memberNo;
 	}

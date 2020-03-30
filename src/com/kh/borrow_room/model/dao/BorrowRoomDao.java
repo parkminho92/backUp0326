@@ -77,7 +77,9 @@ public class BorrowRoomDao {
 			
 			while(rset.next()) {
 				list.add(new BorrowRoom(rset.getInt("borrow_room_no"),
-										rset.getString("title")));
+										rset.getString("title"),
+										rset.getDate("regi_date"),
+										rset.getString("reply_status")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

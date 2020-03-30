@@ -1,5 +1,7 @@
 package com.kh.lostarticle.model.vo;
 
+import java.sql.Date;
+
 public class Lostarticle {
    /* LOST_NO */
    private int lostNo;
@@ -32,7 +34,7 @@ public class Lostarticle {
    private String content;
 
    /* LOST_DATE */
-   private Object lostDate;
+   private Date lostDate;
 
    /* REPLY_CONTENT */
    private String replyContent;
@@ -41,15 +43,15 @@ public class Lostarticle {
    private String replyStatus;
 
    /* REPLY_DATE */
-   private Object replyDate;
+   private Date replyDate;
 
    public Lostarticle() {
 	   
    }
 
 public Lostarticle(int lostNo, int memberNo, String title, String secretStatus, String secretPwd, String name,
-		String phone, String email, String place, String content, Object lostDate, String replyContent,
-		String replyStatus, Object replyDate) {
+		String phone, String email, String place, String content, Date lostDate, String replyContent,
+		String replyStatus, Date replyDate) {
 	super();
 	this.lostNo = lostNo;
 	this.memberNo = memberNo;
@@ -65,6 +67,29 @@ public Lostarticle(int lostNo, int memberNo, String title, String secretStatus, 
 	this.replyContent = replyContent;
 	this.replyStatus = replyStatus;
 	this.replyDate = replyDate;
+}
+
+public Lostarticle(int lostNo, String title, String place, String replyStatus, Date lostDate) {
+	super();
+	this.lostNo = lostNo;
+	this.title = title;
+	this.place = place;
+	this.replyStatus = replyStatus;
+	this.lostDate = lostDate;
+}
+
+public Lostarticle(int lostNo, String place, Date lostDate, String name, String phone, String email, String title,  String content, String replyContent, String replyStatus) {
+	super();
+	this.lostNo = lostNo;
+	this.place = place;
+	this.lostDate = lostDate;
+	this.name = name;
+	this.phone = phone;
+	this.email = email;
+	this.title = title;
+	this.content = content;
+	this.replyContent = replyContent;
+	this.replyStatus = replyStatus;
 }
 
 public int getLostNo() {
@@ -147,11 +172,11 @@ public void setContent(String content) {
 	this.content = content;
 }
 
-public Object getLostDate() {
+public Date getLostDate() {
 	return lostDate;
 }
 
-public void setLostDate(Object lostDate) {
+public void setLostDate(Date lostDate) {
 	this.lostDate = lostDate;
 }
 
@@ -171,11 +196,11 @@ public void setReplyStatus(String replyStatus) {
 	this.replyStatus = replyStatus;
 }
 
-public Object getReplyDate() {
+public Date getReplyDate() {
 	return replyDate;
 }
 
-public void setReplyDate(Object replyDate) {
+public void setReplyDate(Date replyDate) {
 	this.replyDate = replyDate;
 }
 
@@ -187,7 +212,5 @@ public String toString() {
 			+ ", replyStatus=" + replyStatus + ", replyDate=" + replyDate + "]";
 }
    
-
-
+   
 }
-
