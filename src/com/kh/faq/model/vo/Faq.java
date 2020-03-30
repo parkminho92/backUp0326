@@ -20,12 +20,13 @@ public class Faq {
    }
 
 
-public Faq(int faqNo, String question, String answer, String type) {
+public Faq(int faqNo, String question, String answer, String type, String status) {
 	super();
 	this.faqNo = faqNo;
 	this.question = question;
 	this.answer = answer;
 	this.type = type;
+	this.status = status;
 }
 
 public int getFaqNo() {

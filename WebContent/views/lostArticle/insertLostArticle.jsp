@@ -123,7 +123,7 @@ body, html{
 							<textarea name="lContent" cols="100" rows="25" style="resize:none"></textarea>
 						</td>
 					</tr>
-					<%-- <input typt="hidden" name="writer" value="<%=loginUser.getId() %>"> --%>
+					<%-- <input type="hidden" name="writer" value="<%=loginUser.getId() %>"> --%>
 				</table>
 				<br>
 				<div class="btns" align="center">

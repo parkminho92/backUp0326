@@ -224,7 +224,7 @@
 			margin-top:-300;
 			margin-right:100px;
 		}
-		.star_rating {font-size:0; letter-spacing:-4px;}
+	.star_rating {font-size:0; letter-spacing:-4px;}
 	.star_rating a {
 	    font-size:22px;
 	    letter-spacing:0;
@@ -241,7 +241,44 @@
 		}
 	#Wbtn{display:inline-block; float:right;margin-right:150px; margin-top:-30px; outline:0;}
 	#Wbtn:hover{cursor:pointer;}
-		
+	.reviewId td{ border-bottom:2px solid black;}
+	
+	/* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */   
+            text-align:center;                       
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+	
 		
 </style>
 
@@ -351,11 +388,22 @@
 		<!-- The Modal -->
 	    <div id="myModal" class="modal">
 	 
-		      <!-- Modal content -->
+		      Modal content
 		      <div class="modal-content">
 		        <span class="close">&times;</span>                                                               
-		        <h6>비밀번호를 입력해주세요.</h6>
-		        <input id="qnaNewPwd" type="password" width="60px">
+		        <h6>신고내용을 선택해주세요.</h6>
+		        <table>
+		        	<tr>
+		        		<td>사유 : </td>
+		        		<td>
+		        			<select>
+		        				<option>스포일러</option>
+		        				<option>광고성 발언</option>
+		        				<option>부적절한 언어행동</option>
+		        			</select>
+		        		</td>
+		        	</tr>
+		        </table>
 		        <button type="button" id="detailView">입력</button>
 		      </div>
 		 
@@ -423,16 +471,15 @@
 					
 					for(var i in list){
 						
-						value += '<tr class="line">' +
-									'<td id="reviewId" width="150">' + list[i].id + '</td>' +
+						value += '<tr class="reviewId">' +
+									'<td width="150">' + list[i].id + '</td>' +
 									'<td width="100">' + '<img src="<%=contextPath%>/resources/images/star2.png" width="20" height="20">' + list[i].reviewRating + '</td>' +
 									'<td width="500">' + list[i].reviewText + '</td>' + 
-									'<td width="50"><button onclick="btnCL();" id="Wbtn" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
+									'<td width="50"><button type="button" class="reportBtns" style="margin-top:10px;"><img src="<%=contextPath%>/resources/images/bell.png" width="25" height="25"></button></td>' + 
 								'</tr>';
-								
+						
 					}			
 					$("#replyList").html(value);
-					
 					
 				},
 				error:function(){
@@ -477,15 +524,36 @@
 		    slides[slideIndex-1].style.display = "block";  
 		    dots[slideIndex-1].className += " active";
 		  }
+	
 		  
-		  
-		function btnCL(){
-			reviewChart = $("#replyList").text();
+/* 		 function btnCL(){
+			var reviewChart = "";
+			
+			$(".reviewId").each(function(){
+				
+			reviewChart = $(this).children().eq(0).text();
+				
 			modal.style.display = "block";
+			})
 		
 			console.log(reviewChart);
-		}		  
-		  
+		}		   
+		 $("#myModal span").click(function(){
+				modal.style.display = "none";
+			});
+        }
+			 */
+			 
+			 $(".reportBtns").click(function(){
+				 var reportBtns = $(this);
+				 var tr = reportBtns.patent().parent();
+				 var td = tr.children();
+				 
+				 var td0 = td.eq(0).text();
+				 
+				 console.log(td0);
+				 })
+			 
 		
 
 	</script>
