@@ -101,6 +101,15 @@
 	}
 	.movie:hover{cursor:pointer;opacity:0.7;}
 	.commingMovieChart:hover{cursor:pointer;opacity:0.7;}
+	
+	.movie-news:after{content:""; display: block; clear: both;}
+        .movie-news > p {font-size: 35px; font-weight: 700; padding: 20px; padding-left: 40px;}
+        .movie-new { width: 22%; height: 250px; float: left; margin-left:4%; margin-top:1%}
+        .movie-new.first{margin-left:0;}
+        .movie-new a { display:block; text-align:center; cursor: pointer;}
+        .movie-new a img {display:inline-block; width: 150px; height: 200px; background: lightsteelblue;}
+        .movie-new .cont {padding:0 30px; color:#000}
+        .movie-new .cont p {margin:7px; font-weight: 700;}
 </style>
 </head>
 <body>
@@ -172,18 +181,33 @@
 		</div>		
 		<br clear="both"><br><br>
 		
-		
 		<form>
-		<% for(int i=0; i<nm.size(); i++) { %>
-			<div class="commingMovieChart" id="commingMovie1">
-				<img src="<%= contextPath%>/resources/images/<%= tmdPoster.get(i).getModifyName() %>" width="250px" height="250px">
-			</div>
-		<%} %>
+		<% boolean isFirst = true;
+		for(NewMoviesDto nmd: nm) { %>
+ 	   <div class="movie-new <%= isFirst ? "first" : "" %>">
+	      <a href="<%=contextPath%>/detail.mo?movieNo=<%=nmd.getMovieNo()%>">
+	      	<img src="<%= request.getContextPath() %>/resources/images/<%= nmd.getModifyName() == null ? "noImageMain.jpg" : nmd.getModifyName() %>"
+	      		 alt="no-image"/>
+	      </a>
+	      <div class="cont">
+	        <p>영화제목 : <%= nmd.getTitle() %></p>
+	        <p>영화개봉일 : <%= nmd.getOnDate() %> </p>
+	      </div>
+    	</div>
+	<%} %>
+	<% for (int i = 0; i < 4 - nm.size(); i++) { %>
+	 	   <div class="movie-new <%= isFirst ? "first" : "" %>">
+	      <a style="cursor:default;"><img src="<%= request.getContextPath() %>/resources/images/noImageMain.jpg" alt="no-image" /></a>
+	      <div class="cont">
+	        <p>영화제목 : 미개봉 </p>
+	        <p>영화개봉일 : 미개봉 </p>
+	      </div>
+    	</div>
+	<% } %>
 	
 		</form>
 		
 		<br clear="both">
-		<div id="nowList"></div>
 </div>
 		<br><br><br><br><br>
 						

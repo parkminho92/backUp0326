@@ -76,11 +76,7 @@ public class BroomListServlet extends HttpServlet {
 		
 		request.getRequestDispatcher("views/borrow_room/borrowRoom.jsp").forward(request, response);
 		
-//		String status = list.get(5).toString();
-//		
-//		System.out.println(status);
-		
-		
+
 	}
 
 	/**
