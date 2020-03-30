@@ -53,7 +53,7 @@ public class InsertTheaterServlet extends HttpServlet {
 			
 		}else {
 			
-			request.setAttribute("msg", "영화관 등록에 실패했습니다.");
+		
 			request.getRequestDispatcher("views/theater/theaterInsertForm.jsp").forward(request,response);
 			
 			

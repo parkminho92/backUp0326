@@ -1,15 +1,23 @@
 package com.kh.screen.model.service;
 
 import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
 import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.movie.model.dao.MovieDao;
+import com.kh.movie.model.vo.MovieCBS;
 import com.kh.screen.model.dao.ScreenDao;
 import com.kh.screen.model.dao.ScreenFlatDto;
 import com.kh.screen.model.dao.ScreenSelectDto;
 import com.kh.screen.model.vo.Screen;
+import com.kh.screen.model.vo.ScreenCBS;
 
 public class ScreenService {
 
@@ -65,9 +73,67 @@ public class ScreenService {
 		
 		String screenNo = new ScreenDao().screenTheater(conn, movieNo, roomNo, screenTime);	
 		
+		close(conn);
+		
 		return screenNo;
 	}
+
+	public int insertScreenInfo(int roomNo, int movieNo, String[] sDate) {
 	
-	
+		Connection conn = getConnection();
+		
+		int result = new ScreenDao().insertScreenInfo(conn, roomNo, movieNo, sDate);
+		
+		if(result>0) {
+			
+			commit(conn);
+		}else {
+			
+			rollback(conn);
+		}
+		close(conn);
+			
+		
+		return result;
+	}
+
+	public ArrayList<ScreenCBS> selectWholeScreenInfo(int movieNo, int theaterNo) {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<ScreenCBS> list = new ScreenDao().selectWholeMovie(conn,movieNo, theaterNo);
+		
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<ScreenCBS> updateScreenForm(int theaterNo) {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<ScreenCBS> list = new ScreenDao().updateScreenForm(conn, theaterNo);
+		
+		close(conn);
+		
+		
+		return list;
+	}
+
+	public int updateScreenInfo(int theaterNo, int movieNo, int screenNo, String screenDate) {
+		
+		Connection conn = getConnection();
+		
+		int result = new ScreenDao().updateScreenInfo(conn, theaterNo, movieNo, screenNo, screenDate);
+		
+		if(result>0) {
+			commit(conn);
+		}
+			rollback(conn);
+			close(conn);
+			return result;
+	}
+
+
+
 
 }

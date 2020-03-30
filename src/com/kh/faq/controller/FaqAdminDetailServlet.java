@@ -12,16 +12,16 @@ import com.kh.faq.model.service.FaqService;
 import com.kh.faq.model.vo.Faq;
 
 /**
- * Servlet implementation class FaqInsertServlet
+ * Servlet implementation class FaqDetailServlet
  */
-@WebServlet("/insert.fq")
-public class FaqInsertServlet extends HttpServlet {
+@WebServlet("/adminDetail.fq")
+public class FaqAdminDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInsertServlet() {
+    public FaqAdminDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,23 +30,19 @@ public class FaqInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
-		String question = request.getParameter("question");
-		String answer = request.getParameter("answer");
 		
-		Faq f = new Faq();
-		f.setFaqNo(faqNo);
-		f.setQuestion(question);
-		f.setAnswer(answer);
+		Faq f = new FaqService().selectFaq(faqNo);
 		
-		int result = new FaqService().insertFaq(f);
-		
-		if(result > 0) {
-			response.sendRedirect("list.fq");
+		if(f != null) {
+			request.setAttribute("f", f);
+			request.getRequestDispatcher("views/faq/adminDetailView.jsp").forward(request, response);
 		}else {
-			request.setAttribute("msg", "작성 실패");
+			request.setAttribute("msg", "상세조회 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
+		
 	}
 
 	/**

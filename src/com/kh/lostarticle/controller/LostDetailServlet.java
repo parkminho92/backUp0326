@@ -2,20 +2,19 @@ package com.kh.lostarticle.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.lostarticle.model.service.LostService;
+import com.kh.lostarticle.model.service.LostarticleService;
 import com.kh.lostarticle.model.vo.Lostarticle;
 
 /**
  * Servlet implementation class LostDetailServlet
  */
-@WebServlet("/lostDetail.lo")
+@WebServlet("/adminDetail.lo")
 public class LostDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,15 +31,17 @@ public class LostDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	int lost_No = Integer.parseInt(request.getParameter("lostNo"));
+		int lostNo = Integer.parseInt(request.getParameter("lostNo"));
 			
-			Lostarticle l = new LostService().selectLostDetail(lost_No);
+		Lostarticle l = new LostarticleService().selectAdminLost(lostNo);
 			
-			if(l != null) {
-				request.setAttribute("l", l);
-				RequestDispatcher view = request.getRequestDispatcher("views/lostArticle/lostArticleDetail.jsp");
-				view.forward(request, response);
-			}
+		if(l != null) {
+			request.setAttribute("l", l);
+			request.getRequestDispatcher("views/lostArticle/adminDetailView.jsp").forward(request, response);
+		}else {
+			request.setAttribute("msg", "분실물문의 상세조회 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
 	}
 
 	/**

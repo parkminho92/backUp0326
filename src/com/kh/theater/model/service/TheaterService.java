@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.movie.model.vo.MovieCBS;
 import com.kh.room.model.vo.RoomCBS;
 import com.kh.theater.model.dao.TheaterDao;
 import com.kh.theater.model.vo.PageInfo;
@@ -118,6 +119,44 @@ public class TheaterService {
 		return list;
 	}
 	
+	public ArrayList<MovieCBS> selectModalMovieList() {
+		Connection conn = getConnection();
+		
+		ArrayList<MovieCBS> list = new TheaterDao().selectModalMovieList(conn);
+		
+		close(conn);
+		return list;
+	}
+
+	public int updateTheater(TheaterCBS t) {
+		
+		Connection conn = getConnection();
+		
+		int result = new TheaterDao().updateTheater(conn,t);
+		
+		if(result>0) {
+			
+			commit(conn);
+		}else {
+			rollback(conn);
+			
+		}
+		close(conn);
+		
+		
+		return result;
+	}
+
+	public ArrayList<TheaterCBS> selectWholeTheater(int sectionNo) {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<TheaterCBS> list = new TheaterDao().selectWholeTheater(conn, sectionNo);
+		
+		close(conn);
+		
+		return list;
+	}	
 	
 	
 }

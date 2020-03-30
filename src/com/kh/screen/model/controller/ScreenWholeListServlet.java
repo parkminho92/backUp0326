@@ -1,6 +1,7 @@
-package com.kh.faq.controller;
+package com.kh.screen.model.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,20 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.faq.model.service.FaqService;
-import com.kh.faq.model.vo.Faq;
+import com.kh.movie.model.service.MovieService;
+import com.kh.movie.model.vo.MovieCBS;
+import com.kh.screen.model.service.ScreenService;
+import com.kh.screen.model.vo.ScreenCBS;
+import com.kh.section.model.service.SectionService;
+import com.kh.section.model.vo.SectionCBS;
+import com.kh.theater.model.service.TheaterService;
+import com.kh.theater.model.vo.TheaterCBS;
 
 /**
- * Servlet implementation class FaqDetailServlet
+ * Servlet implementation class ScreenWholeListServlet
  */
-@WebServlet("/detail.fq")
-public class FaqDetailServlet extends HttpServlet {
+@WebServlet("/listScreen.sc")
+public class ScreenWholeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqDetailServlet() {
+    public ScreenWholeListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +38,11 @@ public class FaqDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
+		ArrayList<SectionCBS> list = new SectionService().selectWholeSection();
 		
-		Faq f = new FaqService().selectFaq(faqNo);
+		request.setAttribute("section", list);
 		
-		if(f != null) {
-			request.setAttribute("f", f);
-			request.getRequestDispatcher("views/faq/detailView.jsp").forward(request, response);
-		}else {
-			request.setAttribute("msg", "상세조회 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
-		
+		request.getRequestDispatcher("views/screen/screenWholeList.jsp").forward(request,response);
 	}
 
 	/**

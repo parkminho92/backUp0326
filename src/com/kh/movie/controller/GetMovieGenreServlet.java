@@ -1,23 +1,27 @@
-package com.kh.faq.controller;
+package com.kh.movie.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.movie.model.service.MovieService;
+
 /**
- * Servlet implementation class FaqInsertFormServlet
+ * Servlet implementation class GetMovieGenreServlet
  */
-@WebServlet("/insertForm.fq")
-public class FaqInsertFormServlet extends HttpServlet {
+@WebServlet("/getGenre.mv")
+public class GetMovieGenreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqInsertFormServlet() {
+    public GetMovieGenreServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +31,21 @@ public class FaqInsertFormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("views/faq/InsertForm.jsp").forward(request, response);
+		
+		
+		int movieNo = Integer.parseInt(request.getParameter("movieNo"));
+		
+		String result = new MovieService().getGenre(movieNo);
+		
+		response.setCharacterEncoding("utf-8");
+		
+		PrintWriter out = response.getWriter();
+		
+		out.print(result);
+		
+		
+		System.out.println(result);
+		
 	}
 
 	/**

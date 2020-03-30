@@ -37,7 +37,7 @@ public class BrAdminDetailServlet extends HttpServlet {
 		
 		if(b != null) {
 			request.setAttribute("b", b);
-			request.getRequestDispatcher("views/borrowRoom/adminDetailView.jsp").forward(request, response);
+			request.getRequestDispatcher("views/borrow_room/adminDetailView.jsp").forward(request, response);
 		}else {
 			request.setAttribute("msg", "대관문의 상세조회 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

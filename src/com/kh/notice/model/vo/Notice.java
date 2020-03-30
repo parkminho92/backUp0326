@@ -1,5 +1,7 @@
 package com.kh.notice.model.vo;
 
+import java.sql.Date;
+
 public class Notice {
 
    /* NOTICE_NO */
@@ -15,18 +17,33 @@ public class Notice {
    private String noticeContent;
 
    /* NOTICE_DATE */
-   private Object noticeDate;
+   private Date noticeDate;
 
    /* REFERENCE */
    private int reference;
    
-   private String status;
+   /* NOTICE_STATUS */
+   private String noticeStatus;
    
    public Notice() {
 	   
    }
+   
 
-	public Notice(int noticeNo, String noticeType, String noticeTitle, String noticeContent, Object noticeDate,
+	public Notice(int noticeNo, String noticeType, String noticeTitle, String noticeContent, Date noticeDate, int reference,
+		String noticeStatus) {
+	super();
+	this.noticeNo = noticeNo;
+	this.noticeType = noticeType;
+	this.noticeTitle = noticeTitle;
+	this.noticeContent = noticeContent;
+	this.noticeDate = noticeDate;
+	this.reference = reference;
+	this.noticeStatus = noticeStatus;
+}
+
+
+	public Notice(int noticeNo, String noticeType, String noticeTitle, String noticeContent, Date noticeDate,
 			int reference) {
 		super();
 		this.noticeNo = noticeNo;
@@ -36,6 +53,16 @@ public class Notice {
 		this.noticeDate = noticeDate;
 		this.reference = reference;
 	}
+	
+	public Notice(int noticeNo, String noticeType, String noticeTitle, Date noticeDate) {
+		super();
+		this.noticeNo = noticeNo;
+		this.noticeType = noticeType;
+		this.noticeTitle = noticeTitle;
+		this.noticeDate = noticeDate;
+	}
+		
+
 
 	public int getNoticeNo() {
 		return noticeNo;
@@ -73,7 +100,7 @@ public class Notice {
 		return noticeDate;
 	}
 
-	public void setNoticeDate(Object noticeDate) {
+	public void setNoticeDate(Date noticeDate) {
 		this.noticeDate = noticeDate;
 	}
 
@@ -85,22 +112,20 @@ public class Notice {
 		this.reference = reference;
 	}
 
+	public String getNoticeStatus() {
+		return noticeStatus;
+	}
+
+	public void setNoticeStatus(String noticeStatus) {
+		this.noticeStatus = noticeStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeType=" + noticeType + ", noticeTitle=" + noticeTitle
-				+ ", noticeContent=" + noticeContent + ", noticeDate=" + noticeDate + ", reference=" + reference + "]";
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
+				+ ", noticeContent=" + noticeContent + ", noticeDate=" + noticeDate + ", reference=" + reference
+				+ ", noticeStatus=" + noticeStatus + "]";
 	}
 	
-	
+   
 }
-
-
-

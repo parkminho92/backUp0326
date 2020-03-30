@@ -16,7 +16,7 @@ import com.kh.faq.model.vo.PageInfo;
 /**
  * Servlet implementation class FaqListServlet
  */
-@WebServlet("/list.fq")
+@WebServlet("/adminList.fq")
 public class FaqListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -51,7 +51,7 @@ public class FaqListServlet extends HttpServlet {
 		
 		pageLimit = 5;
 		
-		boardLimit = 15;
+		boardLimit = 10;
 		
 		maxPage = (int)Math.ceil((double)listCount/boardLimit);
 		
@@ -70,7 +70,7 @@ public class FaqListServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		
-		request.getRequestDispatcher("views/faq/listView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/faq/adminListView.jsp").forward(request, response);
 	}
 
 	/**
