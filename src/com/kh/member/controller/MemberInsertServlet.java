@@ -60,12 +60,14 @@ public class MemberInsertServlet extends HttpServlet {
 		  
 		 }else {
 		  
-		 request.setAttribute("msg", "회원가입 실패!");
-		  
-		 RequestDispatcher view = request.getRequestDispatcher("views/common/error.jsp");
-		 view.forward(request, response);
-		 
-		 }
+			 request.setAttribute("msg", "회원가입 실패!");
+			  
+			 RequestDispatcher view = request.getRequestDispatcher("views/member/memberEnrollForm.jsp");
+			 view.forward(request, response);
+			 
+		
+			 }
+			 
 		 
 		
 	}

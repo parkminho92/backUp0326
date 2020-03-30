@@ -15,6 +15,11 @@ import com.kh.member.model.vo.PageInfo;
 public class MemberService {
 
 	
+	/** 1. 로그인 멤버 (고요한)
+	 * @param userId
+	 * @param userPwd
+	 * @return
+	 */
 	public Member loginMember(String userId, String userPwd) {
 		Connection conn = getConnection();
 		
@@ -26,6 +31,11 @@ public class MemberService {
 	}
 	
 	
+	/** 2. 회원가입 (고요한)
+	 * @param mem
+	 * @param birth
+	 * @return
+	 */
 	public int insertMember(Member mem, String birth) {
 		Connection conn = getConnection();
 		
@@ -45,6 +55,10 @@ public class MemberService {
 	}
 	
 	
+	/** 3. 멤버정보 조회 (고요한)
+	 * @param userId
+	 * @return
+	 */
 	public Member selectMember(String userId) {
 		Connection conn = getConnection();
 		
@@ -56,6 +70,10 @@ public class MemberService {
 	}
 
 	
+	/** 4. 멤버정보 업데이트 (고요한)
+	 * @param m
+	 * @return
+	 */
 	public Member updateMember(Member m) {
 		Connection conn = getConnection();
 		
@@ -77,6 +95,12 @@ public class MemberService {
 	}
 	
 
+	/** 5. 멤버비번 업데이트 (고요한)
+	 * @param id
+	 * @param userPwd
+	 * @param newPwd
+	 * @return
+	 */
 	public int updatePwdMember(String id, String userPwd, String newPwd) {
 		Connection conn = getConnection();
 		
@@ -95,6 +119,11 @@ public class MemberService {
 	}
 	
 
+	/** 6. 멤버탈퇴 고요한
+	 * @param userId
+	 * @param userPwd
+	 * @return
+	 */
 	public int deleteMember(String userId, String userPwd) {
 		Connection conn = getConnection();
 		
@@ -112,6 +141,11 @@ public class MemberService {
 		
 	}
 	
+	/** 7. 아이디 찾기 고요한
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	public Member findId(String name, String email) {
 		Connection conn = getConnection();
 		
@@ -123,6 +157,43 @@ public class MemberService {
 		
 		
 		}
+	
+
+	/** 8. 비밀번호 찾기 고요한
+	 * @param pId
+	 * @param pName
+	 * @param pPhone
+	 * @return
+	 */
+	public Member findPwd(String pId, String pName, String pPhone) {
+		
+		Connection conn = getConnection();
+		
+		Member findPwdMem = new MemberDao().findPwd(conn, pId, pName, pPhone);
+		
+		close(conn);
+		
+		return findPwdMem;
+		
+		
+	}
+	
+	/**
+	 * 아이디 중복 체크
+	 * @param userId
+	 * @return
+	 */
+	public int idCheck(String userId) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().idCheck(conn, userId);
+		
+		close(conn);
+		
+		return result;
+	}
+	
 	/** 관리자 회원 리스트 총 개수
 	 * @return
 	 */

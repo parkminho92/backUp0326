@@ -69,9 +69,9 @@ public class BroomListServlet extends HttpServlet {
 	
 		
 		
-		ArrayList<BorrowRoom> list = new BroomService().selectList(pi);
+		ArrayList<BorrowRoom> bList = new BroomService().selectL(pi);
 		
-		request.setAttribute("list", list);
+		request.setAttribute("bList", bList);
 		request.setAttribute("pi",pi);
 		
 		request.getRequestDispatcher("views/borrow_room/borrowRoom.jsp").forward(request, response);

@@ -1,29 +1,30 @@
-package com.kh.qna.controller;
+package com.kh.notice.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kh.qna.model.service.QnaService;
-import com.kh.qna.model.vo.*;
+import com.kh.notice.model.service.NoticeService;
+import com.kh.notice.model.vo.*;
 
 /**
- * Servlet implementation class QnaServlet
+ * Servlet implementation class NoticeListServlet
  */
-@WebServlet("/qnaList.qa")
-public class QnaServlet extends HttpServlet {
+@WebServlet("/list.no")
+public class NotieceListServlet extends HttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaServlet() {
+    public NotieceListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +33,7 @@ public class QnaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+
 		int listCount;
 		int currentPage;
 		int startPage;
@@ -42,7 +43,7 @@ public class QnaServlet extends HttpServlet {
 		int pageLimit;
 		int boardLimit;
 		
-		listCount = new QnaService().getListCount();
+		listCount = new NoticeService().getListCount();
 		
 		currentPage = 1;
 		
@@ -67,17 +68,15 @@ public class QnaServlet extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount,currentPage,startPage,endPage,maxPage,pageLimit,boardLimit);
 	
 		
+		ArrayList<Notice> list = new NoticeService().selectList(pi);
 		
+		request.setAttribute("list", list);
+		request.setAttribute("pi", pi);
 		
-		ArrayList<Qna> qnaList = new QnaService().selectL(pi);
-		
-		request.setAttribute("qnaList",qnaList);
-		request.setAttribute("pi",pi);
-		RequestDispatcher view = request.getRequestDispatcher("views/qna/qnaListView.jsp");
-		
+		RequestDispatcher view = request.getRequestDispatcher("views/notice/noticeListView.jsp");
 		
 		view.forward(request, response);
-
+		
 		
 	}
 

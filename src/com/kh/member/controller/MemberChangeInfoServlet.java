@@ -33,38 +33,35 @@ public class MemberChangeInfoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-				request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String tel = request.getParameter("tel");
+		String id = request.getParameter("id");
+		
 
-				String email = request.getParameter("email");
-				String phone = request.getParameter("phone");
-				String tel = request.getParameter("tel");
-				String id = request.getParameter("id");
+		Member updateMem = new MemberService().updateMember(new Member(email, phone, tel, id));
+		
+		
+		if(updateMem != null) { 
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", updateMem);
 
-				//Member mem = new Member(userId, userName, phone, email, address, interest);
+			request.setAttribute("msg", "íšŒì› ì •ë³´ ìˆ˜ì •ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+			
+			RequestDispatcher view = request.getRequestDispatcher("views/member/memberInfoChange.jsp");
+			view.forward(request, response);
+			
+		}else { 
+			
+			request.setAttribute("msg", "íšŒì› ì •ë³´ ìˆ˜ì • ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 
-				// ºñÁî´Ï½º ·ÎÁ÷À» Ã³¸®ÇÏ´Â ¼­ºñ½º Å¬·¡½º¿¡ ÇØ´ç ¸Ş¼Òµå È£Ãâ ¹× Àü´Ş°ª Àü´Ş
-				//new MemberService().updateMember(mem);
-				Member updateMem = new MemberService().updateMember(new Member(email, phone, tel, id));
-
-				// Ã³¸® °á°ú¿¡ ¸ÂÃç »ç¿ëÀÚ°¡ º¸°ÔµÉ ÀÀ´äÈ­¸é ÁöÁ¤
-				if(updateMem != null) { // Á¦´ë·Î ¼öÁ¤µÈ °æ¿ì
-
-					HttpSession session = request.getSession();
-					session.setAttribute("loginUser", updateMem);
-
-					request.setAttribute("msg", "È¸¿ø Á¤º¸ ¼öÁ¤ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-
-					RequestDispatcher view = request.getRequestDispatcher("views/member/memberInfoChange.jsp");
-					view.forward(request, response);
-
-				}else { // Á¦´ë·Î ¼öÁ¤ÀÌ ¾ÈµÇ¾úÀ» °æ¿ì
-
-					request.setAttribute("msg", "È¸¿ø Á¤º¸ ¼öÁ¤ ½ÇÆĞÇß½À´Ï´Ù.");
-
-					RequestDispatcher view = request.getRequestDispatcher("views/common/memberInfoChange.jsp");
-					view.forward(request, response);
-
-				}
+			RequestDispatcher view = request.getRequestDispatcher("views/common/memberInfoChange.jsp");
+			view.forward(request, response);
+			
+		}
 
 	}
 

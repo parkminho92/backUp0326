@@ -493,7 +493,6 @@ public ArrayList<MovieCBS> selectOffList(Connection conn, PageInfo pi) {
 	return list;
 }
 
-<<<<<<< HEAD
 public String getGenre(Connection conn, int movieNo) {
 	
 	String genre ="";
@@ -585,7 +584,6 @@ public int deleteGenre(Connection conn, MovieCBS m) {
 	
 }
 
-=======
 public Movie selectL(Connection conn, int movieNo){
 	
 	Movie m = null;
@@ -623,8 +621,7 @@ public Movie selectL(Connection conn, int movieNo){
 
 	
 }
-  
->>>>>>> 0882a599149c15970fe5ec1c0b2ddf02d3babac6
+
 
 
 public int updateGenre(Connection conn, String[] genre, MovieCBS m) {

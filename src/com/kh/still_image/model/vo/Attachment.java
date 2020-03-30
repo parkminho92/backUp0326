@@ -1,4 +1,4 @@
-package com.kh.movie.model.vo;
+package com.kh.still_image.model.vo;
 
 import java.sql.Date;
 

@@ -38,7 +38,7 @@ public class ReservedFourView extends HttpServlet {
 		String sectionNo = request.getParameter("sectionNo");
 		String theaterNo = request.getParameter("theaterNo");
 		String movieNo = request.getParameter("movieNo");
-		String screenNo=null;
+		String screenNo = null;
 		if(request.getParameter("screenNo") != null) {
 			screenNo = request.getParameter("screenNo");
 		}else {
@@ -59,6 +59,8 @@ public class ReservedFourView extends HttpServlet {
 		Movie m = new MovieService().selectL(Integer.parseInt(movieNo));
 		MemberGrade loginMg = new MemberGradeService().selectGradeDiscount(userNo); // 로그인 회원의 등급+할인율
 		
+		request.setAttribute("movieNo", movieNo);
+		request.setAttribute("screenNo", screenNo);
 		request.setAttribute("ageLimit", m.getAgeLimit());
 		request.setAttribute("sectionNo", sectionNo);
 		request.setAttribute("memCode", memCodes.getMemCodes());

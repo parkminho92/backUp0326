@@ -34,22 +34,24 @@ public class MemberDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String userPwd = request.getParameter("pwd");
-
+		
 		HttpSession session = request.getSession();
-
+	
 		String userId = ((Member)session.getAttribute("loginUser")).getId();
-
+		
 		int result = new MemberService().deleteMember(userId, userPwd);
-
+		
 		if(result > 0) {
-
+			
 			session.removeAttribute("loginUser");
-			session.setAttribute("msg", "È¸¿ø Å»Åğ°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
-			response.sendRedirect(request.getContextPath());
-
+			session.setAttribute("msg", "íšŒì› íƒˆí‡´ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+			//response.sendRedirect(request.getContextPath());
+			RequestDispatcher view = request.getRequestDispatcher("views/member/loginPage.jsp");
+			view.forward(request, response);
+			
 		}else {
-			request.setAttribute("msg", "È¸¿ø Å»Åğ¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
-
+			request.setAttribute("msg", "íšŒì› íƒˆí‡´ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ë¹„ë°€ë²ˆí˜¸ë¥¼ ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”.");
+			
 			RequestDispatcher view = request.getRequestDispatcher("views/member/memberDelete.jsp");
 			view.forward(request, response);
 		}
