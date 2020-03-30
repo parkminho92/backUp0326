@@ -16,7 +16,7 @@ import com.kh.common.wrapper.EncryptWrapper;
 /**
  * Servlet Filter implementation class EncryptFilter
  */
-@WebFilter(filterName="encryptFilter", urlPatterns={"/insert.me", "/login.me", "/updatePwd.me"})
+@WebFilter(filterName="encryptFilter", urlPatterns= {"/login.me","/insert.me","/updatePwd.me"})
 public class EncryptFilter implements Filter {
 
     /**

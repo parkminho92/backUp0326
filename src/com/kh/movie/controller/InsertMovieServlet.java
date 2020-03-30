@@ -107,11 +107,11 @@ public class InsertMovieServlet extends HttpServlet {
 					
 					deleteFile.delete();
 				}
-				request.setAttribute("msg", "영화등록에 실패했습니다..");
+				
 				request.getRequestDispatcher("/views/movie/insertMovieForm.jsp").forward(request, response);
 			
 			}else {
-					request.getSession().setAttribute("msg", "영화등록에 성공했습니다.");
+					
 					response.sendRedirect("listComingMovie.mv");
 				
 				

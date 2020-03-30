@@ -6,6 +6,7 @@ import static com.kh.common.JDBCTemplate.getConnection;
 import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,14 +164,118 @@ public class MovieService {
 		return listCount;
 	}
 	
-	public ArrayList<Movie> selectOffList(PageInfo pi) {
+	public ArrayList<MovieCBS> selectOffList(PageInfo pi) {
 		
 		Connection conn = getConnection();
 		
-		ArrayList<Movie> list = new MovieDao().selectOffList(conn,pi);
+		ArrayList<MovieCBS> list = new MovieDao().selectOffList(conn,pi);
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	public String getGenre(int movieNo) {
+		
+		Connection conn = getConnection();
+		
+		String genre = new MovieDao().getGenre(conn, movieNo);
+		
+		close(conn);
+		
+		return genre;
+	}
+
+	public int updateMovie(MovieCBS m, String [] genre) {
+	
+		Connection conn = getConnection();
+		
+		int result1 = new MovieDao().updateMovie(conn,m);
+		
+		int result2 = 0; 
+		int result3 = 0;
+				
+		if(genre!=null) {
+		 result2 = new MovieDao().deleteGenre(conn,m);
+		 result3 = new MovieDao().updateGenre(conn,genre,m);
+		
+		}else {
+			result2 = 1;
+			result3 = 1;
+		}
+		
+		if(result1*result2*result3 >0) {
+			
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		
+		return result1*result2*result3;
+	}
+
+	public String[] getImages(int movieNo) {
+		
+		Connection conn = getConnection();
+		
+		String [] result = new MovieDao().getImages(conn, movieNo);
+		
+		close(conn);
+		
+		return result;
+		}
+
+	public int deleteMovie(int movieNo) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MovieDao().deleteMovie(conn,movieNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		
+		return result;
+	}
+
+	public int rerunMovie(int movieNo, Date rerunDate) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MovieDao().rerunMovie(conn,movieNo,rerunDate);
+		
+		if(result>0) {
+			
+			commit(conn);
+		}else {
+			
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+		
+		
+		
+	}
+
+	public ArrayList<MovieCBS> selectWholeMovie(int theaterNo) {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<MovieCBS> list = new MovieDao().selectWholeMovie(conn,theaterNo);
 		
 		close(conn);
 		
 		return list;
 	}
 }
+
+
+	

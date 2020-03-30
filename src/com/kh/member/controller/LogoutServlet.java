@@ -20,7 +20,6 @@ public class LogoutServlet extends HttpServlet {
      */
     public LogoutServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -28,9 +27,8 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// session에 저장된 값 비움 --> 로그인 되어있던 회원의 정보를 없앰
 		HttpSession session = request.getSession();
-		session.invalidate();    // 세션 무효화 (세션에 담겨있는 값 싹 비우기)
+		session.invalidate();   
 
 		response.sendRedirect(request.getContextPath());
 

@@ -37,7 +37,7 @@ public class MemberInsertServlet extends HttpServlet {
 		 
 		
 		 String id = request.getParameter("id"); 
-		 String pwd = request.getParameter("pwd"); 
+		 String pwd = request.getParameter("userPwd"); 
 		 String name = request.getParameter("name");
 		 String birth = request.getParameter("birth"); 
 		 String email = request.getParameter("email");
@@ -60,12 +60,14 @@ public class MemberInsertServlet extends HttpServlet {
 		  
 		 }else {
 		  
-		 request.setAttribute("msg", "회원가입 실패!");
-		  
-		 RequestDispatcher view = request.getRequestDispatcher("views/common/error.jsp");
-		 view.forward(request, response);
-		 
-		 }
+			 request.setAttribute("msg", "회원가입 실패!");
+			  
+			 RequestDispatcher view = request.getRequestDispatcher("views/member/memberEnrollForm.jsp");
+			 view.forward(request, response);
+			 
+		
+			 }
+			 
 		 
 		
 	}

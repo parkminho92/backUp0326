@@ -1,6 +1,7 @@
 package com.kh.movie.model.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 	public class MovieCBS {
 	
@@ -31,6 +32,10 @@ import java.sql.Date;
 
 	   /* STATUS */
 	   private String status;
+	   
+	   private String roomName;
+	   
+	   private Timestamp screenDate;
 
 	 public MovieCBS() {
 		super();
@@ -38,6 +43,56 @@ import java.sql.Date;
 	}
 	 
 	 
+	public MovieCBS(String title, String roomName, Timestamp screenDate) {
+		super();
+		this.title = title;
+		this.roomName = roomName;
+		this.screenDate = screenDate;
+	}
+
+
+	public MovieCBS(String title) {
+		super();
+		this.title = title;
+	}
+	
+	
+
+	
+
+	public MovieCBS(int movieNo, String title) {
+		super();
+		this.movieNo = movieNo;
+		this.title = title;
+	}
+
+
+
+	public MovieCBS(int movieNo, String title, int runtime, int ageLimit, Date onDate) {
+		super();
+		this.movieNo = movieNo;
+		this.title = title;
+		this.runtime = runtime;
+		this.ageLimit = ageLimit;
+		this.onDate = onDate;
+	}
+
+
+
+	public MovieCBS(int movieNo, String title, int runtime, String director, String actor, int ageLimit,
+			String synopsis, Date onDate) {
+		super();
+		this.movieNo = movieNo;
+		this.title = title;
+		this.runtime = runtime;
+		this.director = director;
+		this.actor = actor;
+		this.ageLimit = ageLimit;
+		this.synopsis = synopsis;
+		this.onDate = onDate;
+	}
+
+
 
 	public MovieCBS(String title, String director, String actor, Date onDate, int runtime,   int ageLimit, String synopsis
 			) {
@@ -146,6 +201,48 @@ import java.sql.Date;
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	
+
+	public String getRoomName() {
+		return roomName;
+	}
+
+
+
+
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+
+
+
+
+
+
+	public Timestamp getScreenDate() {
+		return screenDate;
+	}
+
+
+
+
+
+
+
+
+	public void setScreenDate(Timestamp screenDate) {
+		this.screenDate = screenDate;
+	}
+
+
+
+
+
+
+
 
 	@Override
 	public String toString() {

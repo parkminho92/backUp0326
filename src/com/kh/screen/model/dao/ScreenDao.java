@@ -5,14 +5,18 @@ import static com.kh.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.kh.movie.model.vo.MovieCBS;
 import com.kh.screen.model.vo.Screen;
+import com.kh.screen.model.vo.ScreenCBS;
 
 public class ScreenDao {
 	Properties prop = new Properties();
@@ -131,4 +135,119 @@ public class ScreenDao {
 		}
 		return screenNo;
 	}
+
+	public int insertScreenInfo(Connection conn, int roomNo, int movieNo, String[] sDate) {
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertScreenInfo");
+		
+				
+		try {
+		
+			
+			for(int i=0; i<sDate.length;i++) {
+			
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, roomNo);
+				pstmt.setInt(2, movieNo);
+				pstmt.setString(3, sDate[i]); // "2020-11-22 11:20:00
+				
+				result=pstmt.executeUpdate();
+			}
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+				finally {
+					
+					close(pstmt);
+				}
+				return result;	
+			}
+
+	public ArrayList<ScreenCBS> selectWholeMovie(Connection conn, int movieNo, int theaterNo) {
+		
+		ArrayList<ScreenCBS> list = new ArrayList();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectWholeScreenInfo");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, movieNo);
+			pstmt.setInt(2, theaterNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ScreenCBS m = new ScreenCBS(rset.getInt("screen_No"),
+											rset.getTimestamp("screen_date"),
+											rset.getString("name"));
+				
+				
+				
+				list.add(m);
+			}
+					
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+	}
+		finally {
+			
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<ScreenCBS> updateScreenForm(Connection conn, int theaterNo) {
+		
+		ArrayList<ScreenCBS> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("updateScreenList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, theaterNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				ScreenCBS sc = new ScreenCBS(rset.getInt("movie_no"),rset.getString("title")
+											);
+			
+						list.add(sc);
+			
+			}
+					
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
+	
 }

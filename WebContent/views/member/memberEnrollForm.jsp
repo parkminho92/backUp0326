@@ -210,7 +210,7 @@ line-height: 1.29;
 						<tr>
 							<th scope="row"><span class="essential">*</span>비밀번호</th>
 							<td>
-								<input name="pwd" title="비밀번호" class="input pwd" id="pwd1" required="" type="password" placeholder="영문 + 숫자 조합으로 8자 이상">
+								<input name="userPwd" title="비밀번호" class="input pwd" id="pwd1" required="" type="password" placeholder="영문 + 숫자 조합으로 8자 이상">
 							</td>
 						</tr>
 						<tr>

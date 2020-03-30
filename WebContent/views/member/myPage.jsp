@@ -28,7 +28,7 @@ body {
   height:100px;
 }
 #jb-content {
-  width: 500px;
+  width: 450px;
   padding: 20px;
   margin-bottom: 70px;
   float: left;
@@ -37,7 +37,7 @@ body {
   margin-top:40px;
 }
 #jb-sidebar {
-  width: 350px;
+  width: 400px;
   padding: 20px;
   margin-bottom: 70px;
   float: right;
@@ -105,13 +105,7 @@ body {
         </div>
         <div id="jb-sidebar">
           <h2>My 영화</h2>
-          <hr>
-            <div id="pick" onclick="location.href='pickMovie.do'">
-              <h3>내가 찜한 영화</h3>
-            </div>
-            <div id="watched" onclick="location.href='watchedMovie.do'">
-              <h3>내가 본 영화</h3>
-            </div>
+          <%@ include file="../payment/myPayment.jsp"%>
         </div>
 
         <div id=jb-footer>

@@ -31,6 +31,12 @@ public class MemberDao {
 		
 	}
 
+	/** 1. 로그인(고요한)
+	 * @param conn
+	 * @param userId
+	 * @param userPwd
+	 * @return
+	 */
 	public Member loginMember(Connection conn, String userId, String userPwd) {
 		
 		Member loginUser = null;
@@ -76,6 +82,12 @@ public class MemberDao {
 	}
 	
 	
+	/** 2. 회원가입 (고요한)
+	 * @param conn
+	 * @param m
+	 * @param birth
+	 * @return
+	 */
 	public int insertMember(Connection conn, Member m, String birth) {
 		
 	int result = 0;
@@ -109,6 +121,11 @@ public class MemberDao {
 	}
 
 	
+	/** 3. 아이디로 멤버조회(고요한)
+	 * @param conn
+	 * @param userId
+	 * @return
+	 */
 	public Member selectMember(Connection conn, String userId) {
 	
 	Member mem = null;
@@ -156,6 +173,11 @@ public class MemberDao {
 	}
 
 	
+	/** 4. 멤버정보 업데이트(고요한)
+	 * @param conn
+	 * @param m
+	 * @return
+	 */
 	public int updateMember(Connection conn, Member m) {
 		
 		int result = 0;
@@ -183,6 +205,13 @@ public class MemberDao {
 	}
 	
 	
+	/** 5. 멤버비밀번호 업데이트(고요한)
+	 * @param conn
+	 * @param id
+	 * @param userPwd
+	 * @param newPwd
+	 * @return
+	 */
 	public int updatePwdMember(Connection conn, String id, String userPwd, String newPwd) {
 	
 	int result = 0;
@@ -210,6 +239,12 @@ public class MemberDao {
 	}
 	
 	
+	/** 6. 회원탈퇴 고요한
+	 * @param conn
+	 * @param userId
+	 * @param userPwd
+	 * @return
+	 */
 	public int deleteMember(Connection conn, String userId, String userPwd) {
 		
 		int result = 0;
@@ -235,6 +270,12 @@ public class MemberDao {
 		
 	}
 
+	/** 7. 아이디 찾기(고요한)
+	 * @param conn
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	public Member findId(Connection conn, String name, String email) {
 		
 		Member findIdMem = null;
@@ -272,6 +313,13 @@ public class MemberDao {
 	}
 	
 	
+	/** 8. 비밀번호 찾기 (고요한)
+	 * @param conn
+	 * @param pId
+	 * @param pName
+	 * @param pPhone
+	 * @return
+	 */
 	public Member findPwd(Connection conn, String pId, String pName, String pPhone) {
 		
 		Member findPwdMem = null;
@@ -308,6 +356,11 @@ public class MemberDao {
 			
 	}
 	
+	/** 9. 아이디 확인 (고요한)
+	 * @param conn
+	 * @param userId
+	 * @return
+	 */
 	public int idCheck(Connection conn, String userId) {
 		
 		int result = 0;

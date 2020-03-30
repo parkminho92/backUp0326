@@ -134,6 +134,10 @@
             		
             	}
             	
+            	function goScreen(){
+            			location.href = "<%=request.getContextPath()%>/listScreen.sc"
+            	}
+            	
             	/* sujin List of Reserved*/
             	function listReserved(){
             		location.href="<%=request.getContextPath()%>/listAllReserved.do"
@@ -189,7 +193,8 @@
             <button class="listBtn">영화관 관리</button>
             <div class="menu">
                 <label onclick="goListTheater();">영화관 목록</label><br>
-                <label onclick="goInsertTheater();">영화관 등록</label><br> 
+                <label onclick="goInsertTheater();">영화관 등록</label><br>
+                <label onclick="goScreen();">전체 상영 정보</label> 
             </div>
             
             <button class="listBtn">회원관리</button>

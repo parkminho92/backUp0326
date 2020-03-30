@@ -32,27 +32,23 @@ public class MemberUpdatePwdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String userPwd = request.getParameter("Pwd");
 		String newPwd = request.getParameter("newPwd");
-
-
 
 		HttpSession session = request.getSession();
 		String id = ((Member)session.getAttribute("loginUser")).getId();
 
 		int result = new MemberService().updatePwdMember(id, userPwd, newPwd);
-
+		
 		if(result>0) {
-			request.setAttribute("msg", "ºñ¹Ğ¹øÈ£ º¯°æÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+			request.setAttribute("msg", "ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			RequestDispatcher view = request.getRequestDispatcher("views/member/updatePwdForm.jsp");
 			view.forward(request, response);
 		}else {
-			request.setAttribute("msg", "ºñ¹Ğ¹øÈ£ º¯°æ¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+			request.setAttribute("msg", "ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”.");
 			RequestDispatcher view = request.getRequestDispatcher("views/member/updatePwdForm.jsp");
 			view.forward(request, response);
 		}
-
 
 	}
 

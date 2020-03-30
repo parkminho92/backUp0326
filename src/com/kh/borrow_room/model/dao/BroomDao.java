@@ -182,8 +182,58 @@ public int insertBroom(Connection conn, BorrowRoom b, int loginUserNo, String bd
 			close(stmt);
 		}
 		return listCount;
+
+	}
+	
+	
+	/** 1. 대관문의 게시판 조회용 서비스 (HAJIN)
+	 * @param conn
+	 * @return
+	 */
+	public ArrayList<BorrowRoom> selectL(Connection conn, PageInfo pi){
+		
+		ArrayList<BorrowRoom> list = new ArrayList<>();
 		
 		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBroom");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new BorrowRoom(rset.getInt("BORROW_ROOM_NO"),
+										rset.getInt("MEMBER_NO"),
+										rset.getString("TITLE"),
+										rset.getString("SECRET_STATUS"),
+										rset.getString("SECRET_PWD"),
+										rset.getInt("ADULT_COUNT"),
+										rset.getInt("YOUTH_COUNT"),
+										rset.getInt("SENIOR_COUNT"),
+										rset.getInt("DISABLED_COUNT"),
+										rset.getDate("HOPE_DATE"),
+										rset.getString("CONTENT"),
+										rset.getDate("REGI_DATE"),
+										rset.getString("EMAIL"),
+										rset.getString("REPLY_STATUS")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 		
 	}
 

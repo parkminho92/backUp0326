@@ -1,14 +1,17 @@
 package com.kh.payment.model.dao;
 
+import static com.kh.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-import static com.kh.common.JDBCTemplate.*;
 import com.kh.payment.model.vo.Payment;
 
 public class PaymentDao {
@@ -96,6 +99,36 @@ public class PaymentDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	/** 3. 회원번호로 결제완료(이미본) 영화 리스트 가져오기(myPage홈화면)
+	 * @param conn
+	 * @param userNo
+	 * @return
+	 */
+	public List<PaymentDto> watchedMovie(Connection conn, int userNo) {
+		List<PaymentDto> pd = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("myPageMainPayment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				pd.add(new PaymentDto(rset.getString("TITLE"),
+						rset.getInt("AGE_LIMIT"), rset.getTimestamp("SCREEN_DATE"),
+						rset.getString("MODIFY_NAME")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return pd;
 	}
 
 }

@@ -34,37 +34,30 @@ public class SearchIdServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		RequestDispatcher view = request.getRequestDispatcher("views/member/searchId.jsp");
-		view.forward(request, response);
-
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-
-		HttpSession session = request.getSession();
-		String id = ((Member)session.getAttribute("loginUser")).getId();
-
-		Member findIdMem = new MemberService().findId(id, name, email);
-
-
+		
+		Member findIdMem = new MemberService().findId(name, email);	
+		
 		if (findIdMem != null) { 
 
-			session.setAttribute("findIdMem", findIdMem);
-			request.setAttribute("msg", "ºñ¹Ğ¹øÈ£ º¯°æÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+			
+			request.setAttribute("msg", findIdMem.getId());
+			RequestDispatcher view = request.getRequestDispatcher("views/member/searchId.jsp");
+			view.forward(request, response);
 
-			response.sendRedirect(request.getContextPath());
-
-
+			
+			
 		} else {
-
-
-			String message = "ÀÌ¸§ ¶Ç´Â ÀÌ¸ŞÀÏÀ» ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä";
+			
+			String message = "ì´ë¦„ ë˜ëŠ” ì´ë©”ì¼ì„ ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”";
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('" + message + "');");
 			out.println("history.back(-1);");
 			out.println("</script>");
-
+		
 
 		}
 	}
