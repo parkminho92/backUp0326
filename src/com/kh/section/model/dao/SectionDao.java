@@ -5,6 +5,7 @@ import static com.kh.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.kh.section.model.vo.Section;
+import com.kh.section.model.vo.SectionCBS;
 
 public class SectionDao {
 	Properties prop = new Properties();
@@ -65,7 +67,44 @@ public class SectionDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<SectionCBS> selectWholeSection(Connection conn) {
+		
+		ArrayList<SectionCBS> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectWholeSection");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				SectionCBS sc = new SectionCBS(rset.getInt("section_no"),
+											   rset.getString("name"));
+				
+				list.add(sc);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			
+			close(rset);
+			close(pstmt);
+		}
+		
 		return list;
 	}
 

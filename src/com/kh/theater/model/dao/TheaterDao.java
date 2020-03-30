@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.kh.movie.model.vo.MovieCBS;
 import com.kh.room.model.vo.RoomCBS;
 import com.kh.theater.model.vo.PageInfo;
 import com.kh.theater.model.vo.Theater;
@@ -303,6 +304,110 @@ public TheaterCBS selectTheater(Connection conn, int theaterNo) {
 	
 	return list;
 }
+	
+	public ArrayList<MovieCBS> selectModalMovieList(Connection conn) {
+		ArrayList<MovieCBS> list = new ArrayList<>();
+	
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+	
+		String sql = prop.getProperty("selectModalMovieList");
+	
+		try {
+			pstmt=conn.prepareStatement(sql);
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new MovieCBS(rset.getInt("movie_no"),
+								      rset.getString("title")));
+			
+			}
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+	
+	
+	
+		return list;
+
+		}
+
+	public int updateTheater(Connection conn, TheaterCBS t) {
+		
+		int result=0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateTheater");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, t.getName());
+			pstmt.setString(2, t.getAddress());
+			pstmt.setString(3, t.getPhone());
+			pstmt.setString(4, t.getTransport());
+			pstmt.setString(5, t.getParking());
+			pstmt.setDouble(6, t.getLongitude());
+			pstmt.setDouble(7, t.getLatitude());
+			pstmt.setInt(8, t.getTheaterNo());
+			
+			result=pstmt.executeUpdate();
+					
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		finally {
+			
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	public ArrayList<TheaterCBS> selectWholeTheater(Connection conn, int sectionNo) {
+		
+		ArrayList<TheaterCBS> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectWholeTheater");
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, sectionNo);
+			
+			rset= pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				TheaterCBS t = new TheaterCBS(rset.getInt("theater_no"),
+											  rset.getString("name"),
+											  sectionNo);
+				
+				list.add(t);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 	
 
 }

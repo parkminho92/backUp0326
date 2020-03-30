@@ -1,5 +1,7 @@
 package com.kh.theater.model.vo;
 
+import java.sql.Connection;
+
 public class TheaterCBS {
    /* THEATER_NO */
    private int theaterNo;
@@ -36,6 +38,41 @@ public TheaterCBS() {
 	super();
 	// TODO Auto-generated constructor stub
 }
+
+
+
+public TheaterCBS(int theaterNo, String name) {
+	super();
+	this.theaterNo = theaterNo;
+	this.name = name;
+}
+
+
+
+
+public TheaterCBS(int theaterNo, String name, int sectionNo) {
+	super();
+	this.theaterNo = theaterNo;
+	this.name = name;
+	this.sectionNo = sectionNo;
+}
+
+
+
+public TheaterCBS(int theaterNo, String name, String address, String phone, String transport, String parking,
+		double longitude, double latitude) {
+	super();
+	this.theaterNo = theaterNo;
+	this.name = name;
+	this.address = address;
+	this.phone = phone;
+	this.transport = transport;
+	this.parking = parking;
+	this.longitude = longitude;
+	this.latitude = latitude;
+}
+
+
 
 public TheaterCBS(int theaterNo, String name, String address, String phone, int roomCount, String transport,
 		String parking, double longitude, double latitude, int sectionNo, String sectionName) {
@@ -179,5 +216,4 @@ public String toString() {
 }
 
 
-   
 }

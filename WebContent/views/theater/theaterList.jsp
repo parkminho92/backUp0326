@@ -111,9 +111,9 @@ int endPage = pi.getEndPage();
 		$(function(){
 			$(".listArea>tbody>tr").click(function(){
 				
-				var TheaterNo = $(this).children().eq(0).text();
+				var theaterNo = $(this).children().eq(0).text();
 				
-				location.href="<%=request.getContextPath()%>/detail.ta?TheaterNo=" + TheaterNo;
+				location.href="<%=request.getContextPath()%>/detail.ta?theaterNo=" + theaterNo;
 			});
 		});
 		

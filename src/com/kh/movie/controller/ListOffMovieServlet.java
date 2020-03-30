@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kh.movie.model.service.MovieService;
-import com.kh.movie.model.vo.Movie;
+import com.kh.movie.model.vo.MovieCBS;
 import com.kh.movie.model.vo.PageInfo;
 
 /**
@@ -68,7 +68,7 @@ public class ListOffMovieServlet extends HttpServlet {
 			PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
 		
 		
-		ArrayList<Movie> list = new MovieService().selectOffList(pi);
+		ArrayList<MovieCBS> list = new MovieService().selectOffList(pi);
 
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
