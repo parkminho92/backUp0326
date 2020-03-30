@@ -32,10 +32,11 @@ public class DetailTheaterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int TheaterNo = Integer.parseInt(request.getParameter("TheaterNo"));
 		
-		TheaterCBS t = new TheaterService().selectTheater(TheaterNo);
-		ArrayList<RoomCBS> r = new TheaterService().getRoomInfo(TheaterNo);
+		int theaterNo = Integer.parseInt(request.getParameter("theaterNo"));
+		System.out.println(theaterNo);
+		TheaterCBS t = new TheaterService().selectTheater(theaterNo);
+		ArrayList<RoomCBS> r = new TheaterService().getRoomInfo(theaterNo);
 		
 	
 		
@@ -46,7 +47,7 @@ public class DetailTheaterServlet extends HttpServlet {
 			
 		}else {
 			
-			request.getSession().setAttribute("msg","영화관 상세조회 실패");
+			
 			response.sendRedirect("listTheater.ta");
 		}
 	}

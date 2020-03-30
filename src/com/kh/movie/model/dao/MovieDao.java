@@ -5,6 +5,7 @@ import static com.kh.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -436,9 +437,9 @@ public int getOffListCount(Connection conn) {
 
 }
 
-public ArrayList<Movie> selectOffList(Connection conn, PageInfo pi) {
+public ArrayList<MovieCBS> selectOffList(Connection conn, PageInfo pi) {
 	
-	ArrayList<Movie> list = new ArrayList<>();
+	ArrayList<MovieCBS> list = new ArrayList<>();
 	
 	PreparedStatement pstmt = null;
 	ResultSet rset = null;
@@ -458,7 +459,7 @@ public ArrayList<Movie> selectOffList(Connection conn, PageInfo pi) {
 		
 		while(rset.next()) {
 			
-			list.add(new Movie(rset.getInt("movie_no"),
+			list.add(new MovieCBS(rset.getInt("movie_no"),
 							   rset.getString("title"),
 							   rset.getInt("runtime"),
 							   rset.getInt("age_limit"),
@@ -477,7 +478,256 @@ public ArrayList<Movie> selectOffList(Connection conn, PageInfo pi) {
 	return list;
 }
 
+public String getGenre(Connection conn, int movieNo) {
+	
+	String genre ="";
+	
+	PreparedStatement pstmt = null;
+	
+	ResultSet rset = null;
+	
+	String sql = prop.getProperty("getGenre");
+	
+	try {
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, movieNo);
+		
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+			genre += " " + rset.getString(1);
+		}
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}finally {
+		close(rset);
+		close(pstmt);
+	}
+	
+	
+	
+	return genre;
+}
+
+
+
+public int updateMovie(Connection conn, MovieCBS m) {
+	
+	int result = 0;
+	PreparedStatement pstmt = null;
+	
+	String sql = prop.getProperty("updateMovie");
+	
+	try {
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, m.getTitle());
+		pstmt.setString(2, m.getDirector());
+		pstmt.setString(3, m.getActor());
+		pstmt.setDate(4, m.getOnDate());
+		pstmt.setInt(5, m.getRuntime());
+		pstmt.setInt(6, m.getAgeLimit());
+		pstmt.setString(7, m.getSynopsis());
+		pstmt.setInt(8, m.getMovieNo());
+		
+		result = pstmt.executeUpdate();
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}finally {
+		close(pstmt);
+	}
+	return result;
+	
+}
+
+
+
+public int deleteGenre(Connection conn, MovieCBS m) {
+	
+	int result = 0;
+	
+	PreparedStatement pstmt = null;
+	
+	String sql = prop.getProperty("deleteGenre");
+	
+	
+	try {
+		pstmt= conn.prepareStatement(sql);
+		pstmt.setInt(1, m.getMovieNo());
+		
+		result = pstmt.executeUpdate();
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}finally {
+		
+		close(pstmt);
+	}
+	
+	return result;
+	
+}
+
+
+
+public int updateGenre(Connection conn, String[] genre, MovieCBS m) {
+	
+	int result= 0;
+	
+	PreparedStatement pstmt = null;
+	
+	String sql = prop.getProperty("updateMovieGenre");
+	
+	try {
+		pstmt=conn.prepareStatement(sql);
+		
+		for(int i=0;i<genre.length;i++) {
+			
+			pstmt.setInt(1, m.getMovieNo());
+			pstmt.setString(2, genre[i]);
+			
+			result= pstmt.executeUpdate();
+			
+			
+		}
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}finally {
+		close(pstmt);
+	}
+	
+	return result;
+}
+
+
+
+public String[] getImages(Connection conn, int movieNo) {
+	
+	String [] result = new String [4];
+	
+	PreparedStatement pstmt = null;
+	
+	ResultSet rset = null;
+	
+	String sql = prop.getProperty("getMovieImages");
+	
+	try {
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, movieNo);
+		
+		rset = pstmt.executeQuery();
+		
+			for(int i=0; rset.next(); i++) {
+			result[i] = rset.getString("modify_name");
+			
+			}
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}finally {
+		close(rset);
+		close(pstmt);
+	}
+	return result;
+}
+
+
+
+public int deleteMovie(Connection conn, int movieNo) {
+		
+	int result = 0;
+	
+	PreparedStatement pstmt = null;
+	
+	String sql = prop.getProperty("deleteMovie");
+	
+	try {
+		pstmt=conn.prepareStatement(sql);
+		
+		pstmt.setInt(1, movieNo);
+		
+		result = pstmt.executeUpdate();
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}finally {
+		close(pstmt);
+	}
+	
+	return result;
+}
+
+
+
+public int rerunMovie(Connection conn, int movieNo, Date rerunDate) {
+	
+	int result = 0;
+	
+	PreparedStatement pstmt = null;
+	
+	String sql = prop.getProperty("rerunMovie");
+	
+	try {
+		pstmt=conn.prepareStatement(sql);
+		
+		pstmt.setDate(1,rerunDate);
+		pstmt.setInt(2, movieNo);
+		
+		result= pstmt.executeUpdate();
+	} catch (SQLException e) {
+	
+		e.printStackTrace();
+	}finally {
+		close(pstmt);
+	}
+	
+	
+	return result;
+}
+
+
+
+public ArrayList<MovieCBS> selectWholeMovie(Connection conn, int theaterNo) {
+	
+	ArrayList<MovieCBS> list = new ArrayList();
+	
+	PreparedStatement pstmt = null;
+	
+	ResultSet rset = null;
+	
+	String sql = prop.getProperty("selectWholeMovie");
+	
+	try {
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setInt(1, theaterNo);
+		
+		rset = pstmt.executeQuery();
+		
+		while(rset.next()) {
+			
+			MovieCBS m = new MovieCBS(rset.getInt("movie_no"),
+									  rset.getString("title"));
+			
+			list.add(m);
+		}
+				
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}
+	finally {
+		
+		close(rset);
+		close(pstmt);
+	}
+	
+	return list;
+}
+
+}
+
 
   
 
-}
