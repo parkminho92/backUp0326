@@ -1,10 +1,15 @@
 package com.kh.payment.model.service;
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.kh.payment.model.dao.PaymentDao;
+import com.kh.payment.model.dao.PaymentDto;
 import com.kh.payment.model.vo.Payment;
 
 public class PaymentService {
@@ -40,6 +45,17 @@ public class PaymentService {
 		}
 		
 		return 1;
+	}
+	
+	/** 3. 회원번호로 결제완료(이미본) 영화 리스트 가져오기(myPage홈화면)
+	 * @param userNo
+	 * @return
+	 */
+	public List<PaymentDto> watchedMovie(int userNo){
+		Connection conn = getConnection();
+		List<PaymentDto> pd = new PaymentDao().watchedMovie(conn, userNo);
+		close(conn);
+		return pd;
 	}
 
 }

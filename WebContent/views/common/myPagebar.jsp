@@ -53,7 +53,7 @@
     <div class="sub-title">마이페이지</div>
     <div class="sub-tabs">
         <ul>
-            <li >
+            <li>
             	<a href="<%=request.getContextPath()%>/infoChange.me">회원정보</a>
             		<ul>
 						<li>
@@ -67,18 +67,19 @@
 						</li>
 					</ul>
             </li>
-            <li >
+            <li>
             	<a href="#">MY 영화</a>
             		<ul>
 						<li>
-							<a href="<%=request.getContextPath() %>/reserveDetail.do">새예약확인</a>
+							<a href="<%=request.getContextPath() %>/reserveDetail.do">예매확인</a>
 						</li>
 						<li>
 							<a href="#">관람한영화</a>
 						</li>
 					</ul>
             </li>
-            <li ><a href="#">일대일문의</a></li>
+            <li><a href="#">일대일문의</a>
+            </li>
         </ul>
     </div>
     </div>

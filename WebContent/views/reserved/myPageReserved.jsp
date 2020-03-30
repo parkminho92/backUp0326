@@ -8,12 +8,11 @@
 				javax.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <%
-	HttpSession ses = request.getSession();
 	Integer userNo = null;
-	if((Member)ses.getAttribute("loginUser")==null) {
+	if((Member)session.getAttribute("loginUser")==null) {
 		userNo = 1;
 	}else {
-		userNo = ((Member)ses.getAttribute("loginUser")).getMemberNo();
+		userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
 	}
 	
 	List<ListOfReserved> movies = new ReserveService().findServedInfoByUserNo(userNo);

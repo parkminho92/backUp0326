@@ -169,7 +169,7 @@
             	<!-- 이전 페이지 -->
 	            <% if(pageInfo.getCurrentPage() != 1){ %>
             		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=1">&lt;&lt;</a>
-            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%= pageInfo.getCurrentPage()-1%>"> &lt;</a>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%= pageInfo.getCurrentPage()-1%>&countPerPage=<%=countPerPage%>"> &lt;</a>
             	<% } %>
             	
             	<!-- 페이지 목록 -->
@@ -177,13 +177,13 @@
             		<% if(pageInfo.getCurrentPage() == p){ %>
             			<a href="#" style="text-decoration:none;"><%= p %></a>
             		<% }else{ %>
-            			<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=p%>"><%=p %></a>
+            			<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=p%>&countPerPage=<%=countPerPage%>"><%=p %></a>
             		<% } %>
             	<% } %>
             	
             	<!-- 다음페이지-->
             	<% if(pageInfo.getCurrentPage() != pageInfo.getMaxPage()){ %>
-            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getCurrentPage()+1%>">&gt;</a>
+            		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getCurrentPage()+1%>&countPerPage=<%=countPerPage%>">&gt;</a>
             		<a href="<%=request.getContextPath()%>/listAllReserved.do?currentPage=<%=pageInfo.getMaxPage()%>">&gt;&gt;</a>
             	<% } %>
             	<!-- 맨마지막 페이지 -->
