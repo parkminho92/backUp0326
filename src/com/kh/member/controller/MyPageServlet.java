@@ -41,17 +41,17 @@ public class MyPageServlet extends HttpServlet {
 		Member mem = new MemberService().selectMember(userId);
 
 
-		if(mem != null) { // Á¶È¸ µÇ¾úÀ» °æ¿ì --> ¸¶ÀÌÆäÀÌÁö
+		if(mem != null) {
 
 			request.setAttribute("mem", mem);
 
 			RequestDispatcher view = request.getRequestDispatcher("views/member/myPage.jsp");
 			view.forward(request, response);	
 
-		}else { // Á¶È¸ ¾ÈµÇ¾úÀ» °æ¿ì
+		}else { // ï¿½ï¿½È¸ ï¿½ÈµÇ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 
-			request.setAttribute("msg", "Á¶È¸¿¡ ½ÇÆÐÇß½À´Ï´Ù.");
+			request.setAttribute("msg", "ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 
 			RequestDispatcher view = request.getRequestDispatcher("views/common/error.jsp");
 			view.forward(request, response);
