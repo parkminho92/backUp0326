@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.kh.faq.model.dao.FaqDao;
-import com.kh.faq.model.vo.Faq;
-import com.kh.faq.model.vo.PageInfo;
+import com.kh.faq.model.vo.*;
+
 
 public class FaqService {
 

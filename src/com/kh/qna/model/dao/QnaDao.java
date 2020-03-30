@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.kh.qna.model.vo.PageInfo;
 import com.kh.qna.model.vo.Qna;
 
+
 public class QnaDao {
 
 	private Properties prop = new Properties();
@@ -29,6 +30,10 @@ public class QnaDao {
 		}
 	}
 	
+	/** 1. Qna 전체 list 조회용 서비스
+	 * @param conn
+	 * @return
+	 */
 	public int getListCount(Connection conn) {
 		int listCount = 0;
 		
@@ -51,10 +56,10 @@ public class QnaDao {
 			close(rset);
 			close(stmt);
 		}
-		
 		return listCount;
 	}
 	
+
 	public ArrayList<Qna> selectList(Connection conn, PageInfo pi) {
 		ArrayList<Qna> list = new ArrayList<>();
 		
@@ -149,4 +154,5 @@ public class QnaDao {
 		
 		return result;
 	}
+
 }

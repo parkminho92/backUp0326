@@ -12,8 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.kh.faq.model.vo.Faq;
-import com.kh.faq.model.vo.PageInfo;
+import com.kh.faq.model.vo.*;
+
 
 public class FaqDao {
 
@@ -28,13 +28,16 @@ public class FaqDao {
 			e.printStackTrace();
 		}
 	}
+
+  /* hajin */
 	
+
+  
+  /* cbs */
 	public int getListCount(Connection conn) {
 		int listCount = 0;
-		
 		Statement stmt = null;
 		ResultSet rset = null;
-		
 		String sql = prop.getProperty("getListCount");
 		
 		try {
@@ -62,7 +65,7 @@ public class FaqDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectAdminList");
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
@@ -76,8 +79,10 @@ public class FaqDao {
 			
 			while(rset.next()) {
 				list.add(new Faq(rset.getInt("faq_no"),
+								 rset.getString("question"),
+								 rset.getString("answer"),
 								 rset.getString("type"),
-								 rset.getString("question")));
+								 rset.getString("status")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

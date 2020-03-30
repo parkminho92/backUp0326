@@ -14,19 +14,24 @@
 
 
 <style>
+	*{margin:0;padding:0;}
+	html, body {
+		height:100%;
+		background-color: #d4d4d4;	
+	}
     div{
         box-sizing: border-box;
         
         }
 
     #wrap{
-        width: 1000px;
-        height: 1000px;
+        width: 1200px;
+        height: 800px;
     }
     #top{
         width: 100%;
-        height: 60px;
-        background-color: darkgray;
+        height: 100px;
+        background:rgb(44,44,44);
       
     }
     #mode{
@@ -37,35 +42,40 @@
     #body{
         width: 100%;
         height: 88%;
-
+		
     }
     #navbar{
         width: 200px;
-        height: 700px;
+        height: 100%;
         float: left;
         line-height: 80px;
-        
+        background:rgb(44,44,44);
+        font-size: large;
+    	font-weight: bold;
     }
 
     .listBtn{
         width: 200px;
         height: 40px;
-        border-radius: 10px;
         cursor: pointer;
-
+		background:rgb(44,44,44);
+		color:rgb(243, 243, 243);
+		font-size: large;
+   	 	font-weight: bold;
     }
     .listBtn:hover{
         background-color: gray;
     }
     .menu{
         text-align: center;
-        font-size: 15px;
-        font-weight: bold;
         line-height: 50px;
         display: none;
         border-bottom: 1px solid gray;
         border-right: 1px solid gray;
         border-bottom-right-radius: 10px;
+        color:rgb(243, 243, 243);
+		font-size: large;
+   	 	font-weight: bold;
     }
 
     .menu label{
@@ -74,7 +84,7 @@
    
 	#logoHome:hover { cursor: pointer; }
 
-
+	#follow { position:absolute; top:180px; right:50%; margin-right:-670px; }
 
 </style>
 <body>
@@ -83,7 +93,7 @@
 
     <div id="top">
          <div>
-         	<img id="logoHome" src="<%=request.getContextPath() %>/resources/images/p_logo.png" width="150px;">
+         	<img id="logoHome" src="<%=request.getContextPath() %>/resources/images/p_logo.png" width=200px;">
          		<div id="mode">관리자 모드</div>
          </div>
          
@@ -166,7 +176,7 @@
             </script>
             
 
-        <div id="navbar">
+        <div id="navbar" id="follw">
             <button class="listBtn">영화관리</button>
             <div class="menu">
                 <label onclick="goInsertMovie();">새영화등록</label><br>
@@ -241,6 +251,15 @@
 
                 });
 
+            });
+            
+            $(window).scroll(function(){
+            	var scrollTop = $(document).scrollTop();
+            	if (scrollTop < 180) {
+            	 scrollTop = 180;
+            	}
+            	$("#follow").stop();
+            	$("#follow").animate( { "top" : scrollTop });
             });
 
 
