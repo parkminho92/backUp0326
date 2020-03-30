@@ -89,12 +89,12 @@ body, html{
    
         <div id="noticeMenu">
             <h2>고객센터</h2>
-            <ul>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req2.png" alt="">FAQ</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req3.png" alt="">공지사항</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req4.png" alt="">분실물찾기</a></li>
-                <li><a href=""><img src="<%=contextPath %>/resources/images/req5.png" alt="">대관문의</a></li>
+            <<ul>
+                <li><a href="<%=contextPath%>/qnaList.qa"><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href="<%=contextPath%>/faq.fq"><img src="resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href="<%=contextPath%>/list.no"><img src="resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href="<%=contextPath%>/lost.lo"><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href="<%=contextPath%>/bRoom.br"><img src="resources/images/req5.png" alt="">대관문의</a></li>
             </ul>
         </div>
 
@@ -150,6 +150,7 @@ body, html{
 							<textarea name="content" cols="100" rows="30" style="resize:none"></textarea>
 						</td>
 					</tr>
+					<%-- <input type="hidden" name="writer" value="<%=loginUser.getId() %>"> --%>
 				</table>
 				<div class="btns" align="center">
 					<button type="reset">취소하기</button>

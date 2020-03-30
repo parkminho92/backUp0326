@@ -1,9 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList, com.kh.qna.model.vo.Qna" %>
+<%@ page import="java.util.ArrayList, com.kh.qna.model.vo.*" %>
 <%
 	ArrayList<Qna> list = (ArrayList<Qna>)request.getAttribute("list");
+	
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
 
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int endPage = pi.getEndPage();
+	int startPage = pi.getStartPage();
+	
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -23,7 +33,7 @@
         #noticeMenu ul li a span{display:inline-block; vertical-align: middle;}
 
 
-        #noticeContent { padding-left:270px; padding-top:40px; }
+        #noticeContent { padding-left:270px; padding-top:40px; height:800px;}
         #noticeContent>p { font-size: 30px; font-weight: 800;}
         #noticeContent table{ text-align: center; font-weight: 800; margin-bottom: 50px; margin:15px auto;}
         #noticeContent table tr td {width: 400px; height: 35px;}
@@ -48,29 +58,96 @@
 	.listArea tbody tr td, .listArea thead tr th{
 		color:black;
 	}
-	.listArea{
-		margin-top:50px;
-		
-	}
-	.qnaList{
-		display:inline-block;
-	
-	}
-	.qnaList div{
-	float:left;
-	margin-left:60px;
-	padding:5px;
-	}
-    .qnaList:hover{
+	.listArea tbody td{ border-bottom:2px solid lightgray; padding:5px;}
+	.listArea{margin-top:50px;}
+	.listArea thead tr th{background-color:lightred; height:30px; border-radius:40px; box-shadow:3px 3px 3px 3px lightgray;}
+    .qnaList tr:hover{
     	cursor:pointer;
-    	background:lightgray;
+    	box-shadow:3px 3px 3px 3px gray;
     }
+    .listArea thead tr{width:500px;}
+	
+	/* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */   
+            text-align:center;                       
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #detailView{
+        	background:lightcoral;
+        	border-radius:5px;
+        	width:60px;
+        	height:30px;
+        }
+        .btns{
+        	width:100px;
+        	height:30px;
+        	margin-top:30px;
+        }
+        .btns button{
+        	width:80px;
+        	height:30px;
+        	border-radius:5px;
+        	box-shadow:3px 3px 3px 3px lightgray;
+        	outline:0;
+        	border:0;
+        }.pagingArea button{
+        	border-radius:10px;
+        	background:lightred;
+        	outline:0;
+        	border:0;
+        	width:25px;
+        	height:25px;
+        	padding:5px;
+        	color:black;
+      
+        }
+        .pagingArea button:hover{
+        cursor:pointer;
+        background:lightgray;
+        }
+        .pagingArea{
+        	width:200px;
+        	margin-left:350px;
+        	margin-top:30px;
+        	height:100px;
+        }
+    
+        
 	
     </style>
     
     
-    
-   
     
 </head>
 <body>
@@ -84,11 +161,11 @@
         <div id="noticeMenu">
             <h2>고객센터</h2>
             <ul>
-                <li><a href=""><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
-                <li><a href=""><img src="resources/images/req2.png" alt="">FAQ</a></li>
-                <li><a href=""><img src="resources/images/req3.png" alt="">공지사항</a></li>
-                <li><a href=""><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
-                <li><a href=""><img src="resources/images/req5.png" alt="">대관문의</a></li>
+                <li><a href="<%=contextPath%>/qnaList.qa"><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href="<%=contextPath%>/faq.fq"><img src="resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href="<%=contextPath%>/list.no"><img src="resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href="<%=contextPath%>/lost.lo"><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href="<%=contextPath%>/bRoom.br"><img src="resources/images/req5.png" alt="">대관문의</a></li>
             </ul>
         </div>
         
@@ -98,55 +175,139 @@
         	<table class="listArea" align="center">
 			<thead>
 				<tr>	
-					<th width="80">번호</th>
-					<th width="50">분류</th>
-					<th width="50">종류</th>
-					<th width="500">제목</th>
-					<th width="100">등록일</th>
-					<th width="50">비밀글</th>
-					<th width="50">답변여부</th>
+					<th>번호</th>
+					<th>분류</th>
+					<th>종류</th>
+					<th width="50%">제목</th>
+					<th>등록일</th>
+					<th>비밀글</th>
+					<th>답변</th>
 				</tr>
 			</thead>
-		</table>
-		<hr>
 		
 		<%if(list.isEmpty()){ %>
 			<%}else{ %>
+				<tbody class="qnaList" id="openTable">
 				<%for(Qna q:list){ %>
-					<div class="qnaList">
-						<div><%=q.getQnaNo() %></div>
-						<div><%=q.getType() %></div>
-						<div><%=q.getKind() %></div>
-						<div><%=q.getTitle() %></div>
-						<div><%=q.getRegDate() %></div>
-						<div><%=q.getSecretStatus() %></div>
-						<div><%=q.getReplyStatus() %></div>
-					</div>
+					<tr>
+						<td><div><%=q.getQnaNo() %></div></td>
+						<td><%=q.getType() %></td>
+						<td><%=q.getKind() %></td>
+						<td><%=q.getTitle() %></td>
+						<td><%=q.getRegDate() %></td>
+						<td><%=q.getSecretStatus() %></td>
+						<td><%=q.getReplyStatus() %></td>
+						<input type="hidden" value="<%=q.getSecretPwd() %>">
+					</tr>
 				<%} %>
+				</tbody>
+			</table>
 			<%} %>
-
- 	<div class="btns">
- 		<button onclick="insertQna();">1:1문의 작성하기</button>
- 		<button onclick="">수정하기</button>
- 	</div>
+			
+				<div class="btns">
+		 	<%-- <%if(loginUser.getId() != null){ %> --%>
+		 		<button onclick="insertQna();">작성하기</button>
+		 		
+		 		<%-- <%} %> --%>
+		 	</div>
+			
+			<!-- The Modal -->
+	    <div id="myModal" class="modal">
+	 
+		      <!-- Modal content -->
+		      <div class="modal-content">
+		        <span class="close">&times;</span>                                                               
+		        <h6>비밀번호를 입력해주세요.</h6>
+		        <input id="qnaNewPwd" type="password" width="60px">
+		        <button type="button" id="detailView">입력</button>
+		      </div>
+		 
+	    </div>
+ 	
+ 	<div class="pagingArea" align="center">
+			
+			<button onclick="location.href='<%=contextPath%>/qnaList.qa';"> &lt;&lt;</button>	
+			
+			
+			<% if(currentPage == 1){ %>
+				<button disabled> &lt;</button>
+			<%} else { %>
+			<button onclick="location.href='<%=contextPath%>/qnaList.qa?currentPage=<%=currentPage-1%>';"> &lt; </button>	
+			<% } %>
+			
+			
+		
+			 <%for(int p=startPage; p<=endPage; p++){ %>
+			 	<%if(currentPage == p){ %>
+			 		<button disabled><%=p%></button>
+			 	<%}else{ %>
+			 		<button onclick="location.href='<%=contextPath%>/qnaList.qa?currentPage=<%=p%>';"><%=p%></button>
+			 	<%} %>
+			 <%} %>
+			
+			
+			
+			<%if(currentPage == maxPage){ %>
+				<button disabled> &gt;</button>
+			<%} else { %>
+				<button onclick="location.href='<%=contextPath%>/qnaList.qa?currentPage=<%=currentPage+1%>';"> &gt; </button>
+			<%} %>
+			
+		
+			<button onclick="location.href='<%=contextPath%>/qnaList.qa?currentPage=<%=maxPage%>';"> &gt;&gt;</button>
+		</div>
+		
+		
+		 
+	 
+	    
+	
+	</div>
    </div>
 </div>
+
 <script>
+
+	var modal = document.getElementById('myModal');
+    var pwdNo;     
+    var qnaNo;
+	
+	$(".qnaList tr").click(function() {
+	    modal.style.display = "block";
+	    pwdNo = $(this).children().eq(7).val();
+	    qnaNo = $(this).children().eq(0).text();
+	});
+	
+	$("#myModal span").click(function() {
+	    modal.style.display = "none";
+	});
+	
+	
+	
 	function insertQna(){
 		location.href="<%=contextPath%>/views/qna/insertQna.jsp";
 	}
+	
 	$(function(){
-		$(".qnaList").click(function(){
+		 $("#detailView").click(function(){
+			 
+		/* 	 console.log(pwdNo);
+			 console.log($("#qnaNewPwd").val()); */
 			
-			var qnaNo = $(this).children().eq(0).text();
-			location.href="<%=contextPath%>/qnaDetail.qa?qnaNo=" + qnaNo;
+			if(pwdNo == $("#qnaNewPwd").val()){
+				location.href="<%=contextPath%>/qnaDetail.qa?qnaNo=" + qnaNo;
+				
+			}else{
+				alert("비밀번호가 일치하지 않습니다.");
+				location.href="<%=contextPath%>/qnaList.qa";
+			}
 			
+		
 		});
 	});
 </script>
 
-		
+
+
 </body>
-
-
 </html>

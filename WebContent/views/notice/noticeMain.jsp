@@ -114,25 +114,25 @@
         <div id="noticeMenu">
             <h2>고객센터</h2>
             <ul>
-                <li><a href=""><img src="resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
-                <li><a href=""><img src="resources/images/req2.png" alt="">FAQ</a></li>
-                <li><a href=""><img src="resources/images/req3.png" alt="">공지사항</a></li>
-                <li><a href=""><img src="resources/images/req4.png" alt="">분실물찾기</a></li>
-                <li><a href=""><img src="resources/images/req5.png" alt="">대관문의</a></li>
+                <li><a href="<%=contextPath%>/qnaList.qa"><img src="<%=contextPath%>/resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href="<%=contextPath%>/faq.fq"><img src="<%=contextPath%>/resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href="<%=contextPath%>/list.no"><img src="<%=contextPath%>/resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href="<%=contextPath%>/lost.lo"><img src="<%=contextPath%>/resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href="<%=contextPath%>/bRoom.br"><img src="<%=contextPath%>/resources/images/req5.png" alt="">대관문의</a></li>
             </ul>
         </div>
         
 	<div class="mainArea" id="mainArea1">
-	<img src="../../resources/images/zoom2.png" width="60px" height="60px" align="center"><br><br><br>
+	<img src="<%=contextPath%>/resources/images/zoom2.png" width="60px" height="60px" align="center"><br><br><br>
 	<p class="mainContent" align="center">자주 찾는 질문</p>
 	<br><br><br>
 	<div align="center">
-	<button type="button" class="btns">바로가기</button>
+	<button type="button" class="btns" onclick="location.href='<%=contextPath%>/faq.fq'">바로가기</button>
 	</div>
 	</div>
 	
 	<div class="mainArea"id="mainArea2">
-	<img src="../../resources/images/msg.png" width="60px" height="60px" align="center"><br><br><br>
+	<img src="<%=contextPath%>/resources/images/msg.png" width="60px" height="60px" align="center"><br><br><br>
 	<p class="mainContent" align="center"> E-mail 문의</p>
 	<br><br><br>
 	<div align="center">
@@ -141,7 +141,7 @@
 	</div>
 	
 	<div class="mainArea"id="mainArea3">
-	<img src="../../resources/images/book.png" width="60px" height="60px" align="center"><br><br><br>
+	<img src="<%=contextPath%>/resources/images/book.png" width="60px" height="60px" align="center"><br><br><br>
 	<p class="mainContent" align="center">내 문의내역 확인</p>
 	<br><br><br>
 	<div align="center">

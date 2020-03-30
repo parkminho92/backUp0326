@@ -16,6 +16,7 @@ import com.kh.common.DateUtils;
 import com.kh.common.StringUtils;
 import com.kh.member.model.vo.Member;
 import com.kh.movie.model.service.MovieService;
+import com.kh.movie.model.vo.Movie;
 import com.kh.movie.model.vo.Movies;
 import com.kh.screen.model.service.ScreenService;
 import com.kh.screen.model.vo.Screen;
@@ -32,30 +33,11 @@ public class ReservedThreeView extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		HttpSession session = request.getSession();
-		Integer userNo = null;
-		if((Member)session.getAttribute("loginUser")==null) {
-			userNo = 1;
-		}else {
-			userNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		}
-		
 		// 기본값 세팅 말고 사용자에게 잘못된 요청임을 알림
 		String sectionNo = StringUtils.getValue(request.getParameter("sectionNo"));
 		String theaterNo = request.getParameter("theaterNo");
 		String movieNo = request.getParameter("movieNo");
-		
-		// screenDate
-		// dateFormat 오늘날짜를 yyyy-MM-dd request.attribtue
-		// 파라미터를 받음
-		String screenDate = request.getParameter("screenDate");
-		
-		// 날짜포맷 확인 yyyy-MM-dd 확인
-		// DateUtils 클래스 만들어서 공통으로 사용
-		// 아스키 빈값
-		if(StringUtils.isEmpty(screenDate)) {
-			screenDate = DateUtils.getNowDateString();
-		}
+		String lineUp = request.getParameter("lineUp");
 		
 		if(!isInteger(request.getParameter("sectionNo")) 
 				|| !isInteger(request.getParameter("theaterNo"))
@@ -63,13 +45,34 @@ public class ReservedThreeView extends HttpServlet {
 			request.getRequestDispatcher("views/reserved/reservedOneView.jsp").forward(request, response);
 			return;
 		}
+		
+		if(StringUtils.isEmpty(lineUp) || !isInteger(request.getParameter("lineUp"))) {
+			lineUp = "4";
+		}
+		
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		Movie findMovie = new MovieService().selectL(Integer.parseInt(movieNo));
+		if (!findMovie.isAllowAge(loginUser.getBirth())) {
+			session.setAttribute("msg", "예매하실 수 없는 영화입니다.");
+					
+			response.sendRedirect(
+					request.getContextPath() + 
+					String.format("/reservedTwo.do?sectionNo=%s&theaterNo=%s&movieNo=%s&lineUp=%s", sectionNo, theaterNo, movieNo, lineUp)
+			);
+			return;
+		}
+		
+		String screenDate = request.getParameter("screenDate");
+		
+		if(StringUtils.isEmpty(screenDate)) {
+			screenDate = DateUtils.getNowDateString();
+		}
 			
 		List<Section> sList = new SectionService().selectAll();
 		List<Theater> tList = new TheaterService().selectAllBySection(sectionNo);
 		
-		// 1급 컬렉션
-		// 이름있는 컬렉션
-		Movies movies = new Movies(new MovieService().selectScreen(theaterNo, screenDate));
+		Movies movies = new Movies(new MovieService().selectScreen(theaterNo, screenDate, lineUp));
 		List<Screen> scList = new ScreenService().selectScreen(theaterNo, movieNo, screenDate);
 		
 		request.setAttribute("screenDate", screenDate);
@@ -79,8 +82,6 @@ public class ReservedThreeView extends HttpServlet {
 		request.setAttribute("currentMovieTitle", movies.findTitleByNo(Integer.parseInt(movieNo)));
 		request.setAttribute("screenList", scList);
 		request.getRequestDispatcher("views/reserved/reservedThreeView.jsp").forward(request, response);
-	
 	}
-
 
 }

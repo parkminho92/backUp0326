@@ -86,7 +86,7 @@
 	  	<% for(int i=0; i<5; i++){ %>
 	    <div class="movie-poster">
 	    	<span class="rank"><%=(i+1)%>.</span>
-	    	<a href="<%=contextPath%>/detail.mo?movieNo=<%=tmdPoster.get(i).getMovieNo()%>">
+	    	<a href="<%=contextPath%>/movieDetail.mo?movieNo=<%=tmdPoster.get(i).getMovieNo()%>">
 	    		<img src="<%=request.getContextPath()%>/resources/images/<%= tmdPoster.get(i).getModifyName() %>"
 	    			 onerror="this.src='../../resources/images/noImageMain.jpg'" alt="" />
 	    	</a>
@@ -95,7 +95,7 @@
   		<% for(int i=0; i<tmdPoster.size(); i++){ %>
 	    <div class="movie-poster">
 	    	<span class="rank"><%=(i+1)%>.</span>
-	    	<a href="<%=contextPath%>/detail.mo?movieNo=<%=tmdPoster.get(i).getMovieNo()%>">
+	    	<a href="<%=contextPath%>/movieDetail.mo?movieNo=<%=tmdPoster.get(i).getMovieNo()%>">
 	    		<img src="<%= request.getContextPath() %>/resources/images/<%= tmdPoster.get(i).getModifyName() %>"
 	    			 onerror="this.src='../../resources/images/noImageMain.jpg'" alt="" />
 	    	</a>
@@ -117,7 +117,7 @@
 	<% boolean isFirst = true;
 		for(NewMoviesDto nmd: nm) { %>
  	   <div class="movie-new <%= isFirst ? "first" : "" %>">
-	      <a href="<%=contextPath%>/detail.mo?movieNo=<%=nmd.getMovieNo()%>">
+	      <a href="<%=contextPath%>/movieDetail.mo?movieNo=<%=nmd.getMovieNo()%>">
 	      	<img src="<%= request.getContextPath() %>/resources/images/<%= nmd.getModifyName() == null ? "noImageMain.jpg" : nmd.getModifyName() %>"
 	      		 alt="no-image"/>
 	      </a>

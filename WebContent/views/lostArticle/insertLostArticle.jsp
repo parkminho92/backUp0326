@@ -7,36 +7,23 @@
 <title>Insert title here</title>
 <style>
 body, html{
-		background-color:#EAEAEA !important;
+		background-color:white !important;
 		
 	}
-#listArea{
-		
-		float:left;
-		margin-top: 200px;
-		margin-left:100px;
-		width:200px;
-		height:350px;
-		color:white;
-		border-radius:10px;
-	}
-	.list{
-		display:block;
-		border-radius:10px;
-		margin-top:30px;
-		background-color:#e83a4e;
-		width:150px;
-		height:30px;
-		text-align:center;
-		vertical-align:middle;
-		margin-left:auto;
-		margin-right:auto;
-		font-size:15px;
-		font-family: 'Nanum Gothic', sans-serif;
-		font-weight:bold;
-	}
+
+      ul li{list-style: none;}
+        #noticeMenu {position:absolute; width:250px; left:0; top:40px; }
+        #noticeMenu h2{width:100%; height:100px; background:#9C0E0E; color:#fff; text-align: center; line-height:100px;}
+        #noticeMenu ul {border-left:1px solid #ddd; border-right:1px solid #ddd;}
+        #noticeMenu ul li{border-bottom:1px solid #ddd; padding:15px; box-sizing: border-box;}
+        #noticeMenu ul li a{display:block; text-decoration:none; color:#616060; }
+        #noticeMenu ul li a img{display:inline-block; vertical-align: middle; margin-right:15px;}
+        #noticeMenu ul li a span{display:inline-block; vertical-align: middle;}
+
+
 	.outer{
 		margin-top:100px;
+		color:black;
 		color:black;
 	
 	}
@@ -46,24 +33,27 @@ body, html{
 		text-decoration:underline;
 		width:200px;
 		height:100px;
-		float:left;
+		color:black;
+		margin-left:450px;
 	}
 	.insertForm{
-		margin-top:100px;
+		margin-top:10px;
 		width:800px;
-		height:1100px;
+		height:1000px;
 		float:left;
 		font-size:30px;
 		border:1px solid black;
+		color:black;
+		margin-left:500px;
 	}
 	#insertFormTable{
 		padding:5px;
 		margin-top:50px;
+		color:black;
 	}
-	.insertForm table tbody tr td{
-		color:black; 
-		padding:10px;
-	}
+	#insertFormTable tr td , #insertFormTable tr th, #insertFormTable input ,#insertFormTable select option{color:black; padding:5px;}
+	#insertFormTable textarea{color:black;}
+	#noticeMenu{margin-left:200px; margin-top:200px;}
 	
 </style>
 </head>
@@ -71,23 +61,25 @@ body, html{
 
 	<%@ include file="../common/menubar.jsp" %>
 	
+	     <div id="noticeMenu">
+            <h2>고객센터</h2>
+            <ul>
+                <li><a href=""><img src="<%=contextPath %>/resources/images/req1.png" alt=""><span>1:1문의</span></a></li>
+                <li><a href=""><img src="<%=contextPath %>/resources/images/req2.png" alt="">FAQ</a></li>
+                <li><a href=""><img src="<%=contextPath %>/resources/images/req3.png" alt="">공지사항</a></li>
+                <li><a href=""><img src="<%=contextPath %>/resources/images/req4.png" alt="">분실물찾기</a></li>
+                <li><a href=""><img src="<%=contextPath %>/resources/images/req5.png" alt="">대관문의</a></li>
+            </ul>
+        </div>
+  
 	
-	
-	<div id="listArea">
-		<div class="list">공지사항</div>
-		<div class="list">FAQ</div>
-		<div class="list">1:1문의</div>
-		<div class="list">분실물찾기</div>
-		<div class="list">대관문의</div>
-	</div>
 
 
 	<div class="outer" id="noticeList">
 			<br>
-			<h2 align="center"><div id="headNo">분실물 찾기</div></h2>
+			<h2 align="center"><div id="headNo">분실물찾기</div></h2>
 			<br>
-			<pre> 분실물을 등록해주시면 확인후 
- 신속하게 답변드리겠습니다.</pre>
+			
  
 			<div class="insertForm">
 			<form id="insertForm" method="post" action="<%=contextPath%>/insertLost.lo">
@@ -128,9 +120,10 @@ body, html{
 					</tr>
 					<tr>
 						<td colspan="4">
-							<textarea name="lContent" cols="100" rows="30" style="resize:none"></textarea>
+							<textarea name="lContent" cols="100" rows="25" style="resize:none"></textarea>
 						</td>
 					</tr>
+					<%-- <input type="hidden" name="writer" value="<%=loginUser.getId() %>"> --%>
 				</table>
 				<br>
 				<div class="btns" align="center">

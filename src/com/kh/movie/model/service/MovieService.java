@@ -1,6 +1,9 @@
 package com.kh.movie.model.service;
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import com.kh.menubar.controller.TopMovieDto;
 import com.kh.movie.model.dao.MovieDao;
 import com.kh.movie.model.vo.Movie;
 import com.kh.movie.model.vo.MovieCBS;
+import com.kh.movie.model.vo.MovieLHJ;
 import com.kh.movie.model.vo.PageInfo;
 import com.kh.still_image.model.vo.StillImageCBS;
 
@@ -18,23 +22,40 @@ public class MovieService {
 
   
 	/* HAJIN */
-	public Movie selectList(int movieNo){
+	public MovieLHJ selectList(int movieNo){
 			Connection conn = getConnection();
-		Movie m = new MovieDao().selectList(conn, movieNo);
+		MovieLHJ m = new MovieDao().selectList(conn, movieNo);
   
   	close(conn);
 		return m;
   
   }
+	
+	/** 1. 영화 번호로 영화 정보 선택
+	 * @param movieNo
+	 * @return
+	 */
+	public Movie selectL(int movieNo){
+		Connection conn = getConnection();
+		Movie m = new MovieDao().selectL(conn, movieNo);
+
+	close(conn);
+	return m;
+
+}
+
+	
   
-	public List<Movie> selectScreen(String theaterNo, String screenDate) {
+	public List<Movie> selectScreen(String theaterNo, String screenDate, String lineUp) {
 		Connection conn = getConnection();
 		
-		List<Movie> list = new MovieDao().selectScreen(conn, theaterNo, screenDate);
+		List<Movie> list = new MovieDao().selectScreen(conn, theaterNo, screenDate, lineUp);
 	
 		close(conn);
 		return list;
 	}
+	
+	
 
 
 	/** 2. 메인화면에서 보여줄 예매율 상위5위 (SUJIN)
@@ -152,6 +173,4 @@ public class MovieService {
 		
 		return list;
 	}
-
-	
 }

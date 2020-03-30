@@ -93,6 +93,15 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 	
+	<% if(session.getAttribute("msg") != null){ %>
+		<script>
+			alert('<%= session.getAttribute("msg")%>');
+		</script>
+			
+	<% 
+		session.removeAttribute("msg");
+	}%>
+	
 	<div class="layout">
 
         <div id="reserved">
@@ -138,11 +147,11 @@
                 </div>
                 <div id="choose_movie" class="threediv">
                     <div class="title">영화선택</div>
-                    <select name="lineup">
-                        <option value="">예매순</option>
-                        <option value="">관객순</option>
-                        <option value="">평점순</option>
-                    </select>
+                    	<select name="lineUp" style="width: 100px;" onchange="changeLineUp(this);">
+	                       <option value="4" ${empty param.lineUp or param.lineUp eq '4' ? 'selected="selected"' : ''}>최신순</option>
+	                       <option value="2" ${param.lineUp eq '2' ? 'selected="selected"' : ''}>이름순</option>
+	                       <option value="3" ${param.lineUp eq '3' ? 'selected="selected"' : ''}>나이제한순</option>
+                    	</select>
                     <ul>
                     	<c:forEach items="${movieList}" var="m">
                     		<input type="hidden" name="sectionNo" value="${param.sectionNo}"/>
@@ -168,6 +177,8 @@
 	<input type="hidden" name="sectionNo" value="<c:out value="${param.sectionNo}" default="1"/>"/>
 	<input type="hidden" name="theaterNo" value="<c:out value="${param.theaterNo}" />"/>
 	<input type="hidden" name="movieNo" value=""/>
+	<input type="hidden" name="lineUp" value="<c:out value="${param.lineUp}" default="4"/>"/>
+	
 </form>
 <script>
 
@@ -198,7 +209,7 @@ function selectTheater(theaterNo) {
 }
 
 function selectMovie(movieNo){
-var form = document.getElementById('form');
+	var form = document.getElementById('form');
 	
 	if (!form.sectionNo.value) {
 		return alert('지역을 선택해 주세요');
@@ -211,6 +222,20 @@ var form = document.getElementById('form');
 	}
 	form.movieNo.value = movieNo;
 	form.action = '${contextPath}/reservedThree.do';
+	form.method = 'post';
+	form.submit();
+}
+
+function changeLineUp(lineUp){
+	var form = document.getElementById('form');
+	if (!form.sectionNo.value) {
+		return alert('지역을 선택해 주세요');
+	}
+	if (!form.theaterNo.value){
+		return alert('영화관을 선택해 주세요');
+	}
+	form.lineUp.value = lineUp.value;
+	form.action = '${contextPath}/reservedTwo.do';
 	form.method = 'post';
 	form.submit();
 }
