@@ -55,4 +55,18 @@ public class BroomService {
 		
 		return b;
 	}
+	
+	/** hajin
+	 * @param pi
+	 * @return
+	 */
+	public ArrayList<BorrowRoom> selectL(PageInfo pi){
+		
+		Connection conn = getConnection();
+		ArrayList<BorrowRoom> list = new BroomDao().selectList(conn,pi);
+	
+		close(conn);
+		return list;
+		
+	}
 }

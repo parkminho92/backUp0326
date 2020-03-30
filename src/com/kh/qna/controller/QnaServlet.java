@@ -69,18 +69,15 @@ public class QnaServlet extends HttpServlet {
 		
 		
 		
-		ArrayList<Qna> list = new QnaService().selectList(pi);
+		ArrayList<Qna> qnaList = new QnaService().selectL(pi);
 		
-		request.setAttribute("list",list);
+		request.setAttribute("qnaList",qnaList);
 		request.setAttribute("pi",pi);
 		RequestDispatcher view = request.getRequestDispatcher("views/qna/qnaListView.jsp");
 		
 		
 		view.forward(request, response);
-		
-		
-		
-		
+
 		
 	}
 
